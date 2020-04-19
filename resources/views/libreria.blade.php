@@ -1,5 +1,5 @@
  
-<link rel="shortcut icon" class="rounded-circle" alt="Cinque Terre" href="{{ asset('logo/logo_mpr.jpeg') }}">
+<link rel="shortcut icon" class="rounded-circle" alt="Cinque Terre" href="{{ asset('logo/logo_neiva.jpg') }}">
    
     <link href="{{ asset('/gentelella-master/vendors/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
     <!-- Bootstrap -->

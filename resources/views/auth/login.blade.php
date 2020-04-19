@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Finanzas MPR</title>
+    <title>TEC</title>
 
     @include('libreria')
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
@@ -17,50 +17,20 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 
   </head>
-  <style type="text/css">
 
-html {
-        background: url(images/fondo.jpg) no-repeat center center fixed;
-        background-size: cover;
-        -moz-background-size: cover;
-        -webkit-background-size: cover;
-        -o-background-size: cover;
-}
+  <body class="login">
+  <div>
+  <a class="hiddenanchor" id="signup"></a>
+      <a class="hiddenanchor" id="signin"></a>
+        <div class="login_wrapper">
+        <div class="animate form login_form">
 
-</style>
-  <body>
-  <script>
-      $(document).ready(function()
-      {
-         $("#mostrarmodal").modal("show");
-      });
-    </script>
-  <!-- Modal -->
- <!-- Modal -->
-
-
-
- 
-<div class="container">
- <div class="modal fade"  id="mostrarmodal" role="dialog"   data-backdrop="static">
-    <div class="modal-dialog">
-    
-
- 
-      <!-- Modal content-->
-      <div class="modal-content">
-
-        <div class="modal-body">
-        
-    
-         
-
-                      <section class="login_content">
+          <section class="login_content">
                         <form method="POST" action="{{ route('login') }}">
                   @csrf
 
 
-                          <img src="logo/logo_mpr.jpeg" width="200px" height="150px" class="rounded-circle" alt="Cinque Terre">
+                          <img src="logo/logo_neiva.jpg" width="250px" height="150px"  alt="Cinque Terre">
                           <h1>{{ __('inicio de sesión') }}</h1>
                           <div>
                     <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" placeholder="Username" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
@@ -99,22 +69,17 @@ html {
                             <br />
 
                             <div>
-                              <h1><i class="fa fa-calculator" aria-hidden="true"></i>  Finanzas MPR!</h1>
-                              <strong>Copyright © 2020 <a href="#">JDLC technology company</a>.</strong> All rights reserved.
+                              <h1><i class="fa fa-video-camera" aria-hidden="true"></i>  TEC CONFERENCIAS</h1>
+                           
                             </div>
                           </div>
                         </form>
-                      </section>
+         </section>
                  
-  
-          </div>
-
-     </div>
-
     </div>
-  </div>
 </div>
 
+</div>
 @include('script')
   </body>
 </html>

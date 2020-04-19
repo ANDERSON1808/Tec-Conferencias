@@ -36,7 +36,7 @@
                   </li>
                   <li><a><i class="fa fa-edit"></i> TELETRABAJO <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="form.html">Videconferencias</a> </li>
+                      <li><a href="{{route('conferencia.index') }}">Videconferencias</a> </li>
                       <li><a href="form_advanced.html">Historicos</a></li>
                       <li><a href="form_validation.html">Documentos</a></li>
                       <li><a href="form_validation.html">Planes de accion</a></li>
@@ -67,7 +67,7 @@
                   </li>
                   <li><a><i class="fa fa-bar-chart-o"></i> PROYECTOS<span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="">Administrar</a></li>
+                      <li><a href="#">Administrar</a></li>
                       <li><a href="#">Proyectos</a></li>
                       <li><a href="#">Invitados</a></li>
                       <li><a href="#">Gestion de item</a></li>

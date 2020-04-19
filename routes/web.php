@@ -24,3 +24,10 @@ Route::get('/home', 'HomeController@index')->name('home');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+//**Conferencias */
+Route::get('/conferencia', 'conferenciaController@conferencia')->name('conferencia.index');
+Route::post('/crear_conferencia', 'conferenciaController@crear_conferencia')->name('crear_conferencia');
+Route::post('/video/nueva', 'conferenciaController@save')->name('save');
+Route::get('/modal_ver/{id}', 'conferenciaController@modal_ver')->name('modal_ver');
+//**Fin conferencias */

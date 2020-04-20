@@ -34,19 +34,18 @@
                 @foreach($conferencia as $client)
                 <script>
                 $(document).ready(function(){
-                var domain ="meet.jit.si";      
+                var domain ="meet.jit.si";  
+               
                 var options ={
                     roomName:"{{ $client->nombre}}",
                     width: 1000,
                     height: 700,
-            
                     userInfo : {email: 'andersonl@globalsolutionservice.com' , displayName : 'ANDERSON LOSADA SILVA'},
-                    
-                    parentNode: document.querySelector('#meet')
-                   
-                } 
+                    parentNode: document.querySelector('#meet'),
+                }
+               
                     var api = new JitsiMeetExternalAPI(domain, options);
-   
+
                     });
                   
             </script>

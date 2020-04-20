@@ -67,3 +67,7 @@
   <script src="{{ asset('/gentelella-master/vendors/validator/validator.js') }}"></script>
  <!-- Switchery -->
  <script src="{{ asset('/gentelella-master/vendors/switchery/dist/switchery.min.js') }}"></script>
+
+  <!-- FullCalendar -->
+  <script src="{{ asset('/gentelella-master/vendors/moment/min/moment.min.js') }}"></script>
+    <script src="{{ asset('/gentelella-master/vendors/fullcalendar/dist/fullcalendar.min.js') }}"></script>

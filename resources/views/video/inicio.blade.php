@@ -99,11 +99,13 @@
                           <table id="datatable-keytable" class="table table-striped table-bordered" style="width:100%">
                             <thead>
                               <tr>
-                                <th>Nombre</th>
+                                <th>Nombre de la conferencia</th>
                                 <th>Descripcion</th>
                                 <th>Estado</th>
-                                <th>Contraseña</th>
-                                <th>Conferencia</th>
+                                <th>Token</th>
+                                <th>Fecha Reunion</th>
+                                <th>Convocar</th>
+                               
                                 <th>Acciones</th>
                               </tr>
                             </thead>
@@ -118,17 +120,18 @@
                                 <td>{{ $data->nombre }}</td>
                                 <td>{{ $data->descripcion }}</td>
                                 @if ($x==1)
-                                <td class="table-primary">Activo</td>
+                                <td class="table-primary">Agendada</td>
                                 @else
-                                <td class="table-danger">Inactivo</td>
+                                <td class="table-danger">Ejecutada</td>
                                 @endif
                                 <td>{{$data->contraseña }} </td>
+                                <td>{{$data->fecha_r }} </td>
                                 <td>
-                                <a href="{{ route('modal_ver',$data->id) }}"  class="btn btn-link" title="Iniciar conferencia" ><button type="button" class="btn btn-outline-success">Iniciar conferencia</button></a>
+                                <a href="{{ route('online',$data->id) }}"  class="btn btn-outline-success" title="Iniciar conferencia" ><i class="fa fa-video-camera" aria-hidden="true">  Iniciar conferencia</i></a>
                                 
                                </td>
                                 <td align="center">
-                                <a href=""  class="btn btn-link" title="Invitar videoconferencia" ><i class="fa fa-eye" aria-hidden="true"></i></a>
+                              
                                 <a onClick="modalEditTriger({{$data->id}})" class="btn btn-link" title="Editar"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> </a>
                               
                                 <a onClick="modalDeleteTrigger({{$data->id}})" class="btn btn-link" title="Eliminar" ><i class="fa fa-trash" aria-hidden="true"></i></a>
@@ -183,9 +186,8 @@ $.ajaxSetup({
 //modal_edit.
 function modalEditTriger(id){
   event.preventDefault();
-    var cod =  $('#cod');
       $.ajax({
-        url     : "{{url('modal_edit')}}",
+        url     : "{{url('modal_ver')}}",
         method  : 'POST',
         data    : {
           'id' : id
@@ -202,7 +204,7 @@ function modalDeleteTrigger(id){
       // var r = confirm("Apa anda yakin akan menghapus data?");
       // if (r == true){
         $.ajax({
-        url     : "{{url('/modal_delete')}}",
+        url     : "{{url('/delete_lista')}}",
         method  : 'POST',
         data    : {
           'id' : id

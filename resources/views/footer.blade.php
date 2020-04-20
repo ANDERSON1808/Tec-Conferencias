@@ -6,6 +6,6 @@
     Expertos en soluciones.
     </div>
     <!-- Default to the left -->
-    <strong>Copyright © 2020 <a href="#">JDLC technology company</a>.</strong> All rights reserved.
+    <strong>Copyright © 2020 <a href="#">TEC technology </a>.</strong> All rights reserved.
 </footer>
   <!-- /footer content -->

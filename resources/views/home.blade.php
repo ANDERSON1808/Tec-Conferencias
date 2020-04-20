@@ -28,199 +28,131 @@
 
 
 <!-- page content -->
+<!-- page content -->
 <div class="right_col" role="main">
-          <!-- top tiles -->
-       
+          <div class="">
+            <div class="page-title">
+              <div class="title_left">
+                <h3>CALENDARIO</h3>
+              </div>
 
-          <div class="row">
-            <div class="col-md-12 col-sm-12 ">
-              <div class="dashboard_graph">
-
-                <div class="row x_title">
-                  <div class="col-md-6">
-                    <h3>Grafico Actividades <small>TEC</small></h3>
-                  </div>
-                  <div class="col-md-6">
-                    <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
-                      <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
-                      <span>December 30, 2014 - January 28, 2015</span> <b class="caret"></b>
-                    </div>
+              <div class="title_right">
+                <div class="col-md-5 col-sm-5   form-group pull-right top_search">
+                  <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search for...">
+                  
                   </div>
                 </div>
+              </div>
+            </div>
 
-                <div class="col-md-9 col-sm-9 ">
-                  <div id="chart_plot_01" class="demo-placeholder"></div>
-                </div>
-                <div class="col-md-3 col-sm-3  bg-white">
+            <div class="clearfix"></div>
+
+            <div class="row">
+              <div class="col-md-12">
+                <div class="x_panel">
                   <div class="x_title">
-                    <h2>Top Campaign Performance</h2>
+                    <h2> <small>Haga clic para agregar / editar eventos</small></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                       
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
                     <div class="clearfix"></div>
                   </div>
+                  <div class="x_content">
 
-                  <div class="col-md-12 col-sm-12 ">
-                    <div>
-                      <p>Facebook Campaign</p>
-                      <div class="">
-                        <div class="progress progress_sm" style="width: 76%;">
-                          <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="80"></div>
-                        </div>
-                      </div>
-                    </div>
-                    <div>
-                      <p>Twitter Campaign</p>
-                      <div class="">
-                        <div class="progress progress_sm" style="width: 76%;">
-                          <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="60"></div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-12 col-sm-12 ">
-                    <div>
-                      <p>Conventional Media</p>
-                      <div class="">
-                        <div class="progress progress_sm" style="width: 76%;">
-                          <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="40"></div>
-                        </div>
-                      </div>
-                    </div>
-                    <div>
-                      <p>Bill boards</p>
-                      <div class="">
-                        <div class="progress progress_sm" style="width: 76%;">
-                          <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="50"></div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                    <div id='calendar'></div>
 
+                  </div>
                 </div>
-
-                <div class="clearfix"></div>
-              </div>
-            </div>
-
-          </div>
-          <br />
-
-          <div class="row">
-
-
-            <div class="col-md-4 col-sm-4 ">
-              <div class="x_panel tile fixed_height_320">
-                <div class="x_title">
-                  <h2>App Versions</h2>
-                  <ul class="nav navbar-right panel_toolbox">
-                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                    </li>
-                    <li class="dropdown">
-                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                          <a class="dropdown-item" href="#">Settings 1</a>
-                          <a class="dropdown-item" href="#">Settings 2</a>
-                        </div>
-                    </li>
-                    <li><a class="close-link"><i class="fa fa-close"></i></a>
-                    </li>
-                  </ul>
-                  <div class="clearfix"></div>
-                </div>
-                <div class="x_content">
-                  <h4>App Usage across versions</h4>
-                  <div class="widget_summary">
-                    <div class="w_left w_25">
-                      <span>0.1.5.2</span>
-                    </div>
-                    <div class="w_center w_55">
-                      <div class="progress">
-                        <div class="progress-bar bg-green" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 66%;">
-                          <span class="sr-only">60% Complete</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="w_right w_20">
-                      <span>123k</span>
-                    </div>
-                    <div class="clearfix"></div>
-                  </div>
-
-                  <div class="widget_summary">
-                    <div class="w_left w_25">
-                      <span>0.1.5.3</span>
-                    </div>
-                    <div class="w_center w_55">
-                      <div class="progress">
-                        <div class="progress-bar bg-green" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 45%;">
-                          <span class="sr-only">60% Complete</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="w_right w_20">
-                      <span>53k</span>
-                    </div>
-                    <div class="clearfix"></div>
-                  </div>
-                  <div class="widget_summary">
-                    <div class="w_left w_25">
-                      <span>0.1.5.4</span>
-                    </div>
-                    <div class="w_center w_55">
-                      <div class="progress">
-                        <div class="progress-bar bg-green" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 25%;">
-                          <span class="sr-only">60% Complete</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="w_right w_20">
-                      <span>23k</span>
-                    </div>
-                    <div class="clearfix"></div>
-                  </div>
-                  <div class="widget_summary">
-                    <div class="w_left w_25">
-                      <span>0.1.5.5</span>
-                    </div>
-                    <div class="w_center w_55">
-                      <div class="progress">
-                        <div class="progress-bar bg-green" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 5%;">
-                          <span class="sr-only">60% Complete</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="w_right w_20">
-                      <span>3k</span>
-                    </div>
-                    <div class="clearfix"></div>
-                  </div>
-                  <div class="widget_summary">
-                    <div class="w_left w_25">
-                      <span>0.1.5.6</span>
-                    </div>
-                    <div class="w_center w_55">
-                      <div class="progress">
-                        <div class="progress-bar bg-green" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 2%;">
-                          <span class="sr-only">60% Complete</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="w_right w_20">
-                      <span>1k</span>
-                    </div>
-                    <div class="clearfix"></div>
-                  </div>
-
-                </div>
-              </div>
-            </div>
-
-           
-
-
-                <!-- end of weather widget -->
               </div>
             </div>
           </div>
         </div>
+        <!-- /page content -->
+<!-- calendar modal -->
+<div id="CalenderModalNew" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+
+          <div class="modal-header">
+          
+            <h4 class="modal-title" id="myModalLabel">Nueva entrada de calendario</h4>
+          </div>
+          <div class="modal-body">
+            <div id="testmodal" style="padding: 5px 20px;">
+              <form id="antoform" class="form-horizontal calender" role="form">
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">Título</label>
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control" id="title" name="title">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">Descripción</label>
+                  <div class="col-sm-9">
+                    <textarea class="form-control" style="height:55px;" id="descr" name="descr"></textarea>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default antoclose" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary antosubmit">Guardar cambios</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="CalenderModalEdit" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+
+          <div class="modal-header">
+          
+            <h4 class="modal-title" id="myModalLabel2">Editar entrada de calendario</h4>
+          </div>
+          <div class="modal-body">
+
+            <div id="testmodal2" style="padding: 5px 20px;">
+              <form id="antoform2" class="form-horizontal calender" role="form">
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">Título</label>
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control" id="title2" name="title2">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">Descripción</label>
+                  <div class="col-sm-9">
+                    <textarea class="form-control" style="height:55px;" id="descr2" name="descr"></textarea>
+                  </div>
+                </div>
+
+              </form>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default antoclose2" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary antosubmit2">Guardar cambios</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="fc_create" data-toggle="modal" data-target="#CalenderModalNew"></div>
+    <div id="fc_edit" data-toggle="modal" data-target="#CalenderModalEdit"></div>
+    <!-- /calendar modal -->
+     
+
+
+
         <!-- /page content -->
 
 

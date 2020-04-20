@@ -34,3 +34,7 @@
     <link href="{{ asset('/gentelella-master/vendors/pnotify/dist/pnotify.nonblock.css') }}" rel="stylesheet">
     <!-- Switchery -->
     <link href="{{ asset('/gentelella-master/vendors/switchery/dist/switchery.min.css') }}" rel="stylesheet"> 
+
+    <!-- FullCalendar -->
+    <link href="{{ asset('/gentelella-master/vendors/fullcalendar/dist/fullcalendar.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('/gentelella-master/vendors/fullcalendar/dist/fullcalendar.print.css') }}" rel="stylesheet" media="print">

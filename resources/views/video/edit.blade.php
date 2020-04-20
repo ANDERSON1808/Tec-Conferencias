@@ -1,6 +1,6 @@
 
 
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -12,19 +12,19 @@
       <div class="modal-body">
       
 
-    <form  action="{{ route('save') }}" method="post"   enctype="multipart/form-data">
+    <form  action="{{ route('editar_conferencia', $conferencia->id) }}" method="post"   enctype="multipart/form-data">
                  
                   <div class="form-group">
                         <label for="exampleFormControlInput1">Nombre Conferencia</label>
-                        <input type="text" class="form-control" name="nombre" id="nombre" placeholder="Nombre de la videoconferencia" required>
+                        <input type="text" class="form-control" name="nombre" id="nombre" value="{{ $conferencia->nombre}}" required>
                     </div>
                     <div class="form-group">
                         <label for="exampleFormControlTextarea1">Descripcion</label>
-                        <textarea class="form-control" name="descripcion" id="descripcion" rows="3" required></textarea>
+                        <textarea class="form-control" name="descripcion" id="descripcion"   rows="3" required>{{ $conferencia->descripcion}}</textarea>
                     </div>
                     <div class="form-group">
                         <label for="exampleFormControlInput1">Fecha de la conferencia</label>
-                        <input type="date" class="form-control" name="date" id="date"  required>
+                        <input type="date" value="{{ $conferencia->fecha_r}}" class="form-control" name="date" id="date"  required>
                     </div>
                    
 

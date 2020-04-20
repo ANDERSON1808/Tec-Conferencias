@@ -31,7 +31,7 @@
               <div class="menu_section">
                 <h3>General</h3>
                 <ul class="nav side-menu">
-                  <li><a><i class="fa fa-home"></i> INICIO </a>
+                  <li><a  href="{{route('home') }}"><i class="fa fa-home"></i> INICIO </a>
                    
                   </li>
                   <li><a><i class="fa fa-edit"></i> TELETRABAJO <span class="fa fa-chevron-down"></span></a>

@@ -23,6 +23,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+   //  conferencia::observer(Observer::class);
     }
 }

@@ -11,7 +11,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
   <!-- Libreria -->
-    @include('libreria')
+  @include('libreria') 
 
   </head>
 
@@ -22,13 +22,13 @@
 
 <!-- Sidebar -->
 @include('sidebar')
+
  <!-- Header -->
 @include('header')
 
 @yield('content')
  <!-- page content -->
-
-
+ 
  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
                 <script  src='https://meet.jit.si/external_api.js'> </script>
                 @foreach($conferencia as $client)
@@ -42,26 +42,37 @@
                     height: 700,
                     userInfo : {email: 'andersonl@globalsolutionservice.com' , displayName : 'ANDERSON LOSADA SILVA'},
                     parentNode: document.querySelector('#meet'),
+                    interfaceConfigOverwrite: { filmStripOnly: false },
+
                 }
                
                     var api = new JitsiMeetExternalAPI(domain, options);
+                    //api . executeCommand ( 'subject' ,  'New Conference Subject' ) ;
 
                     });
                   
             </script>
          @endforeach
 
+       
+
+
  <div class="right_col" role="main">
           <div class="">
             <div class="page-title">
-              <div class="title_left">
+              <div id="ji" class="title_left">
                 <h3> <i class="fa fa-video-camera" aria-hidden="true">  En linea </i> <i class="fa fa-rss" aria-hidden="true"></i></h3>
-
+               
               </div>
-            
+             
               <div class="title_right">
-                <div class="col-md-5 col-sm-5   form-group pull-right top_search">
+        
+              <div class="col-md-5 col-sm-5   form-group pull-right top_search">
+                  <div class="input-group">
                   
+                    <button type="button" class="btn btn-round btn-success"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Invitar usuarios externos</font></font></button>
+                    
+                  </div>
                 </div>
               </div>
             </div>
@@ -112,12 +123,14 @@
                   <div class="x_content">
 
     
-                  <div class="col-md-12 col-sm-12  ">
-                  <div class="x_panel">
-                                <div id="meet">
+
+
+
+                <div style = "border: 2px solid # D5CC5A; overflow: hidden; margin: 1px auto; height:100; max-width: 930px; ">
+                <div id="meet"  >
+
                                 
-                                </div>
-                  </div>               
+                </div>
                 </div>
 
 
@@ -132,6 +145,8 @@
               </div>
          
         <!-- /page content -->
+
+
 
 @include('footer')
 <div class="modalKu"></div>
@@ -148,4 +163,7 @@ $.ajaxSetup({
 }); 
 
   </script>
+
+
 </html>
+

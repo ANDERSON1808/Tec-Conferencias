@@ -1,3 +1,9 @@
+<?php
+    if (Auth::guest()) {
+      return redirect('/auth/login');
+    }else{
+      
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -228,3 +234,7 @@ function modalDeleteTrigger(id){
 
   </script>
 </html>
+
+<?php
+}
+?>

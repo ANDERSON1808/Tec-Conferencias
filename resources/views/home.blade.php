@@ -1,3 +1,11 @@
+<?php
+    if (Auth::guest()) {
+       return redirect('auth.login');
+    }else{
+
+      
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -164,3 +172,7 @@
     </div>
     </body>
 </html>
+
+<?php
+}
+?>

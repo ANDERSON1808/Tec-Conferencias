@@ -24,6 +24,22 @@ class conferenciaController extends Controller
         return view('/video/nueva');
     } 
 
+    public function invitar_usuarios(Request $request)
+    {
+        $conferencia = DB::table('conferencia')
+        ->where('estado', '=', "1")
+        ->get();
+
+        $users = DB::table('users')
+        ->get();
+
+        return view('/video/invitar_interno', array(
+            'conferencia' => $conferencia,
+            'users' => $users,
+        ));
+    } 
+
+
 
     public function validation(Request $request)
     {
@@ -66,6 +82,8 @@ class conferenciaController extends Controller
             $Rcontraseña          = $request->_token ; 
             $date                 = $request->date ; 
             $Rdescripcion         = $request->descripcion ; 
+            $user                 = $request->usuario ; 
+
 
             $SaveConferencia= array(
                 'nombre'             => $Rnombre  ,  
@@ -75,6 +93,7 @@ class conferenciaController extends Controller
                 'fecha_r'             =>  $date ,
                 'conferencia'        => "https://meet.jit.si/$Rnombre",
                 'accion'             => "1",
+                'creador'             => $user,
 
             ); 
 
@@ -99,8 +118,13 @@ class conferenciaController extends Controller
         $conferencia = DB::table('conferencia')
                      ->where('id', '=', "$id")
                      ->get();
+
+       $notificacion = DB::table('invitados_conferencia')
+                     ->where('estado', '=', "1")
+                     ->get();
         return view('/video/online', array(
-            'conferencia' => $conferencia, 
+            'notificacion' => $notificacion, 
+            'conferencia' => $conferencia,
             ));
 
     }
@@ -209,6 +233,91 @@ class conferenciaController extends Controller
                 }
             
                 }
+
+                
+        public function invitarInterno(Request $req)
+                {
+
+                    $Rconferencia =      $req ->get('conferencia');
+                    $Rusuario     =      $req ->get('usuario');
+                    $estado = 1;
+                    $rol= 1; 
+       
+                      if (empty( $Rusuario)){
+                        return back()->with('error', 'Upss algo salio mal'); 
+                      }else{
+
+                        foreach( $Rusuario as $key => $val){
+                            
+                            $data = array(
+                                "id_conferencia" => $Rconferencia,
+                            "cod_usuario" =>  $val,
+                            "estado" => $estado,
+                            "rol" => $rol
+                            );
+                            DB::table("invitados_conferencia")->insert( $data);
+
+                      }
+                      
+                      return back()->with('message', 'Excelente, Fueron enviadas las invitaciones a la conferencia.');
+                        } 
+                        
+         }
+         public function notificacion (Request $req)
+         {
+     
+            $notificacion = DB::table('invitados_conferencia')
+            ->where('estado', '=', "1")
+            ->get();
+                 return view('/header', array(
+                   'notificacion' => $notificacion, 
+             ));
+     
+         }
+
+
+         public function invitar_externos(Request $request)
+         {
+
+            $id =  $request ->get('id');
+
+
+             $conferencia = DB::table('conferencia')
+             ->where([['id', '=', "$id"],['estado', '=', "1"]])
+             ->get();
+     
+             return view('/video/externos', array(
+                 'conferencia' => $conferencia,
+             ));
+         } 
+
+
+         public function terminar(Request $request)
+         {
+        
+                 $estado = 2;
+                 $id =      $request ->get('id');
+    
+                 if (!isset($id))
+                 {
+                    return back()->with('error', 'No cuenta con id'); 
+
+                 } else {
+                    DB::table('conferencia')
+                    ->where('id',  $id)
+                    ->update(['estado' =>   $estado]);
+                    
+                    DB::table('invitados_conferencia')
+                    ->where('id_conferencia',  $id)
+                    ->update(['estado' =>   $estado]);
+
+                    $consultaG = DB::table('conferencia')
+                    ->get();
+                   return view('/video/inicio' ,array('consultaG'=> $consultaG ));
+                     
+              }
+            }
+
 
 
 }

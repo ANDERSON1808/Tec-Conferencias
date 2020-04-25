@@ -41,8 +41,8 @@
                   </li>
                   <li><a><i class="fa fa-desktop"></i>SESIONES<span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="general_elements.html">Administrar</a></li>
-                      <li><a href="media_gallery.html">Participar</a></li>
+                      <li><a href="{{ url('viewSesion') }}">Administrar</a></li>
+                      <li><a href="{{ url('viewParticipacion') }}">Participar</a></li>
                       <li><a href="media_gallery.html">Actas</a></li>
                       <li><a href="media_gallery.html">Historico</a></li>
                       <li><a href="media_gallery.html">En vivo</a></li>

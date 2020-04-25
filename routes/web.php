@@ -60,6 +60,50 @@ Route::post('/terminar', 'conferenciaController@terminar')->name('terminar');
 
 
 
+//SESIONES //
+
+
+
+
+
+
+
+
+
+
+Route::get('getSesiones','sesionesController@get');
+Route::post('getSesionesInvitados','sesionesController@getInvited');
+Route::get('viewSesion','sesionesController@view');
+Route::get('viewParticipacion','sesionesController@viewParticipacion');
+Route::get('editSesion','sesionesController@edit');
+Route::post('createSesion','sesionesController@create');
+Route::get('invitadosSesion','sesionesController@invitados');
+
+
+
+
+
+
+
+
+
+// FIN SESIONES //
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

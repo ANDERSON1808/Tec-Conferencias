@@ -37,16 +37,12 @@
           <div class="">
             <div class="page-title">
               <div class="title_left">
-                <h3>VIDEOCONFERENCIAS</h3>
-                <p> Crea videoconferecias con tu equipo de trabajo</p>
+                <h3>INVITACIONES A CONFERENCIAS</h3>
+                <p> Gestion integra de trabajo.</p>
               </div>
             
               <div class="title_right">
                 <div class="col-md-5 col-sm-5   form-group pull-right top_search">
-                  <div class="input-group">
-                  <a href="#" class="modalSubirTrigger" data-toggle="modal" data-target="#exampleModal"><button class="btn btn-info"><i class="fa fa-plus" aria-hidden="true"></i>  Nueva Videconferencia</button></a>
-                  <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                  </div>
                   
                 </div>
               </div>
@@ -82,8 +78,8 @@
               <div class="col-md-12 col-sm-12  ">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2></h2>
-                  <a href="#" class="modalInvitar" data-toggle="modal" data-target="#exampleModal"><button type="button" class="btn btn-round btn-success"><i class="fa fa-users" aria-hidden="true"></i>  Agendar Usuarios</button></a>
+                    <h2</h2>
+                  
                     <ul class="nav navbar-right panel_toolbox">
                   
                       <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
@@ -112,10 +108,8 @@
                                 <th>Nombre de la conferencia</th>
                                 <th>Descripcion</th>
                                 <th>Estado</th>
-                                <th>Token</th>
                                 <th>Fecha Reunion</th>
-                                <th>Convocar</th>
-                                <th>Acciones</th>
+                                <th>Accion</th>
                               </tr>
                             </thead>
 
@@ -123,14 +117,16 @@
                             <tbody>
                             @foreach ($consultaG as $data)
                             @php
-                            $x=$data->estado;
-                            $conferencia = $data->creador; 
+                            $x =  $data->estado;
                             $visitante = Auth::user()->id;
+                            $puedo_iniciar= $data-> indica_inicio;
+                            $me_invitaron= $data->cod_usuario;
                             @endphp
 
-                            @if ($conferencia == $visitante)
-
-                              <tr>
+                
+                            @if($me_invitaron == $visitante)
+                          
+                            <tr>
                                 <td>{{ $data->nombre }}</td>
                                 <td>{{ $data->descripcion }}</td>
                                 @if ($x==1)
@@ -138,34 +134,30 @@
                                 @else
                                 <td class="table-danger">Ejecutada</td>
                                 @endif
-                                <td>{{$data->contraseña }} </td>
                                 <td>{{$data->fecha_r }} </td>
-                                @if($x==1 && $conferencia == $visitante )
+                                @if($x==1 &&  $puedo_iniciar == 1 )
                                 <td>
-                                <a href="{{ route('online',$data->id) }}"  class="btn btn-outline-success" title="Iniciar conferencia" ><i class="fa fa-video-camera" aria-hidden="true">  Iniciar conferencia</i></a>
+                                <a href="{{ route('entrar',$data->id) }}"  class="btn btn-outline-success" title="Iniciar conferencia" ><i class="fa fa-video-camera" aria-hidden="true">  Unirse a la conferencia</i></a>
                                 </td>
                                 @else 
                                 <td>
                                 <a onclick="new PNotify({
                                   title: 'Aviso Importante',
-                                  text: 'Lo sentimos la reunion ya fue desarrollada.',
+                                  text: 'Lo sentimos, la conferencia no ha iniciado.',
                                   styling: 'bootstrap3'
-                              });"   class="btn btn-outline-success" title="Iniciar conferencia" disabled ><i class="fa fa-video-camera" disabled aria-hidden="true">  Iniciar conferencia</i></a>
+                              });"  class="btn btn-outline-success" title="Iniciar conferencia" ><i class="fa fa-video-camera" aria-hidden="true">  Unirse a la conferencia</i></a>
                                 </td>
                                 @endif
 
-                                <td align="center">
-                              
-                                <a onClick="modalEditTriger({{$data->id}})" class="btn btn-link" title="Editar"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> </a>
-                              
-                                <a onClick="modalDeleteTrigger({{$data->id}})" class="btn btn-link" title="Eliminar" ><i class="fa fa-trash" aria-hidden="true"></i></a>
-                                <input type="hidden" name="_token" value="{{ csrf_token() }}"> 
-                                </td>
                               </tr>
-                         @else
 
-                          @endif
-                              @endforeach
+
+                            @else 
+
+                            @endif
+
+                            @endforeach
+                              
                             </tbody>
                           </table>
                         </div>
@@ -196,79 +188,8 @@ $.ajaxSetup({
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     }
 }); 
-    // carga masiva
-  $('.modalSubirTrigger').click(function(event){
-    event.preventDefault();
-        $.ajax({
-            url     : "{{url('crear_conferencia')}}",
-            method  : 'POST',
-            success : function(response){
-                $('.modalKu').html(response);
-                $('#exampleModalCenter').modal('show');
-            }
-        });
-  });
-//**Modal para invitar a conferencia */
-    // carga masiva
-    $('.modalInvitar').click(function(event){
-    event.preventDefault();
-        $.ajax({
-            url     : "{{url('invitar_usuarios')}}",
-            method  : 'POST',
-            success : function(response){
-                $('.modalKu').html(response);
-                $('#exampleModalCenter').modal('show');
-            }
-        });
-  });
-
-//modal_edit.
-function modalEditTriger(id){
-  event.preventDefault();
-      $.ajax({
-        url     : "{{url('modal_ver')}}",
-        method  : 'POST',
-        data    : {
-          'id' : id
-        },
-        success : function(response){
-          // console.log(response);
-          $('.modalKu').html(response);
-          $('#myModal').modal('show');
-        }
-      });
-    }
-// MODAL DELETE
-function modalDeleteTrigger(id){
-      // var r = confirm("Apa anda yakin akan menghapus data?");
-      // if (r == true){
-        $.ajax({
-        url     : "{{url('/delete_lista')}}",
-        method  : 'POST',
-        data    : {
-          'id' : id
-        },
-        success : function(response){
-          console.log(response);
-          $('.modalKu').html(response);
-          $('#myModalE').modal('show');
-          // if (response.status == 'error'){
-          //   alert('Delete Error');
-          // }else{
-          //   alert('Delete Success!!');
-          //   window.location.replace('/datasiswa/public/home');
-          // }
-        }
-      });
-      // }else{
-      //   alert('Delete Canceled!');
-      // }
-    }
-
-    //Mensaje de error
  
-    //Fin de mensaje de error
-
+   
   </script>
 </html>
 

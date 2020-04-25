@@ -15,6 +15,7 @@ class conferenciaController extends Controller
     public function conferencia(Request $request)
     {
         $consultaG = DB::table('conferencia')
+        ->where('estado', '=', "1")
         ->get();
        return view('/video/inicio', array('consultaG'=> $consultaG )); 
     }  
@@ -112,22 +113,52 @@ class conferenciaController extends Controller
 
     public function online(Request $request, $id)
     {
-        //$categorias = categorias::find($request->id);
-     //   $Id= $request->get('id');
 
-        $conferencia = DB::table('conferencia')
-                     ->where('id', '=', "$id")
-                     ->get();
 
-       $notificacion = DB::table('invitados_conferencia')
-                     ->where('estado', '=', "1")
-                     ->get();
-        return view('/video/online', array(
-            'notificacion' => $notificacion, 
-            'conferencia' => $conferencia,
-            ));
+        if (empty($id))
+        {
+            return back()->with('error', 'Upss error grave, comuniquese con el proveedor del programa.');   
+        }else{
+            $conferencia = DB::table('conferencia')
+            ->where('id', '=', "$id")
+            ->get();
+    
+            $notificacion = DB::table('invitados_conferencia')
+                ->where('estado', '=', "1")
+                ->get();
+           
+                $iniciar =1;
+                DB::table('conferencia')
+                            ->where('id',  $id)
+                            ->update(['indica_inicio' => $iniciar]);
 
+                return view('/video/online', array(
+                'notificacion' => $notificacion, 
+                'conferencia' => $conferencia,
+                ));
+        }
+      
     }
+
+
+    public function entrar(Request $request, $id)
+    {
+
+            $conferencia = DB::table('conferencia')
+            ->where('id', '=', "$id")
+            ->get();
+    
+            $notificacion = DB::table('invitados_conferencia')
+                ->where('estado', '=', "1")
+                ->get();
+
+                return view('/video/online', array(
+                'notificacion' => $notificacion, 
+                'conferencia' => $conferencia,
+                ));
+    
+    }
+
 
     public function modal_ver(Request $request)
     {
@@ -318,6 +349,31 @@ class conferenciaController extends Controller
               }
             }
 
+   public function invitacion(Request $request)
+       {
+                $consultaG = conferencia::select('conferencia.id','conferencia.nombre','conferencia.descripcion','conferencia.fecha_r', 'conferencia.estado','conferencia.conferencia','conferencia.indica_inicio','invitados_conferencia.cod_usuario')
+                ->join('invitados_conferencia', 'conferencia.id', '=', 'invitados_conferencia.id_conferencia')
+                ->where('conferencia.estado', '=', "1")
+                ->get();
 
+
+               return view('/video/ingreso_invitado', array(
+                   'consultaG'=> $consultaG,
+                )); 
+       }  
+
+
+   public function historico(Request $request)
+       {
+                $consultaG = conferencia::select('conferencia.id','conferencia.creador','conferencia.nombre','conferencia.descripcion','conferencia.fecha_r', 'conferencia.estado','conferencia.conferencia','conferencia.indica_inicio','invitados_conferencia.cod_usuario')
+                ->join('invitados_conferencia', 'conferencia.id', '=', 'invitados_conferencia.id_conferencia')
+                ->where('conferencia.estado', '=', "2")
+                ->get();
+
+
+               return view('/video/historico', array(
+                   'consultaG'=> $consultaG,
+                )); 
+       }  
 
 }

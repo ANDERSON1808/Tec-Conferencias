@@ -44,9 +44,10 @@
               <div class="title_right">
                 <div class="col-md-5 col-sm-5   form-group pull-right top_search">
                   <div class="input-group">
-                  <a href="#" class="modalSubirTrigger" data-toggle="modal" data-target="#exampleModal"><button class="btn btn-info"><i class="fa fa-plus" aria-hidden="true"> Nueva Videconferencia</i></button></a>
+                  <a href="#" class="modalSubirTrigger" data-toggle="modal" data-target="#exampleModal"><button class="btn btn-info"><i class="fa fa-plus" aria-hidden="true"></i>  Nueva Videconferencia</button></a>
                   <input type="hidden" name="_token" value="{{ csrf_token() }}">
                   </div>
+                  
                 </div>
               </div>
             </div>
@@ -82,9 +83,12 @@
                 <div class="x_panel">
                   <div class="x_title">
                     <h2</h2>
+                    <a href="#" class="modalInvitar" data-toggle="modal" data-target="#exampleModal"><button type="button" class="btn btn-round btn-success"><i class="fa fa-users" aria-hidden="true"></i>  Agendar Usuarios</button></a>
                     <ul class="nav navbar-right panel_toolbox">
+                  
                       <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                       </li>
+                     
                       <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
                         
@@ -111,7 +115,6 @@
                                 <th>Token</th>
                                 <th>Fecha Reunion</th>
                                 <th>Convocar</th>
-                               
                                 <th>Acciones</th>
                               </tr>
                             </thead>
@@ -181,6 +184,19 @@ $.ajaxSetup({
     event.preventDefault();
         $.ajax({
             url     : "{{url('crear_conferencia')}}",
+            method  : 'POST',
+            success : function(response){
+                $('.modalKu').html(response);
+                $('#exampleModalCenter').modal('show');
+            }
+        });
+  });
+//**Modal para invitar a conferencia */
+    // carga masiva
+    $('.modalInvitar').click(function(event){
+    event.preventDefault();
+        $.ajax({
+            url     : "{{url('invitar_usuarios')}}",
             method  : 'POST',
             success : function(response){
                 $('.modalKu').html(response);

@@ -32,6 +32,7 @@
                   <li><a><i class="fa fa-edit"></i> TELETRABAJO <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="{{route('conferencia.index') }}">Videconferencias</a> </li>
+                      <li><a href="#">Invitado</a></li>
                       <li><a href="form_advanced.html">Historicos</a></li>
                       <li><a href="form_validation.html">Documentos</a></li>
                       <li><a href="form_validation.html">Planes de accion</a></li>

@@ -21,13 +21,12 @@
                     <div class="form-group">
                         <label for="exampleFormControlTextarea1">Descripcion</label>
                         <textarea class="form-control" name="descripcion" id="descripcion" rows="3" required></textarea>
+                        <input type="hidden" class="form-control" value="{{ Auth::user()->id }}" name="usuario" id="usuario"  required>
                     </div>
                     <div class="form-group">
                         <label for="exampleFormControlInput1">Fecha de la conferencia</label>
                         <input type="date" class="form-control" name="date" id="date"  required>
                     </div>
-                   
-
 
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <div class="modal-footer">
@@ -38,7 +37,6 @@
 
      
 </form>
-
 
     </div>
   </div>

@@ -35,6 +35,34 @@ Route::post('/editar_conferencia/{id}', 'conferenciaController@editar_conferenci
 Route::post('/delete_lista', 'conferenciaController@delete_lista')->name('delete_lista');
 Route::post('/do_delete/{id}', 'conferenciaController@do_delete')->name('do_delete');
 //**Fin conferencias */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //INICIO usuarios --------------------------------------------
 
 

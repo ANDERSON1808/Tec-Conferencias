@@ -159,6 +159,14 @@
                                 <label for="nmbPermiso">Nivel de permiso</label>
                                 <input type="number" class="form-control" name="nmbPermiso" id="nmbPermiso" value=" " required>
                             </div>
+
+                            <div class="form-group">
+
+                                <table>
+
+                                </table>
+                            </div>
+
                             <div class="modal-footer center">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                 <button type="button" id="btnSubmit" class="btn btn-primary">Agregar</button>
@@ -191,6 +199,12 @@
         });
         $(function () {
             verRoles();
+            $.get("nivelesPermisos", function(data){
+                console.log(data);
+                $.each(data, function(key, res){
+
+                });
+            });
             $("#nmbPermiso").keyup(function(){
                 alert(this.value);
             });

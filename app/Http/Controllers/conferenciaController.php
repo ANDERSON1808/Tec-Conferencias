@@ -15,6 +15,7 @@ class conferenciaController extends Controller
     public function conferencia(Request $request)
     {
         $consultaG = DB::table('conferencia')
+        ->where('estado', '=', "1")
         ->get();
        return view('/video/inicio', array('consultaG'=> $consultaG )); 
     }  
@@ -318,6 +319,21 @@ class conferenciaController extends Controller
               }
             }
 
+   public function invitacion(Request $request)
+       {
+                $consultaG = DB::table('conferencia')
+                ->where('estado', '=', "1")
+                ->get();
 
+                $invitado = DB::table('invitados_conferencia')
+                ->where('estado', '=', "1")
+                ->get();
+
+
+               return view('/video/ingreso_invitado', array(
+                   'consultaG'=> $consultaG,
+                   'invitado'=> $invitado, 
+                )); 
+       }  
 
 }

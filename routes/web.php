@@ -40,6 +40,7 @@ Route::post('/invitar_usuarios', 'conferenciaController@invitar_usuarios')->name
 Route::post('/video/invitar_interno', 'conferenciaController@invitarInterno')->name('invitarInterno');
 Route::post('/invitar_externos', 'conferenciaController@invitar_externos')->name('invitar_externos');
 Route::post('/terminar', 'conferenciaController@terminar')->name('terminar');
+Route::get('/invitacion', 'conferenciaController@invitacion')->name('invitacion');
 //**Fin conferencias */
 
 

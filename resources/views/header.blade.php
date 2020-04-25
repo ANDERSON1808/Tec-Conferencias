@@ -24,17 +24,17 @@
                         <span>Settings</span>
                       </a>
                   <a class="dropdown-item"  href="javascript:;">Help</a>
-                    <a class="dropdown-item"  href="{{ url('/login') }}"><i class="fa fa-sign-out pull-right"></i> Cerrar seccion</a>
+                    <a class="dropdown-item"  href="{{ route('logout') }}"><i class="fa fa-sign-out pull-right"></i> Cerrar sesión</a>
                   </div>
                 </li>
 
                 <li role="presentation" class="nav-item dropdown open">
                   <a href="javascript:;" class="dropdown-toggle info-number" id="navbarDropdown1" data-toggle="dropdown" aria-expanded="false">
-                    <i class="fa fa-envelope-o"></i>
-                    <span class="badge bg-green">6</span>
+                    <i class="fa fa-bell-o"></i>
+                    <span class="badge bg-green" id="btnNotification"></span>
                   </a>
-                  <ul class="dropdown-menu list-unstyled msg_list" role="menu" aria-labelledby="navbarDropdown1">
-                    <li class="nav-item">
+                  <ul class="dropdown-menu list-unstyled msg_list" role="menu" aria-labelledby="navbarDropdown1" id="ulNotificaciones">
+                    {{-- <li class="nav-item">
                       <a class="dropdown-item">
                         <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
                         <span>
@@ -81,15 +81,15 @@
                           Film festivals used to be do-or-die moments for movie makers. They were where...
                         </span>
                       </a>
-                    </li>
-                    <li class="nav-item">
+                    </li> --}}
+                    {{-- <li class="nav-item">
                       <div class="text-center">
                         <a class="dropdown-item">
                           <strong>See All Alerts</strong>
                           <i class="fa fa-angle-right"></i>
                         </a>
                       </div>
-                    </li>
+                    </li> --}}
                   </ul>
                 </li>
               </ul>
@@ -97,8 +97,6 @@
           </div>
         </div>
         <!-- /top navigation -->
-
-
 <?php
 }
 ?>

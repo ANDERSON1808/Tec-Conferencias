@@ -27,7 +27,7 @@
                 <h3>General</h3>
                 <ul class="nav side-menu">
                   <li><a  href="{{route('home') }}"><i class="fa fa-home"></i> INICIO </a>
-                   
+
                   </li>
                   <li><a><i class="fa fa-edit"></i> TELETRABAJO <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
@@ -35,7 +35,7 @@
                       <li><a href="form_advanced.html">Historicos</a></li>
                       <li><a href="form_validation.html">Documentos</a></li>
                       <li><a href="form_validation.html">Planes de accion</a></li>
-                    
+
                     </ul>
                   </li>
                   <li><a><i class="fa fa-desktop"></i>SESIONES<span class="fa fa-chevron-down"></span></a>
@@ -68,30 +68,30 @@
                       <li><a href="#">Gestion de item</a></li>
                     </ul>
                   </li>
- 
+
                 </ul>
               </div>
               <div class="menu_section">
                 <h3>Administrativo</h3>
                 <ul class="nav side-menu">
-               
+
                 </li>
                   <li><a><i class="fa fa-bug"></i> USUARIOS <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="e_commerce.html">Administracion</a></li>
-                      <li><a href="projects.html">Roles</a></li>
+                      <li><a href="{{ route('user.view') }}">Administracion</a></li>
+                      <li><a href="{{ url('viewRoles') }}">Roles</a></li>
                       <li><a href="project_detail.html">Historico</a></li>
                       <li><a href="contacts.html">Perfil</a></li>
                     </ul>
                   </li>
                   <li><a><i class="fa fa-windows"></i> REPORTES</a>
-                   
+
                   </li>
                  <li><a><i class="fa fa-windows"></i> CONFIGURACION</a>
-                  
+
                  </li>
-                                 
-            
+
+
               </div>
 
             </div>
@@ -102,8 +102,8 @@
               <a data-toggle="tooltip" data-placement="top" title="Settings">
                 <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
               </a>
-              
-              <a data-toggle="tooltip" data-placement="top" title="Logout" href="login.html">
+
+              <a data-toggle="tooltip" data-placement="top" title="Logout" href="{{ route('logout') }}">
                 <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
               </a>
             </div>

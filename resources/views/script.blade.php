@@ -1,4 +1,4 @@
-   
+
     <!-- jQuery -->
     <script src="{{ asset('/gentelella-master/vendors/jquery/dist/jquery.min.js') }}"></script>
     <!-- Bootstrap -->
@@ -39,7 +39,7 @@
 
     <!-- Custom Theme Scripts -->
     <script src="{{ asset('/gentelella-master/build/js/custom.min.js') }}"></script>
-	
+
 
     <!-- Datatables -->
     <script src="{{ asset('/gentelella-master/vendors/datatables.net/js/jquery.dataTables.min.js') }}"></script>
@@ -71,3 +71,49 @@
   <!-- FullCalendar -->
   <script src="{{ asset('/gentelella-master/vendors/moment/min/moment.min.js') }}"></script>
     <script src="{{ asset('/gentelella-master/vendors/fullcalendar/dist/fullcalendar.min.js') }}"></script>
+
+
+    <script type="text/javascript">
+        $(function () {
+            $.get("notificaciones",function(data){
+                console.log(data);
+                var contador = 0;
+                var color = 'style="background-color: turquoise;"';
+                 $.each(data, function (key, reg) {
+                     if(reg.visualizacion =="visualizado"){
+                        color = '';
+                     }else{
+                     contador++;
+                        color = 'style="background-color: turquoise;"';
+                     }
+                    //     $("#slcRoles").append("<option value=" + reg.id + ">" + reg.nombre +   "</option>");
+                    // $("#slcRoles").dropdown();
+                        $("#ulNotificaciones").append(' <li class="nav-item" '+color+'>'+
+                     ' <a class="dropdown-item">'+
+                        '<a><icon class="glyphicon glyphicon-facetime-video">   </icon></a>'+
+                        '<span>'+
+                          '<a><span>'+reg.tema+'</span></a>'+
+                          '<br> <span class="time">'+reg.fecha+'</span> <br>'+
+                        '</span>'+
+                        '<span class="message">'+ reg.descripcion+
+                        '</span>'+
+                      '</a>'+
+                    '</li>')
+                    });
+                    $("#ulNotificaciones").append(
+                     '<li class="nav-item">'+
+                      '<div class="text-center">'+
+                        '<a class="dropdown-item">'+
+                         ' <strong>See All Alerts</strong>'+
+                          '<i class="fa fa-angle-right"></i>'+
+                      '  </a>'+
+                     ' </div>'+
+                   ' </li>');
+            $("#btnNotification").html(contador);
+            });
+            $.get("cantNotificaciones",function(data){
+                console.log(data);
+            });
+
+        });
+    </script>

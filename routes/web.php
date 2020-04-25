@@ -35,3 +35,34 @@ Route::post('/editar_conferencia/{id}', 'conferenciaController@editar_conferenci
 Route::post('/delete_lista', 'conferenciaController@delete_lista')->name('delete_lista');
 Route::post('/do_delete/{id}', 'conferenciaController@do_delete')->name('do_delete');
 //**Fin conferencias */
+//INICIO usuarios --------------------------------------------
+
+
+Route::get('user.view', 'userController@users')->name('user.view');
+Route::get('getUsers', 'userController@get');
+
+Route::get('modal_ver', 'userController@modal_ver')->name('user_ver');
+Route::post('updateUser', 'userController@update');
+Route::get('user_crear', 'userController@userCrear');
+Route::post('delete_user', 'userController@delete');
+Route::post('createUser', 'userController@create');
+
+
+//FIN usuarios--------------------------------------------------------
+//INICIO roles ------------------------------------------------
+
+
+
+Route::get('/viewRoles', 'rolController@view');
+Route::get('getRoles', 'rolController@get');
+
+
+//FIN --------------------------------------------------------
+//NOTIFICACIONES -------------------------
+
+Route::get('notificaciones', 'NotificationController@get');
+
+Route::get('cantNotificaciones', 'NotificationController@cantidadNotSinVer');
+
+
+//FIN --------------------------------------

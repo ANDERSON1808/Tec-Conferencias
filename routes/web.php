@@ -32,6 +32,7 @@ Route::get('/conferencia', 'conferenciaController@conferencia')->name('conferenc
 Route::post('/crear_conferencia', 'conferenciaController@crear_conferencia')->name('crear_conferencia');
 Route::post('/video/nueva', 'conferenciaController@save')->name('save');
 Route::get('/online/{id}', 'conferenciaController@online')->name('online');
+Route::get('/entrar/{id}', 'conferenciaController@entrar')->name('entrar');
 Route::post('/modal_ver', 'conferenciaController@modal_ver')->name('modal_ver');
 Route::post('/editar_conferencia/{id}', 'conferenciaController@editar_conferencia')->name('editar_conferencia');
 Route::post('/delete_lista', 'conferenciaController@delete_lista')->name('delete_lista');
@@ -41,6 +42,7 @@ Route::post('/video/invitar_interno', 'conferenciaController@invitarInterno')->n
 Route::post('/invitar_externos', 'conferenciaController@invitar_externos')->name('invitar_externos');
 Route::post('/terminar', 'conferenciaController@terminar')->name('terminar');
 Route::get('/invitacion', 'conferenciaController@invitacion')->name('invitacion');
+Route::get('/historico', 'conferenciaController@historico')->name('historico');
 //**Fin conferencias */
 
 

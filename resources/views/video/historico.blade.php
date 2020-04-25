@@ -37,8 +37,7 @@
           <div class="">
             <div class="page-title">
               <div class="title_left">
-                <h3>INVITACIONES A CONFERENCIAS</h3>
-                <p> Gestion integra de trabajo.</p>
+                <h2>HISTORICO DE LAS CONFERENCIAS</h2>
               </div>
             
               <div class="title_right">
@@ -109,6 +108,7 @@
                                 <th>Descripcion</th>
                                 <th>Estado</th>
                                 <th>Fecha Reunion</th>
+                                <th>Detalle</th>
                                 <th>Accion</th>
                               </tr>
                             </thead>
@@ -120,6 +120,7 @@
                             $x =  $data->estado;
                             $visitante = Auth::user()->id;
                             $puedo_iniciar= $data-> indica_inicio;
+                            $la_cree=  $data-> creador;
                             $me_invitaron= $data->cod_usuario;
                             @endphp
 
@@ -127,32 +128,43 @@
                             @if($me_invitaron == $visitante)
                           
                             <tr>
-                                <td>{{ $data->nombre }}</td>
-                                <td>{{ $data->descripcion }}</td>
-                                @if ($x==1)
-                                <td class="table-primary">Agendada</td>
-                                @else
-                                <td class="table-danger">Ejecutada</td>
-                                @endif
-                                <td>{{$data->fecha_r }} </td>
-                                @if($x==1 &&  $puedo_iniciar == 1 )
-                                <td>
-                                <a href="{{ route('entrar',$data->id) }}"  class="btn btn-outline-success" title="Iniciar conferencia" ><i class="fa fa-video-camera" aria-hidden="true">  Unirse a la conferencia</i></a>
-                                </td>
-                                @else 
-                                <td>
-                                <a onclick="new PNotify({
-                                  title: 'Aviso Importante',
-                                  text: 'Lo sentimos, la conferencia no ha iniciado.',
-                                  styling: 'bootstrap3'
-                              });"  class="btn btn-outline-success" title="Iniciar conferencia" ><i class="fa fa-video-camera" aria-hidden="true">  Unirse a la conferencia</i></a>
-                                </td>
-                                @endif
+                                    <td>{{ $data->nombre }}</td>
+                                    <td>{{ $data->descripcion }}</td>
+                                    @if ($x==1)
+                                    <td class="table-primary">Agendada</td>
+                                    @else
+                                    <td class="table-danger">Ejecutada</td>
+                                    @endif
+                                    <td>{{$data->fecha_r }} </td> 
+                                    <td>
+                                    Invitado
+                                    </td>
+                                    <td>
+                                    <a href="{{ route('online',$data->id) }}"  class="btn btn-outline-info" title="Iniciar conferencia" ><i class="fa fa-video-camera" aria-hidden="true"> Ver plan de accion</i></a>
+                                    </td>
 
-                              </tr>
+                            </tr>
 
 
-                            @else 
+                            @elseif ($la_cree == $visitante )
+
+                            <tr>
+                                    <td>{{ $data->nombre }}</td>
+                                    <td>{{ $data->descripcion }}</td>
+                                    @if ($x==1)
+                                    <td class="table-primary">Agendada</td>
+                                    @else
+                                    <td class="table-danger">Ejecutada</td>
+                                    @endif
+                                    <td>{{$data->fecha_r }} </td>
+                                    <td>
+                                Administrador
+                                    </td> 
+                                    <td>
+                                    <a href="{{ route('online',$data->id) }}"  class="btn btn-outline-info" title="Iniciar conferencia" ><i class="fa fa-video-camera" aria-hidden="true"> Ver plan de accion</i></a>
+                                    </td>
+                            </tr>
+
 
                             @endif
 

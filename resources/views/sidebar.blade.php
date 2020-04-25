@@ -33,7 +33,7 @@
                     <ul class="nav child_menu">
                       <li><a href="{{route('conferencia.index') }}">Videconferencias</a> </li>
                       <li><a href="{{route('invitacion')}}">Invitado</a></li>
-                      <li><a href="form_advanced.html">Historicos</a></li>
+                      <li><a href="{{route('historico')}}">Historicos</a></li>
                       <li><a href="form_validation.html">Documentos</a></li>
                       <li><a href="form_validation.html">Planes de accion</a></li>
 

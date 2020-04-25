@@ -82,8 +82,8 @@
               <div class="col-md-12 col-sm-12  ">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2</h2>
-                    <a href="#" class="modalInvitar" data-toggle="modal" data-target="#exampleModal"><button type="button" class="btn btn-round btn-success"><i class="fa fa-users" aria-hidden="true"></i>  Agendar Usuarios</button></a>
+                    <h2></h2>
+                  <a href="#" class="modalInvitar" data-toggle="modal" data-target="#exampleModal"><button type="button" class="btn btn-round btn-success"><i class="fa fa-users" aria-hidden="true"></i>  Agendar Usuarios</button></a>
                     <ul class="nav navbar-right panel_toolbox">
                   
                       <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>

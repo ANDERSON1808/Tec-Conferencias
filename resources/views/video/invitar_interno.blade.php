@@ -18,7 +18,15 @@
                     <select class="form-control" name="conferencia" id="conferencia" required>
                     <option value="" >-- Seleccione la conferencia --</option>
                     @foreach ($conferencia as $data)
+                    @php
+                    $quie_creo= $data->creador;
+                    $visitante = Auth::user()->id; 
+                    @endphp
+                    @if ($quie_creo == $visitante)
                             <option value="{{ $data->id }}" >{{ $data->nombre }}</option>
+                          @else
+              
+                          @endif
                     @endforeach
                      </select>
 

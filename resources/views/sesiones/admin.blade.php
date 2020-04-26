@@ -156,6 +156,7 @@
                         <div class="modal-body">
 
                             <form id="frmSesion">
+                                <input type="hidden" name="idUser" id="idUser" value="{{ Auth::user()->id  }}">
                                 <div class="form-group">
                                     <label for="txtNombre">Tipo Sesión</label>
                                     <select class="form-control" id="slcSesion" name="slcSesion">
@@ -258,6 +259,8 @@
                             icon: 'success',
                             title: 'Nueva sesion creada!'
                         })
+                        setTimeout(function(){$('#myModal').modal('hide');}  ,3100);
+                        verSesiones();
                     });
             });
             // $('#dtFecha').val(new Date().toDateInputValue());
@@ -279,14 +282,19 @@
                     table.innerHTML = "";
                     var tableData  ;
                     $.each(data,function(key, reg) {
-                        if( reg.estado="activo" ){
+                        if( reg.estado="convocado" ){
                             reg.fechaFinalizado = "N/A";
                         }
+                        // '+reg.id+'
                         tableData +=  '<tr><td>'+reg.nombre+'</td><td>'+ reg.descripcion+'</td>   '+
                         '<td>'+reg.name+'</td><td>'+ reg.fechaSesion+'</td><td>'+reg.fechaCreada+'</td> '+
-                        '<td>'+reg.fechaFinalizado+'</td><td> '+ reg.estado+'</td>  '+
+                        '<td>'+reg.fechaFinalizado+'</td><td>  '+
+                        '<a href="{{ route("onlineSesion","1" ) }}"  '+
+                            'class="btn btn-outline-success" title="Iniciar sesion" >'+
+                            '<i class="fa fa-video-camera" aria-hidden="true">  Iniciar sesion</i></a>'+
+                             '  </td>  '+
                         '   <td><a href="#" '+
-                        '       onClick="modalEdit('+reg.id+ ' )"'+
+                        '       onClick="modalEdit('+reg.idUser+ ' )"'+
                         '       class="btn btn-outline-success"'+
                         '       title="Iniciar conferencia">'+
                         '       <i class="fa fa-pencil-square-o"'+
@@ -324,8 +332,6 @@
         // });
         function crearSesion() {
             $('#myModal').modal('show');
-            crearSesion
-
         }
         //modal_edit.
         function modalEdit(id, idRol, estado, email, name) {

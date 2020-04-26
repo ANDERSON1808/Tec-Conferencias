@@ -74,6 +74,7 @@ Route::get('/historico', 'conferenciaController@historico')->name('historico');
 
 
 
+Route::get('onlineSesion/{id}', 'sesionesController@online')->name('onlineSesion');
 Route::get('getSesiones','sesionesController@get');
 Route::post('getSesionesInvitados','sesionesController@getInvited');
 Route::get('viewSesion','sesionesController@view');

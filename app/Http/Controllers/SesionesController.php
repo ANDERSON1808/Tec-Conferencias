@@ -24,6 +24,32 @@ class SesionesController extends Controller
         return view("sesiones/participar");
     }
 
+    public function online(Request $request, $id)
+    {
+        if (empty($id))
+        {
+            return back()->with('error', 'Upss error grave, comuniquese con el proveedor del programa.');
+        }else{
+            $sesiones = DB::table('sesiones')
+            ->where('id', '=', "$id")
+            ->get();
+
+            $notificacion = DB::table('invitadosesion')
+                ->where('estado', '=', "convocado")
+                ->get();
+
+                $iniciar =1;
+                DB::table('sesiones')
+                            ->where('id',  $id)
+                            ->update(['estado' => "finalizado"]);
+
+                return view('/sesiones/online', array(
+                'notificacion' => $notificacion,
+                'conferencia' => $sesiones,
+                ));
+        }
+
+    }
     /**
      * Display the specified resource.
      *
@@ -60,11 +86,11 @@ class SesionesController extends Controller
         $data = array(
             "nombre" => $req->txtNombre,
             "descripcion" => $req->txtDesc,
-            "idUser" => "1",
+            "idUser" => $req->idUser,
             "fechaSesion" => $req->txtfechainicio,
             "fechaCreada" => $date,
             "tipoSesion" => $req->slcSesion,
-            "estado" => "activo",
+            "estado" => "convocado",
             "linkSesion" => "https//webcomcel.com.co",
             "token" => "adc87hah12iue218as9jdja9d89",
             "fechaFinalizado" => $req->txtfechainicio

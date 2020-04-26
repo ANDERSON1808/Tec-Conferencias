@@ -1,5 +1,7 @@
 
     <!-- jQuery -->
+
+  <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="{{ asset('/gentelella-master/vendors/jquery/dist/jquery.min.js') }}"></script>
     <!-- Bootstrap -->
     <script src="{{ asset('/gentelella-master/vendors/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>

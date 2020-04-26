@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use DB;
+
 use Validator;
 
 use Illuminate\Http\Request;
 use App\conferencia;
 
-
+use DB;
 class conferenciaController extends Controller
 {
     public function conferencia(Request $request)
@@ -17,13 +17,13 @@ class conferenciaController extends Controller
         $consultaG = DB::table('conferencia')
         ->where('estado', '=', "1")
         ->get();
-       return view('/video/inicio', array('consultaG'=> $consultaG )); 
-    }  
-    
+       return view('/video/inicio', array('consultaG'=> $consultaG ));
+    }
+
     public function crear_conferencia(Request $request)
     {
         return view('/video/nueva');
-    } 
+    }
 
     public function invitar_usuarios(Request $request)
     {
@@ -38,7 +38,7 @@ class conferenciaController extends Controller
             'conferencia' => $conferencia,
             'users' => $users,
         ));
-    } 
+    }
 
 
 
@@ -77,17 +77,17 @@ class conferenciaController extends Controller
             $validasi = $this->validation($request);
           if ($validasi['status'] == 'success')
           {
-           
+
 
             $Rnombre              = $request->nombre;
-            $Rcontraseña          = $request->_token ; 
-            $date                 = $request->date ; 
-            $Rdescripcion         = $request->descripcion ; 
-            $user                 = $request->usuario ; 
+            $Rcontraseña          = $request->_token ;
+            $date                 = $request->date ;
+            $Rdescripcion         = $request->descripcion ;
+            $user                 = $request->usuario ;
 
 
             $SaveConferencia= array(
-                'nombre'             => $Rnombre  ,  
+                'nombre'             => $Rnombre  ,
                 'descripcion'        => $Rdescripcion,
                 'contraseña'         => $Rcontraseña,
                 'estado'             => 1,
@@ -96,7 +96,7 @@ class conferenciaController extends Controller
                 'accion'             => "1",
                 'creador'             => $user,
 
-            ); 
+            );
 
             conferencia::insert($SaveConferencia);
 
@@ -105,39 +105,37 @@ class conferenciaController extends Controller
             return $validasi;
           }
 
-        } catch (QueryException $ex) { 
-            return back()->with('error', 'Upss lo sentimos algo salio mal'); 
+        } catch (QueryException $ex) {
+            return back()->with('error', 'Upss lo sentimos algo salio mal');
          }
 
     }
 
     public function online(Request $request, $id)
     {
-
-
         if (empty($id))
         {
-            return back()->with('error', 'Upss error grave, comuniquese con el proveedor del programa.');   
+            return back()->with('error', 'Upss error grave, comuniquese con el proveedor del programa.');
         }else{
             $conferencia = DB::table('conferencia')
             ->where('id', '=', "$id")
             ->get();
-    
+
             $notificacion = DB::table('invitados_conferencia')
                 ->where('estado', '=', "1")
                 ->get();
-           
+
                 $iniciar =1;
                 DB::table('conferencia')
                             ->where('id',  $id)
                             ->update(['indica_inicio' => $iniciar]);
 
                 return view('/video/online', array(
-                'notificacion' => $notificacion, 
+                'notificacion' => $notificacion,
                 'conferencia' => $conferencia,
                 ));
         }
-      
+
     }
 
 
@@ -147,16 +145,16 @@ class conferenciaController extends Controller
             $conferencia = DB::table('conferencia')
             ->where('id', '=', "$id")
             ->get();
-    
+
             $notificacion = DB::table('invitados_conferencia')
                 ->where('estado', '=', "1")
                 ->get();
 
                 return view('/video/online', array(
-                'notificacion' => $notificacion, 
+                'notificacion' => $notificacion,
                 'conferencia' => $conferencia,
                 ));
-    
+
     }
 
 
@@ -164,7 +162,7 @@ class conferenciaController extends Controller
     {
         $conferencia = conferencia::find($request->id);
         return view('/video/edit', array(
-            'conferencia' => $conferencia  
+            'conferencia' => $conferencia
             ));
     }
 
@@ -200,40 +198,40 @@ class conferenciaController extends Controller
     {
 
           $conferencia = conferencia::find($id);
-          $conferencia->nombre    =  $request->nombre; 
+          $conferencia->nombre    =  $request->nombre;
 
 
-         $conferencia->contraseña          = $request->_token ; 
-         $conferencia->fecha_r             = $request->date ; 
-         $conferencia->descripcion        = $request->descripcion ; 
+         $conferencia->contraseña          = $request->_token ;
+         $conferencia->fecha_r             = $request->date ;
+         $conferencia->descripcion        = $request->descripcion ;
         $conferencia->save();
 
     }
 
     public function editar_conferencia(Request $request, $id)
     {
-        try{  
+        try{
 
             $validasi = $this->valida_lista($request);
             if ($validasi['status'] == 'success')
             {
               $this->update($request, $id);
-        
-              return back()->with('message', 'Actualizacion exitosa .');  
+
+              return back()->with('message', 'Actualizacion exitosa .');
             }else {
               return $validasi;
             }
-                } catch (QueryException $ex) { 
-                  return back()->with('error', 'Upss algo salio mal'); 
+                } catch (QueryException $ex) {
+                  return back()->with('error', 'Upss algo salio mal');
               }
-              
+
          }
 
          public function delete_lista(Request $request)
          {
              $conferencia = conferencia::find($request->id);
              return view('/video/borrar', array(
-                 'conferencia' => $conferencia  
+                 'conferencia' => $conferencia
                  ));
          }
 
@@ -243,43 +241,43 @@ class conferenciaController extends Controller
                $conferencia = conferencia::find($id);
                if(!$conferencia){
                  abort(404);
-                 return back()->with('error', 'Upss algo salio mal, abort 404'); 
+                 return back()->with('error', 'Upss algo salio mal, abort 404');
                }else{
                    return back()->with('message', 'Conferencia eliminada');
                  $conferencia->delete();
                }
 
-               
-              
+
+
             }
 
                 public function do_delete(Request $request)
                 {
                 $id = $request->id;
                 if(empty($id)){
-                    return back()->with('error', 'Upss algo salio mal'); 
+                    return back()->with('error', 'Upss algo salio mal');
                 }else{
                     conferencia::destroy($id);
                     return back()->with('message', 'Videoconferencia eliminada del TEC.');
                 }
-            
+
                 }
 
-                
+
         public function invitarInterno(Request $req)
                 {
 
                     $Rconferencia =      $req ->get('conferencia');
                     $Rusuario     =      $req ->get('usuario');
                     $estado = 1;
-                    $rol= 1; 
-       
+                    $rol= 1;
+
                       if (empty( $Rusuario)){
-                        return back()->with('error', 'Upss algo salio mal'); 
+                        return back()->with('error', 'Upss algo salio mal');
                       }else{
 
                         foreach( $Rusuario as $key => $val){
-                            
+
                             $data = array(
                                 "id_conferencia" => $Rconferencia,
                             "cod_usuario" =>  $val,
@@ -289,21 +287,21 @@ class conferenciaController extends Controller
                             DB::table("invitados_conferencia")->insert( $data);
 
                       }
-                      
+
                       return back()->with('message', 'Excelente, Fueron enviadas las invitaciones a la conferencia.');
-                        } 
-                        
+                        }
+
          }
          public function notificacion (Request $req)
          {
-     
+
             $notificacion = DB::table('invitados_conferencia')
             ->where('estado', '=', "1")
             ->get();
                  return view('/header', array(
-                   'notificacion' => $notificacion, 
+                   'notificacion' => $notificacion,
              ));
-     
+
          }
 
 
@@ -316,28 +314,28 @@ class conferenciaController extends Controller
              $conferencia = DB::table('conferencia')
              ->where([['id', '=', "$id"],['estado', '=', "1"]])
              ->get();
-     
+
              return view('/video/externos', array(
                  'conferencia' => $conferencia,
              ));
-         } 
+         }
 
 
          public function terminar(Request $request)
          {
-        
+
                  $estado = 2;
                  $id =      $request ->get('id');
-    
+
                  if (!isset($id))
                  {
-                    return back()->with('error', 'No cuenta con id'); 
+                    return back()->with('error', 'No cuenta con id');
 
                  } else {
                     DB::table('conferencia')
                     ->where('id',  $id)
                     ->update(['estado' =>   $estado]);
-                    
+
                     DB::table('invitados_conferencia')
                     ->where('id_conferencia',  $id)
                     ->update(['estado' =>   $estado]);
@@ -345,7 +343,7 @@ class conferenciaController extends Controller
                     $consultaG = DB::table('conferencia')
                     ->get();
                    return view('/video/inicio' ,array('consultaG'=> $consultaG ));
-                     
+
               }
             }
 
@@ -359,8 +357,8 @@ class conferenciaController extends Controller
 
                return view('/video/ingreso_invitado', array(
                    'consultaG'=> $consultaG,
-                )); 
-       }  
+                ));
+       }
 
 
    public function historico(Request $request)
@@ -373,7 +371,7 @@ class conferenciaController extends Controller
 
                return view('/video/historico', array(
                    'consultaG'=> $consultaG,
-                )); 
-       }  
+                ));
+       }
 
 }

@@ -63,6 +63,51 @@ Route::get('/historico', 'conferenciaController@historico')->name('historico');
 
 
 
+//SESIONES //
+
+
+
+
+
+
+
+
+
+
+Route::get('onlineSesion/{id}', 'sesionesController@online')->name('onlineSesion');
+Route::get('getSesiones','sesionesController@get');
+Route::post('getSesionesInvitados','sesionesController@getInvited');
+Route::get('viewSesion','sesionesController@view');
+Route::get('viewParticipacion','sesionesController@viewParticipacion');
+Route::get('editSesion','sesionesController@edit');
+Route::post('createSesion','sesionesController@create');
+Route::get('invitadosSesion','sesionesController@invitados');
+
+
+
+
+
+
+
+
+
+// FIN SESIONES //
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -160,7 +160,7 @@
 
 
             $.ajax({
-                url: "{{route('get_roles')}}",
+                url: "{{route('getRoles')}}",
                 method: 'GET',
                 success: function (data) {
                     // $("#slcRoles").append('<option>city1</option>');

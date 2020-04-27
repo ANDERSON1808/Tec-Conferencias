@@ -5,21 +5,17 @@
 
 ?>
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="en"> 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <!-- Meta, title, CSS, favicons, etc. -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1"> 
     <title>@yield('Tec videoconferencia','Tec | Videconferencias')</title>
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-
+    <meta name="csrf-token" content="{{ csrf_token() }}"> 
     <!-- Libreria -->
-    @include('libreria')
-
+    @include('libreria')  
 </head>
 
 <body class="nav-md">
@@ -124,8 +120,6 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody id="tbodySesion">
-                                                        @php
-                                                        @endphp
 
                                                     </tbody>
                                                 </table>
@@ -187,10 +181,7 @@
                                 <div class="modal-footer center">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                     <button type="submit" class="btn btn-primary">Crear</button>
-                                </div>
-                        </div>
-
-
+                                </div> 
                         </form>
 
 
@@ -215,17 +206,8 @@
             }
         });
         $(function () {
-            verSesiones();
-            //             $( "#dtFecha-date" ).datepicker({ minDate: 0, dateFormat: "yy-mm-dd"}).on("input change", function (e) {
-
-            // $( "#dtFecha" ).datepicker({ minDate:  e.target.value, dateFormat: "yy-mm-dd"});
-            // });
-            // $("#dtFecha").datepicker({ minDate: 0, dateFormat: "yy-mm-dd",
-            // onSelect: function(obj, event){
-            // var from_date = $("#dtFecha").datepicker("getDate");
-            // $("#end-date").datepicker("option","minDate",from_date);
-            // }
-            // });
+            verSesiones(); 
+            
             var fecha = new Date();
             var anio = fecha.getFullYear();
             var dia = fecha.getDate();
@@ -237,7 +219,7 @@
             } else {
                 var mes = _mes.toString;
             }
-            document.getElementById("dtFecha").min = anio + '-' + mes + '-' + dia;
+            document.getElementById("dtFecha").min = anio + '-' + mes + '-' + dia; 
             $("#frmSesion").submit(function (e) {
                 e.preventDefault();
                 data = $("#frmSesion").serialize();
@@ -262,20 +244,55 @@
                         setTimeout(function(){$('#myModal').modal('hide');}  ,3100);
                         verSesiones();
                     });
-            });
-            // $('#dtFecha').val(new Date().toDateInputValue());
-
-            // $.get("nivelesPermisos", function(data){
-            //     console.log(data);
-            //     $.each(data, function(key, res){
-
-            //     });
-            // });
-            // $("#nmbPermiso").keyup(function(){
-            //     alert(this.value);
-            // });
+                    });
+            
         });
-
+        function  updateSesion(){
+            $.post("{{ route('editSesionpost') }}",  ($("#frmSesionUpdate").serialize()))
+                    .done(function (data) {
+                        const Toast = Swal.mixin({
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            timerProgressBar: true,
+                            onOpen: (toast) => {
+                                toast.addEventListener('mouseenter', Swal.stopTimer)
+                                toast.addEventListener('mouseleave', Swal.resumeTimer)
+                            }
+                        }) 
+                        Toast.fire({
+                            icon: 'success',
+                            title: 'Sesion actualizada!'
+                        }) 
+                        verSesiones();
+                         $('#modalEditSesiones').modal('hide');
+                    });
+        }
+        function getEditSesion(id){
+            $.post("getEditSesion", {id:id})
+                    .done(function (response) {
+                        $('.modalKu').html(response);
+                         $('#modalEditSesiones').modal('show');
+                         $("#btnActualizarSesion").click(function(e){
+                             updateSesion();  
+               
+            });
+            var fecha = new Date();
+            var anio = fecha.getFullYear();
+            var dia = fecha.getDate();
+            var _mes = fecha.getMonth(); //viene con valores de 0 al 11
+            _mes = _mes + 1; //ahora lo tienes de 1 al 12
+            if (_mes < 10) //ahora le agregas un 0 para el formato date
+            {
+                var mes = "0" + _mes;
+            } else {
+                var mes = _mes.toString;
+            } 
+            document.getElementById("dtFechaAct").min = anio + '-' + mes + '-' + dia; 
+                    });
+        } 
+        
         function verSesiones() {
             $.get("getSesiones", function(data){
                     var table =  $("#tbodySesion");
@@ -285,11 +302,16 @@
                         if( reg.estado="convocado" ){
                             reg.fechaFinalizado = "N/A";
                         }
-                        // '+reg.id+'
+                        // Y DESPUES DE DOS HORAS:
+                        var url = '{{ route("onlineSesionIdControl", ":id") }}'; 
+                        url = url.replace(':id',reg.id);
+                        // -
+
                         tableData +=  '<tr><td>'+reg.nombre+'</td><td>'+ reg.descripcion+'</td>   '+
                         '<td>'+reg.name+'</td><td>'+ reg.fechaSesion+'</td><td>'+reg.fechaCreada+'</td> '+
-                        '<td>'+reg.fechaFinalizado+'</td><td>  '+
-                        '<a href="{{ route("onlineSesion","1" ) }}"  '+
+                        '<td>'+reg.fechaFinalizado+'</td><td>  '+ 
+                        // Tec-Conferencias/public/onlineSesion/2
+                        '<a href="'+url+'" target="_blank" '+
                             'class="btn btn-outline-success" title="Iniciar sesion" >'+
                             '<i class="fa fa-video-camera" aria-hidden="true">  Iniciar sesion</i></a>'+
                              '  </td>  '+
@@ -300,10 +322,10 @@
                         '       <i class="fa fa-pencil-square-o"'+
                         '           aria-hidden="true">Participantes</i>'+
                         '   </a>'+
-                        '   <a href="#" onClick="AlertDelete('+reg.id+')"'+
+                        '   <a href="#" onClick="getEditSesion('+reg.id+')"'+
                             '   class="btn btn-outline-success"'+
                             '   title="Iniciar conferencia">'+
-                            '   <i class="fa fa-trash"'+
+                            '   <i class="fa fa-pencil-square-o"'+
                             '       aria-hidden="true">Editar</i>'+
                             '</a>'+
                             '   <a href="#" onClick="AlertDelete('+reg.id+')"'+
@@ -317,60 +339,14 @@
                     table.html(tableData);
                     $('#tblSesion').DataTable();
             });
-        }
-        // carga masiva
-        // $('.modalSubirTrigger').click(function (event) {
-        //     event.preventDefault();
-        //     $.ajax({
-        //         url: "{{url('crear_conferencia')}}",
-        //         method: 'POST',
-        //         success: function (response) {
-        //             $('.modalKu').html(response);
-        //             $('#exampleModalCenter').modal('show');
-        //         }
-        //     });
-        // });
+        } 
         function crearSesion() {
             $('#myModal').modal('show');
-        }
-        //modal_edit.
-        function modalEdit(id, idRol, estado, email, name) {
-            // var idEst =2;
-            // if(estado="activo"){
-            //    idEst =1;
-            // }
-            $.ajax({
-                url: "{{route('user_ver')}}",
-                method: 'GET',
-                success: function (response) {
-                    // console.log(response);
-                    $('.modalKu').html(response);
-                    $('#myModal').modal('show');
-                    $("#idUser").val(id);
-                    $("#txtNombre").val(name);
-                    $("#txtCorreo").val(email);
-                    $("#slcRoles").val(idRol);
-                    $("#slcEst").val(estado);
-                    $("#btnSubmit").on('click', function (e) {
-                        data = $("#frmSesion").serialize();
-                        $.ajax({
-                            url: "updateUser",
-                            method: 'POST',
-                            data: data,
-                            success: function (data) {
-                                console.log(data);
-                            }
-                        });
-
-                        e.preventDefault();
-                    });
-                }
-            });
-        }
+        } 
         // MODAL DELETE
         function AlertDelete(id) {
             Swal.fire({
-                title: 'Eliminar usuario seleccionado',
+                title: 'Desea eliminar la sesion',
                 icon: 'question',
                 iconHtml: '؟',
                 confirmButtonText: 'Eliminar',
@@ -381,12 +357,12 @@
                 if (result.value) {
                     Swal.fire(
                         'Eliminado!',
-                        'El usuario a sido eliminado correctamente',
+                        'La sesion se elimino correctamente',
                         'success'
                     ).then((result) => {
 
                         $.ajax({
-                            url: "{{url('/delete_user')}}",
+                            url: "{{url('/deleteSesionpost')}}",
                             method: 'POST',
                             data: {
                                 'id': id
@@ -398,10 +374,7 @@
 
                     })
                 }
-            })
-            // }else{
-            //   alert('Delete Canceled!');
-            // }
+            }) 
         }
 
     </script>

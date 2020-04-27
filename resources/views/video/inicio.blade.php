@@ -3,6 +3,8 @@
       return redirect('/auth/login');
     }else{
       
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -141,7 +143,7 @@
                                 <td>{{$data->contraseña }} </td>
                                 <td>{{$data->fecha_r }} </td>
                                 @if($x==1 && $conferencia == $visitante )
-                                <td>
+                                <td> 
                                 <a href="{{ route('online',$data->id) }}"  class="btn btn-outline-success" title="Iniciar conferencia" ><i class="fa fa-video-camera" aria-hidden="true">  Iniciar conferencia</i></a>
                                 </td>
                                 @else 

@@ -24,19 +24,10 @@
                         <span>Settings</span>
                       </a>
                   <a class="dropdown-item"  href="javascript:;">Help</a>
-                    <a class="dropdown-item"  href="{{ url('/login') }}"><i class="fa fa-sign-out pull-right"></i> Cerrar seccion</a>
+
+                    <a class="dropdown-item"  href="{{ url('/logout') }}" ><i class="fa fa-sign-out pull-right"></i> Cerrar seccion</a>
                   </div>
-                </li>
-
-
-
-
-
-
-
-
-
-
+                </li> 
                 <li role="presentation" class="nav-item dropdown open">
                   <a href="javascript:;" class="dropdown-toggle info-number" id="navbarDropdown1" data-toggle="dropdown" aria-expanded="false">
                     <i class="fa fa-envelope-o"></i>

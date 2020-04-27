@@ -16,7 +16,13 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('auth/login');
 });
+Route::get('logout', function () {
+    //Desconctamos al usuario
+    Auth::logout();
 
+    //Redireccionamos al inicio de la app con un mensaje
+    return Redirect::to('/register')->with('msg', 'Gracias por visitarnos!.');
+}); 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
@@ -72,9 +78,12 @@ Route::get('/historico', 'conferenciaController@historico')->name('historico');
 
 
 
-
-
-Route::get('onlineSesion/{id}', 'sesionesController@online')->name('onlineSesion');
+Route::get('sesionesonline', function () {
+    return view('sesiones/online');
+});
+ 
+Route::get('onlineSesionIdControl/{id}', 'sesionesController@onlineSesionControl')->name("onlineSesionIdControl");
+Route::post('onlineSesionId', 'sesionesController@online');
 Route::get('getSesiones','sesionesController@get');
 Route::post('getSesionesInvitados','sesionesController@getInvited');
 Route::get('viewSesion','sesionesController@view');
@@ -85,10 +94,26 @@ Route::get('invitadosSesion','sesionesController@invitados');
 
 
 
+Route::post('listaAsistencia','sesionesController@getAsistencia');
+Route::post('guardarAsist','sesionesController@createAsistencia')->name("guardarAsist");
+Route::post('guardarTemaNuevo','sesionesController@createTema')->name("guardarTemaNuevo");
+Route::post('postTemas','sesionesController@getTemas')->name("getTemas");
+
+Route::post('editTema','sesionesController@editTema')->name("editTema");
+Route::post('deleteTema','sesionesController@deleteTema')->name("deleteTema");
+
+Route::post('getEditTema','sesionesController@getEditTema')->name("getEditTema");
+
+Route::post('getEditSesion','sesionesController@getEditSesion')->name("getEditSesion"); 
+Route::post('editSesionpost','sesionesController@editSesionPost')->name("editSesionpost");
+
+Route::post('deleteSesionpost','sesionesController@deleteSesionpost')->name("deleteSesionpost");
+//modao votacion//*
+Route::post('/modal_asistencia', 'sesionesController@modal_asistencia')->name('modal_asistencia');
 
 
 
-
+Route::post('getUsersConferens', 'sesionesController@UserInConferencia')->name("getUsersConferens");
 
 
 // FIN SESIONES //
@@ -136,7 +161,7 @@ Route::post('createUser', 'userController@create');
 
 
 Route::get('/viewRoles', 'rolController@view');
-Route::get('getRoles', 'rolController@get');
+Route::get('getRoles', 'rolController@get')->name("getRoles");
 
 
 //FIN --------------------------------------------------------

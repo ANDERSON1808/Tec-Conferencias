@@ -73,7 +73,8 @@
   <!-- FullCalendar -->
   <script src="{{ asset('/gentelella-master/vendors/moment/min/moment.min.js') }}"></script>
     <script src="{{ asset('/gentelella-master/vendors/fullcalendar/dist/fullcalendar.min.js') }}"></script>
-
+    
+    <script src="{{ asset('/gentelella-master/vendors/starrr/dist/starrr.js') }}"></script>
 
     <script type="text/javascript">
         $(function () {

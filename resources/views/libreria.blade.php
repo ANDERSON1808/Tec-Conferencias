@@ -1,5 +1,7 @@
 
 <link rel="shortcut icon" class="rounded-circle" alt="Cinque Terre" href="{{ asset('logo/logo_neiva.jpg') }}">
+  <!-- iCheck -->
+  <link href="{{ asset('/gentelella-master/vendors/iCheck/skins/flat/green.css') }}" rel="stylesheet">
 
     <link href="{{ asset('/gentelella-master/vendors/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
     <!-- Bootstrap -->
@@ -8,9 +10,7 @@
     <link href="{{ asset('/gentelella-master/vendors/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
     <!-- NProgress -->
     <link href="{{ asset('/gentelella-master/vendors/nprogress/nprogress.css') }}" rel="stylesheet">
-    <!-- iCheck -->
-    <link href="{{ asset('/gentelella-master/vendors/iCheck/skins/flat/green.css') }}" rel="stylesheet">
-
+  
     <!-- bootstrap-progressbar -->
     <link href="{{ asset('/gentelella-master/vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css') }}" rel="stylesheet">
     <!-- JQVMap -->
@@ -39,3 +39,4 @@
     <link href="{{ asset('/gentelella-master/vendors/fullcalendar/dist/fullcalendar.min.css') }}" rel="stylesheet">
     <link href="{{ asset('/gentelella-master/vendors/fullcalendar/dist/fullcalendar.print.css') }}" rel="stylesheet" media="print">
 
+    <link href="{{ asset('/gentelella-master/vendors/starrr/dist/starrr.css') }}" rel="stylesheet">

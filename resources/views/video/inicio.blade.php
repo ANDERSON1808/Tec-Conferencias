@@ -209,7 +209,7 @@ $.ajaxSetup({
                 $('#exampleModalCenter').modal('show');
             }
         });
-  });
+  }); 
 //**Modal para invitar a conferencia */
     // carga masiva
     $('.modalInvitar').click(function(event){

@@ -70,6 +70,7 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'estado' => "1" ,
+            'ftoUser' => "default.js" ,
             'password' => Hash::make($data['password']),
         ]);
     }

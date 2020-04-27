@@ -5,17 +5,18 @@
 
 ?>
 <!DOCTYPE html>
-<html lang="en"> 
+<html lang="en">
+
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <!-- Meta, title, CSS, favicons, etc. -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('Tec videoconferencia','Tec | Videconferencias')</title>
-    <meta name="csrf-token" content="{{ csrf_token() }}"> 
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Libreria -->
-    @include('libreria')  
+    @include('libreria')
 </head>
 
 <body class="nav-md">
@@ -84,6 +85,12 @@
                         <div class="col-md-12 col-sm-12  ">
                             <div class="x_panel">
                                 <div class="x_title">
+                                    <a href="#" class="modalInvitar" data-toggle="modal"
+                                        data-target="#exampleModal"><button type="button"
+                                            class="btn btn-round btn-success"><i class="fa fa-users"
+                                                aria-hidden="true"></i> Agendar Usuarios</button></a>
+
+
                                     <ul class="nav navbar-right panel_toolbox">
                                         <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                                         </li>
@@ -181,21 +188,21 @@
                                 <div class="modal-footer center">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                     <button type="submit" class="btn btn-primary">Crear</button>
-                                </div> 
-                        </form>
+                                </div>
+                            </form>
 
 
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        {{--   -------------------------------------- FIN MODAL --------------------------------------         --}}
-        <!-- /page content -->
+            {{--   -------------------------------------- FIN MODAL --------------------------------------         --}}
+            <!-- /page content -->
 
-        @include('footer')
-        <div class="modalKu"></div>
-        @include('script')
-    </div>
+            @include('footer')
+            <div class="modalKu"></div>
+            @include('script')
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
@@ -206,8 +213,18 @@
             }
         });
         $(function () {
-            verSesiones(); 
-            
+
+            $('.modalInvitar').click(function (event) {
+                $.ajax({
+                    url: "{{ url('inviteUserSesion') }}",
+                    method: 'GET',
+                    success: function (response) {
+                        $('.modalKu').html(response);
+                        $('#exampleModalCenter').modal('show');
+                    }
+                });
+            });
+            verSesiones();
             var fecha = new Date();
             var anio = fecha.getFullYear();
             var dia = fecha.getDate();
@@ -219,130 +236,240 @@
             } else {
                 var mes = _mes.toString;
             }
-            document.getElementById("dtFecha").min = anio + '-' + mes + '-' + dia; 
-            $("#frmSesion").submit(function (e) {
-                e.preventDefault();
-                data = $("#frmSesion").serialize();
-                $.post("createSesion", data)
-                    .done(function (data) {
-                        const Toast = Swal.mixin({
-                            toast: true,
-                            position: 'top-end',
-                            showConfirmButton: false,
-                            timer: 3000,
-                            timerProgressBar: true,
-                            onOpen: (toast) => {
-                                toast.addEventListener('mouseenter', Swal.stopTimer)
-                                toast.addEventListener('mouseleave', Swal.resumeTimer)
-                            }
-                        })
+            document.getElementById("dtFecha").min = anio + '-' + mes + '-' + dia;
+            $("#frmSesion")
+                .submit(function (e) {
+                    e.preventDefault();
+                    data = $("#frmSesion").serialize();
+                    $.post("createSesion", data)
+                        .done(function (data) {
+                            const Toast = Swal.mixin({
+                                toast: true,
+                                position: 'top-end',
+                                showConfirmButton: false,
+                                timer: 3000,
+                                timerProgressBar: true,
+                                onOpen: (toast) => {
+                                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                                    toast.addEventListener('mouseleave', Swal
+                                        .resumeTimer)
+                                }
+                            })
 
-                        Toast.fire({
-                            icon: 'success',
-                            title: 'Nueva sesion creada!'
-                        })
-                        setTimeout(function(){$('#myModal').modal('hide');}  ,3100);
-                        verSesiones();
-                    });
-                    });
-            
+                            Toast.fire({
+                                icon: 'success',
+                                title: 'Nueva sesion creada!'
+                            })
+                            setTimeout(function () {
+                                $('#myModal').modal('hide');
+                            }, 3100);
+                            verSesiones();
+                        });
+                });
         });
-        function  updateSesion(){
-            $.post("{{ route('editSesionpost') }}",  ($("#frmSesionUpdate").serialize()))
-                    .done(function (data) {
-                        const Toast = Swal.mixin({
-                            toast: true,
-                            position: 'top-end',
-                            showConfirmButton: false,
-                            timer: 3000,
-                            timerProgressBar: true,
-                            onOpen: (toast) => {
-                                toast.addEventListener('mouseenter', Swal.stopTimer)
-                                toast.addEventListener('mouseleave', Swal.resumeTimer)
-                            }
-                        }) 
-                        Toast.fire({
-                            icon: 'success',
-                            title: 'Sesion actualizada!'
-                        }) 
-                        verSesiones();
-                         $('#modalEditSesiones').modal('hide');
-                    });
-        }
-        function getEditSesion(id){
-            $.post("getEditSesion", {id:id})
-                    .done(function (response) {
-                        $('.modalKu').html(response);
-                         $('#modalEditSesiones').modal('show');
-                         $("#btnActualizarSesion").click(function(e){
-                             updateSesion();  
-               
-            });
-            var fecha = new Date();
-            var anio = fecha.getFullYear();
-            var dia = fecha.getDate();
-            var _mes = fecha.getMonth(); //viene con valores de 0 al 11
-            _mes = _mes + 1; //ahora lo tienes de 1 al 12
-            if (_mes < 10) //ahora le agregas un 0 para el formato date
-            {
-                var mes = "0" + _mes;
-            } else {
-                var mes = _mes.toString;
-            } 
-            document.getElementById("dtFechaAct").min = anio + '-' + mes + '-' + dia; 
-                    });
-        } 
-        
-        function verSesiones() {
-            $.get("getSesiones", function(data){
-                    var table =  $("#tbodySesion");
-                    table.innerHTML = "";
-                    var tableData  ;
-                    $.each(data,function(key, reg) {
-                        if( reg.estado="convocado" ){
-                            reg.fechaFinalizado = "N/A";
-                        }
-                        // Y DESPUES DE DOS HORAS:
-                        var url = '{{ route("onlineSesionIdControl", ":id") }}'; 
-                        url = url.replace(':id',reg.id);
-                        // -
+        //                     function Agrega() {
 
-                        tableData +=  '<tr><td>'+reg.nombre+'</td><td>'+ reg.descripcion+'</td>   '+
-                        '<td>'+reg.name+'</td><td>'+ reg.fechaSesion+'</td><td>'+reg.fechaCreada+'</td> '+
-                        '<td>'+reg.fechaFinalizado+'</td><td>  '+ 
-                        // Tec-Conferencias/public/onlineSesion/2
-                        '<a href="'+url+'" target="_blank" '+
-                            'class="btn btn-outline-success" title="Iniciar sesion" >'+
-                            '<i class="fa fa-video-camera" aria-hidden="true">  Iniciar sesion</i></a>'+
-                             '  </td>  '+
-                        '   <td><a href="#" '+
-                        '       onClick="modalEdit('+reg.idUser+ ' )"'+
-                        '       class="btn btn-outline-success"'+
-                        '       title="Iniciar conferencia">'+
-                        '       <i class="fa fa-pencil-square-o"'+
-                        '           aria-hidden="true">Participantes</i>'+
-                        '   </a>'+
-                        '   <a href="#" onClick="getEditSesion('+reg.id+')"'+
-                            '   class="btn btn-outline-success"'+
-                            '   title="Iniciar conferencia">'+
-                            '   <i class="fa fa-pencil-square-o"'+
-                            '       aria-hidden="true">Editar</i>'+
-                            '</a>'+
-                            '   <a href="#" onClick="AlertDelete('+reg.id+')"'+
-                            '   class="btn btn-outline-success"'+
-                            '   title="Iniciar conferencia">'+
-                            '   <i class="fa fa-trash"'+
-                            '       aria-hidden="true">Eliminar</i>'+
-                            '</a>'+
-                        '</button></td></tr> ';
-                     });
-                    table.html(tableData);
-                    $('#tblSesion').DataTable();
+        // //creamos un objeto tr que anexaremos a nuestra tabla llamada tableProductos
+        // var TR = document.createElement("tr");
+
+        // //creamos 4 elementos td en donde iran los datos y uno cuarto donde ira un boton para eliminar
+        // var TD1 = document.createElement("td")
+        // var TD3 = document.createElement("td");
+
+        // //asignamos los valores a nuestros td por medio del atributo innerHTML, el cual tiene el contenido HTML de un Nodo
+        // TD1.innerHTML =
+        //     "<select class='select2_multiple form-control'  name='usuario[]' id='cars' requered ><option value='14'>ASDASDSA</option></select>";
+
+
+        // //A continuación asignamos contenido html a nuestro cuarto td
+        // //esta es una forma de crear elementos tambien, dando el codigo html a un Nodo
+        // TD3.innerHTML =
+        //     " <a onclick='Elimina(this)' class='btn btn-link' title='Eliminar' ><i class='fa fa-trash' aria-hidden='true'></i></a> "
+
+        // //Ahora proseguimos a agregar los hijos TD al Padre TR
+        // //Esta es otra manera de crear elementos HTML, por medio de el metodo appendChild
+        // TR.appendChild(TD1);
+        // TR.appendChild(TD3);
+
+        // //Por ultimo asignamos nuestro TR a la tabla con id tablaProductos
+        // document.getElementById("tablaProductos").appendChild(TR)
+
+
+        // }
+        function Elimina(NodoBoton) {
+
+            var TR = NodoBoton.parentNode.parentNode;
+            document.getElementById("tablaProductos").removeChild(TR);
+        }
+
+        function subirSelect(id) {
+                var table = $("#tablaProductos");
+                table.innerHTML = "";
+            $.post("getInvitadoSesion", {
+                idSesion: id
+            }).done(function (data) {
+
+
+
+                var users = data["users"];
+                var invitadosSesion = data["invitadosSesion"];
+                var option="";
+                var TR = document.createElement("tr");
+                var TD1 = document.createElement("td")
+                var TD3 = document.createElement("td");
+                TD3.innerHTML =
+                    " <a onclick='Elimina(this)' class='btn btn-link' title='Eliminar' ><i class='fa fa-trash' aria-hidden='true'></i></a> "
+                $.each(users, function (key, reg) {
+                    option += "<option value=" + reg.id + ">" + reg.name + "</option> ";
+                });
+                var contador = 0;
+               $.each(invitadosSesion, function (key, reg) {
+                    contador++;
+                   console.log(contador);
+                    // option += "<option value=" + reg.id + ">" + reg.name + "</option> ";
+                    if(contador=="1"){
+                        document.getElementById("headingOne1").click();
+                        $("#cars"+reg.idUser).val(reg.idUser);
+                        TD1.innerHTML =
+                    "<select class='select2_multiple form-control'  name='usuario[]' id='cars"+reg.idUser+"' requered >" +
+                    option + "</select>";
+                        TR.appendChild(TD1);
+                        TR.appendChild(TD3);
+                        document.getElementById("tablaProductos").appendChild(TR);
+                    }else{
+                        $("#cars"+contador).val(reg.idUser);
+                        document.getElementById("btnAgregar").click();
+                    }
+                });
+                var contadorcero =0;
+                $.each(invitadosSesion, function (key, reg) {
+                    contadorcero++;
+                    if(contadorcero==contador){
+                        console.log(contador);
+                        console.log(contadorcero);
+                        console.log(idUser);
+                        $("#cars"+reg.idUser).val(reg.idUser);
+                    } else{
+                        $("#cars"+contadorcero).val(reg.idUser);
+                    }
+
+                });
             });
-        } 
+        }
+
+        function updateSesion() {
+            $.post("{{ route('editSesionpost') }}", ($("#frmSesionUpdate").serialize()))
+                .done(function (data) {
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        onOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    })
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Sesion actualizada!'
+                    })
+                    verSesiones();
+                    $('#modalEditSesiones').modal('hide');
+                });
+        }
+
+        function getEditSesion(id) {
+            $.post("getEditSesion", {
+                    id: id
+                })
+                .done(function (response) {
+                    $('.modalKu').html(response);
+                    $('#modalEditSesiones').modal('show');
+                    $("#btnActualizarSesion").click(function (e) {
+                        updateSesion();
+
+                    });
+                    var fecha = new Date();
+                    var anio = fecha.getFullYear();
+                    var dia = fecha.getDate();
+                    var _mes = fecha.getMonth(); //viene con valores de 0 al 11
+                    _mes = _mes + 1; //ahora lo tienes de 1 al 12
+                    if (_mes < 10) //ahora le agregas un 0 para el formato date
+                    {
+                        var mes = "0" + _mes;
+                    } else {
+                        var mes = _mes.toString;
+                    }
+                    document.getElementById("dtFechaAct").min = anio + '-' + mes + '-' + dia;
+                });
+        }
+
+        function avisoSesion() {
+            new PNotify({
+                title: "Aviso Importante",
+                text: " Lo sentimos la reunion ya fue desarrollada. ",
+                styling: "bootstrap3"
+            });
+        }
+
+        function verSesiones() {
+            $.get("getSesiones", function (data) {
+                var table = $("#tbodySesion");
+                table.innerHTML = "";
+                var tableData;
+                $.each(data, function (key, reg) {
+                    //CODIGO PARA REDIRECCIONAR EN URL HREF:
+                    var url = '{{ route("onlineSesionIdControl", ":id") }}';
+                    url = url.replace(':id', reg.id);
+                    var disable =
+                        '<a href="' + url + '" target="_blank" ' +
+                        'class="btn btn-outline-success" title="Iniciar sesion" >' +
+                        '<i class="fa fa-video-camera"   aria-hidden="true">  Iniciar sesion</i></a>';
+                    if (reg.estado == "convocado") {
+                        reg.fechaFinalizado = "N/A";
+                    } else {
+                        disable =
+                            '<a onclick="avisoSesion()"   class="btn btn-outline-success" title="Iniciar conferencia" disabled >' +
+                            '  <i class="fa fa-video-camera" disabled aria-hidden="true">  Iniciar conferencia</i></a>';
+
+                    }
+                    tableData += '<tr><td>' + reg.nombre + '</td><td>' + reg.descripcion +
+                        '</td>   ' +
+                        '<td>' + reg.name + '</td><td>' + reg.fechaSesion + '</td><td>' + reg
+                        .fechaCreada + '</td> ' +
+                        '<td>' + reg.fechaFinalizado + '</td><td>  ' + disable +
+                        '  </td>  ' +
+                        '   <td><a href="#" ' +
+                        '       onClick="modalEdit(' + reg.idUser + ' )"' +
+                        '       class="btn btn-outline-success"' +
+                        '       title="Iniciar conferencia">' +
+                        '       <i class="fa fa-users"' +
+                        '           aria-hidden="true">Participantes</i>' +
+                        '   </a>' +
+                        '   <a href="#" onClick="getEditSesion(' + reg.id + ')"' +
+                        '   class="btn btn-outline-success"' +
+                        '   title="Iniciar conferencia">' +
+                        '   <i class="fa fa-pencil-square-o"' +
+                        '       aria-hidden="true">Editar</i>' +
+                        '</a>' +
+                        '   <a href="#" onClick="AlertDelete(' + reg.id + ')"' +
+                        '   class="btn btn-outline-success"' +
+                        '   title="Iniciar conferencia">' +
+                        '   <i class="fa fa-trash"' +
+                        '       aria-hidden="true">Eliminar</i>' +
+                        '</a>' +
+                        '</button></td></tr> ';
+                });
+                table.html(tableData);
+                $('#tblSesion').DataTable();
+            });
+        }
+
         function crearSesion() {
             $('#myModal').modal('show');
-        } 
+        }
         // MODAL DELETE
         function AlertDelete(id) {
             Swal.fire({
@@ -374,7 +501,7 @@
 
                     })
                 }
-            }) 
+            })
         }
 
     </script>

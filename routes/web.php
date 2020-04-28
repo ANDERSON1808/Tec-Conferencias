@@ -74,6 +74,10 @@ Route::get('/historico', 'conferenciaController@historico')->name('historico');
 
 
 
+Route::get('getNuevoTema', function () {
+    return view('sesiones/createTema');
+});
+
 Route::post('getInvitadoSesion','sesionesController@getInvitadoSesion')->name('getInvitadoSesion');
 Route::post('/sesiones/invitarInternoSesion', 'sesionesController@invitarInterno')->name('invitarInternoSesion');
 Route::post('/terminarSesion', 'sesionesController@terminarSesion')->name('terminarSesion');

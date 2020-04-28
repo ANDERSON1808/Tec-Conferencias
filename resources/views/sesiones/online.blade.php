@@ -337,31 +337,23 @@
 
                         </div>
                         <div class="tab-pane fade" id="contact1" role="tabpanel" aria-labelledby="contact-tab">
-                            <form id="formNuevoTema">
-                                <div class="form-group">
-                                    <label for="exampleFormControlInput1">Titulo Tema</label>
-                                    <input type="text" class="form-control" name="txtTitulo" id="txtTitulo" required>
-                                </div>
-                                <input type="hidden" id="sesion" name="sesion" value="{{ $client->id}}">
-                                <div class="form-group">
-                                    <label class="control-label col-md-3 col-sm-3 ">Descripcion</label>
-                                    <div class="col-md-9 col-sm-9 ">
-                                        <textarea class="resizable_textarea form-control" id="txtDescripcion"
-                                            name="txtDescripcion"
-                                            placeholder="Escribir descripcion del tema"></textarea>
 
-                                    </div>
+                        <div class="title_right">
+                            <div class="col-md-5 col-sm-5   form-group pull-right top_search">
+                                  <div class="input-group">
+                                     <a href="#" onClick="nuevoTema()"
+                                       class="btn btn-outline-success"
+                                      title="Iniciar conferencia">
+                                      <i class="fa fa-pencil-square-o"
+                                          aria-hidden="true">Editar</i>
+                                     </a>
+                                    {{-- <a href="#" onclick="nuevoTema()" class="modalSubirTrigger" ><button class="btn btn-info"><i class="fa fa-plus"
+                                                aria-hidden="true"> Nuevo Tema</i></button></a>
+                                    <input type="hidden" name="_token" value="{{ csrf_token() }}"> --}}
                                 </div>
-                                <div class="form-group">
-                                    <div class="custom-file">
-                                        <input type="file" accept="pdf" class="custom-file-input" id="myfile"
-                                            name="myfile" required>
-                                        <label class="custom-file-label" for="validatedCustomFile">Buscar
-                                            archivo...</label>
-                                        <div class="invalid-feedback">Example invalid custom file feedback</div>
-                                    </div>
-                                </div>
-                            </form>
+                            </div>
+                        </div>
+
 
                             <a id="btnGuardarTemaNuevo" title="Nuevo tema">
                                 <button type="button" class="btn btn-round btn-success">
@@ -374,6 +366,7 @@
                                     <tr>
                                         <th>Tema</th>
                                         <th>Detalle</th>
+                                        <th>PDF</th>
                                         <th>Votar</th>
                                         <th>Acciones</th>
                                     </tr>
@@ -439,6 +432,9 @@
             }
         });
         $(document).ready(function () {
+            $("#myfile").change(function(){
+                $("#txtImage").html(this.value);
+            });
             $("#btnSolicitarPalabra").click(function () {
                 $("#modalTemas").modal("show");
             });
@@ -535,7 +531,13 @@
             getTemas();
 
         });
+        function nuevoTema(){
+            $.get("{{url('getNuevoTema')}}" function(response){
 
+                    $('.modalKu').html(response);
+                    $('#createTema').modal('show');
+            });
+        }
         function getUsuarios(id) {
             $.post("{{route('getUsersConferens')}}", {
                     id: "{{ $client->id}}"
@@ -618,6 +620,7 @@
             $.post("{{route('getTemas')}}", {
                     sesion: "{{ $client->id}}"
                 })
+
                 .done(function (data) {
                     if (!data) {
 
@@ -633,7 +636,17 @@
                         if (reg.estado == "convocado") {
                             reg.fechaFinalizado = "N/A";
                         }
-                        tableData += '<tr><td>' + reg.tema + '</td><td>' + reg.detalle +
+
+                        var link =  '{{asset("documentos_temas/:linkPdf")}}';
+                        link = link.replace(':linkPdf', reg.linkPdf);
+
+                        tableData += '<tr><td>' + reg.tema + '</td><td>' + reg.detalle +'</td><td>' +
+                            '   <a download="'+reg.linkPdf+'" href="'+link +'" ' +
+                            '       onClick="getUsuarios(' + reg.id + ')"' +
+                            '       class="btn btn-outline-success"' +
+                            '       title="Editar">' +
+                            '       <i class="fa fa-file-pdf-o"' +
+                            '           aria-hidden="true">-PDF</i>' +
                             '</td>  <td> ' +
                             '   <a href="#tblUsuarios" ' +
                             '       onClick="getUsuarios(' + reg.id + ')"' +

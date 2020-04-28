@@ -45,7 +45,7 @@
                                 <div class="input-group">
                                     <a href="#" onclick="crearSesion()" class="modalSubirTrigger" data-toggle="modal"
                                         data-target="#exampleModalL"><button class="btn btn-info"><i class="fa fa-plus"
-                                                aria-hidden="true"> {{Auth::user()->idRol}}</i></button></a>
+                                                aria-hidden="true"> </i> Crear Sesion.</button></a>
                                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                 </div>
                             </div>
@@ -123,8 +123,8 @@
                                                             <th>Fecha</th>
                                                             <th>Convocatoría</th>
                                                             <th>Finalizado</th>
-                                                            <th>Estado</th>
-                                                            <th>Acciones</th>
+                                                            <th>Accion</th>
+                                                            <th>Administracion</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody id="tbodySesion">
@@ -150,7 +150,7 @@
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLongTitle">Crear Sesion</h5>
+                            <h5 class="modal-title" id="exampleModalLongTitle">CREAR SESION.</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -160,35 +160,35 @@
                             <form id="frmSesion">
                                 <input type="hidden" name="idUser" id="idUser" value="{{ Auth::user()->id  }}">
                                 <div class="form-group">
-                                    <label for="txtNombre">Tipo Sesión</label>
+                                    <label for="txtNombre">TIPO SESION</label>
                                     <select class="form-control" id="slcSesion" name="slcSesion">
-                                        <option value="" disabled selected>Seleccione una sesion</option>
-                                        <option value="general">general</option>
-                                        <option value="comisiones">comision</option>
+                                        <option value="" disabled selected>--SELECIONE UN TIPO DE SESION--</option>
+                                        <option value="general">GENERAL</option>
+                                        <option value="comisiones">COMISION</option>
                                     </select>
 
                                 </div>
                                 <div class="form-group">
-                                    <label for="txtNombre">Nombre</label>
+                                    <label for="txtNombre">NOMBRE</label>
 
                                     <input type="text" class="form-control" name="txtNombre" id="txtNombre" value=" "
                                         required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="txtDesc">Descripcion</label>
+                                    <label for="txtDesc">DESCRIPCION</label>
                                     <input type="text" class="form-control" name="txtDesc" id="txtDesc" value=" "
                                         required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="txtDesc">Fecha</label>
+                                    <label for="txtDesc">FECHA</label>
                                     <input type="date" class="form-control" id="dtFecha" min="2019-09-01"
                                         name="txtfechainicio">
 
 
                                 </div>
                                 <div class="modal-footer center">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-primary">Crear</button>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                    <button type="submit" class="btn btn-primary">Salvar</button>
                                 </div>
                             </form>
 
@@ -218,7 +218,7 @@
             $('.modalInvitar').click(function (event) {
                 $.ajax({
                     url: "{{ url('inviteUserSesion') }}",
-                    method: 'GET',
+                    method: 'POST',
                     success: function (response) {
                         $('.modalKu').html(response);
                         $('#exampleModalCenter').modal('show');
@@ -268,35 +268,9 @@
                         });
                 });
         });
-        //                     function Agrega() {
+   
 
-        // //creamos un objeto tr que anexaremos a nuestra tabla llamada tableProductos
-        // var TR = document.createElement("tr");
-
-        // //creamos 4 elementos td en donde iran los datos y uno cuarto donde ira un boton para eliminar
-        // var TD1 = document.createElement("td")
-        // var TD3 = document.createElement("td");
-
-        // //asignamos los valores a nuestros td por medio del atributo innerHTML, el cual tiene el contenido HTML de un Nodo
-        // TD1.innerHTML =
-        //     "<select class='select2_multiple form-control'  name='usuario[]' id='cars' requered ><option value='14'>ASDASDSA</option></select>";
-
-
-        // //A continuación asignamos contenido html a nuestro cuarto td
-        // //esta es una forma de crear elementos tambien, dando el codigo html a un Nodo
-        // TD3.innerHTML =
-        //     " <a onclick='Elimina(this)' class='btn btn-link' title='Eliminar' ><i class='fa fa-trash' aria-hidden='true'></i></a> "
-
-        // //Ahora proseguimos a agregar los hijos TD al Padre TR
-        // //Esta es otra manera de crear elementos HTML, por medio de el metodo appendChild
-        // TR.appendChild(TD1);
-        // TR.appendChild(TD3);
-
-        // //Por ultimo asignamos nuestro TR a la tabla con id tablaProductos
-        // document.getElementById("tablaProductos").appendChild(TR)
-
-
-        // }
+   
         function Elimina(NodoBoton) {
 
             var TR = NodoBoton.parentNode.parentNode;
@@ -426,13 +400,13 @@
                     url = url.replace(':id', reg.id);
                     var disable =
                         '<a href="' + url + '" target="_blank" ' +
-                        'class="btn btn-outline-success" title="Iniciar sesion" >' +
-                        '<i class="fa fa-video-camera"   aria-hidden="true">  Iniciar sesion</i></a>';
+                        'class="btn btn-outline-info" title="Iniciar sesion" >' +
+                        '<i class="fa fa-video-camera"   aria-hidden="true"> </i></a>';
                     if (reg.estado == "convocado") {
                         reg.fechaFinalizado = "N/A";
                     } else {
                         disable =
-                            '<a onclick="avisoSesion()"   class="btn btn-outline-success" title="Iniciar conferencia" disabled >' +
+                            '<a onclick="avisoSesion()"   class="btn btn-outline-info" title="Iniciar conferencia" disabled >' +
                             '  <i class="fa fa-video-camera" disabled aria-hidden="true">  Iniciar conferencia</i></a>';
 
                     }
@@ -442,24 +416,18 @@
                         .fechaCreada + '</td> ' +
                         '<td>' + reg.fechaFinalizado + '</td><td>  ' + disable +
                         '  </td>  ' +
-                        '   <td><a href="#" ' +
-                        '       onClick="modalEdit(' + reg.idUser + ' )"' +
-                        '       class="btn btn-outline-success"' +
-                        '       title="Iniciar conferencia">' +
-                        '       <i class="fa fa-users"' +
-                        '           aria-hidden="true">Participantes</i>' +
-                        '   </a>' +
+                        '   <td>' +
                         '   <a href="#" onClick="getEditSesion(' + reg.id + ')"' +
-                        '   class="btn btn-outline-success"' +
+                        '   class="btn btn-outline-info"' +
                         '   title="Iniciar conferencia">' +
                         '   <i class="fa fa-pencil-square-o"' +
-                        '       aria-hidden="true">Editar</i>' +
+                        '       aria-hidden="true"></i>' +
                         '</a>' +
                         '   <a href="#" onClick="AlertDelete(' + reg.id + ')"' +
-                        '   class="btn btn-outline-success"' +
+                        '   class="btn btn-outline-info"' +
                         '   title="Iniciar conferencia">' +
                         '   <i class="fa fa-trash"' +
-                        '       aria-hidden="true">Eliminar</i>' +
+                        '       aria-hidden="true"></i>' +
                         '</a>' +
                         '</button></td></tr> ';
                 });

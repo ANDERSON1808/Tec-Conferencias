@@ -21,7 +21,7 @@ Route::get('logout', function () {
     Auth::logout();
 
     //Redireccionamos al inicio de la app con un mensaje
-    return Redirect::to('/register')->with('msg', 'Gracias por visitarnos!.');
+    return Redirect::to('/login')->with('msg', 'Gracias por visitarnos!.');
 });
 Auth::routes();
 

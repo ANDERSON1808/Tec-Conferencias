@@ -455,6 +455,8 @@
                         var idTema = $("#slcTema").val();
                         getsolicitudesParaHablar(idTema);
                     });
+
+
             });
             // .change(function(){
 

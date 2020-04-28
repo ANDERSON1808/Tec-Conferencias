@@ -45,7 +45,7 @@
                                 <div class="input-group">
                                     <a href="#" onclick="crearSesion()" class="modalSubirTrigger" data-toggle="modal"
                                         data-target="#exampleModalL"><button class="btn btn-info"><i class="fa fa-plus"
-                                                aria-hidden="true"> {{Auth::user()->idRol}}</i></button></a>
+                                                aria-hidden="true"> Nueva sesion</i></button></a>
                                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                 </div>
                             </div>

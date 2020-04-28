@@ -246,16 +246,16 @@ public function getTemas(Request $req){
 }
     public function createTema(Request $req){
   $destinationPath = public_path(    '/documentos_temas/' . $req->txtTitulo  );
-                                $archivoNombre = $req->txtTitulo."_" . date('Y-m-d') . ".pdf";
-                                $archivo = $req->file('myfile');
-                                $archivo->move($destinationPath, $archivoNombre);
-                                $destgeneralimgequipo =  $req->txtTitulo."/".$archivoNombre;
-                                $data = array(
-                                    "tema" =>  $req->txtTitulo,
-                                    "detalle" =>$req->txtDescripcion,
-                                    "idSesion" =>  $req->sesion,
-                                    "linkPdf" =>$destgeneralimgequipo
-                                );
+    $archivoNombre = $req->txtTitulo."_" . date('Y-m-d') . ".pdf";
+    $archivo = $req->file('myfile');
+    $archivo->move($destinationPath, $archivoNombre);
+    $destgeneralimgequipo =  $req->txtTitulo."/".$archivoNombre;
+    $data = array(
+        "tema" =>  $req->txtTitulo,
+        "detalle" =>$req->txtDescripcion,
+        "idSesion" =>  $req->sesion,
+        "linkPdf" =>$destgeneralimgequipo
+    );
         DB::table('temas')->insert($data);
         return "sas";
     }

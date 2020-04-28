@@ -90,7 +90,15 @@ class SesionesController extends Controller
      */
     public function view()
     {
-        return view("sesiones/admin");
+
+
+        $rolUser = DB::table('users')
+        ->join("roles", "roles.id","users.idRol")
+        ->where('users.id', '=', Auth::user()->id)
+        ->select("roles.nombre")
+        ->get();
+
+        return view("sesiones/admin",array("idRol"=> $rolUser)) ;
     }
     public function viewParticipacion()
     {
@@ -130,12 +138,13 @@ class SesionesController extends Controller
                         ->where('roles.nombre', '=', "concejal")
                         ->select("users.*")
                         ->get();
-
+                        // $idUser = Auth::user()->id;
                         // return redirect()->route('sesionesonline',  array(
                         //     'notificacion' => $notificacion,
                         //     'conferencia' => $sesiones,
                         //     'users' => $users,
                         //     ));
+
             return view('/sesiones/online', array(
             'notificacion' => $notificacion,
             'conferencia' => $sesiones,
@@ -236,12 +245,17 @@ public function getTemas(Request $req){
    return DB::table('temas')->where(  "idSesion",$req->sesion)->get();
 }
     public function createTema(Request $req){
-        $data = array(
-            "tema" =>  $req->tt,
-            "detalle" =>$req->txtDescripcion,
-            "idSesion" =>  $req->sesion,
-            "linkPdf" =>"asdasd"
-        );
+  $destinationPath = public_path(    '/documentos_temas/' . $req->txtTitulo  );
+                                $archivoNombre = $req->txtTitulo."_" . date('Y-m-d') . ".pdf";
+                                $archivo = $req->file('myfile');
+                                $archivo->move($destinationPath, $archivoNombre);
+                                $destgeneralimgequipo =  $req->txtTitulo."/".$archivoNombre;
+                                $data = array(
+                                    "tema" =>  $req->txtTitulo,
+                                    "detalle" =>$req->txtDescripcion,
+                                    "idSesion" =>  $req->sesion,
+                                    "linkPdf" =>$destgeneralimgequipo
+                                );
         DB::table('temas')->insert($data);
         return "sas";
     }
@@ -266,18 +280,36 @@ public function getTemas(Request $req){
     public function getSolicitudesPalabra(Request $req){
         return DB::table('solicitudpalabra')
                ->join("users","users.id","solicitudpalabra.idUser")
-        ->where("idTema",$req->idTema)
-        ->select("users.id","users.name","solicitudpalabra.*")
+               ->join("roles", "roles.id","users.idRol")
+               ->where([
+                ['solicitudpalabra.idTema',$req->idTema],
+                ['solicitudpalabra.estado',"denegado"]
+            ])->select("users.id","users.name","roles.nombre","solicitudpalabra.*")
         ->get();
     }
     public function postSolicitudPalabra(Request $req){
         $idUser = Auth::user()->id;
-        $data = array(
-            "idUser"=>$idUser,
-            "idTema"=>$req->idTema,
-            "estado"=>"denegado",
-            "tipo"=>$req->estado,
-        );
+        $ultimopuesto = DB::table('solicitudpalabra')
+        ->where([
+         ["idTema",$req->idTema],
+         ['estado',"denegado"],
+     ])
+     ->orderByDesc('puesto')
+     ->limit(1)
+     ->select("solicitudpalabra.puesto")
+ ->get();
+ $val=1;
+ foreach(  $ultimopuesto as  $val ){
+
+    $val =$val;
+}
+$data = array(
+    "idUser"=>$idUser,
+    "idTema"=>$req->idTema,
+    "estado"=>"denegado",
+    "tipo"=>$req->estado,
+    "puesto"=>($val+1),
+);
         return DB::table('solicitudpalabra')->insert(  $data  );
     }
     public function UserInConferencia(Request $req){

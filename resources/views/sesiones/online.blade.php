@@ -77,19 +77,21 @@
 
             @php
             $verificar = $client->idUser;
+            $idRol = Auth::user()->idRol;
             $usuario_encasa = Auth::user()->id;
             @endphp
 
 
-            @if ($verificar==$usuario_encasa )
+            @if ( $usuario_encasa )
             <div class="right_col" role="main">
                 <div class="">
                     <div class="page-title">
                         <div class="title_right">
                             <div class="col-md-5 col-sm-5   form-group pull-right top_search">
                                 <div class="input-group">
-
-                                    <form action="{{route('terminarSesion')}}" method="post" enctype="multipart/form-data">
+                                    @if (($idRol=="1" )|| ($idRol=="3" ) || ($idRol=="2" ) )
+                                    <form action="{{route('terminarSesion')}}" method="post"
+                                        enctype="multipart/form-data">
                                         <input type="hidden" class="form-control" value="{{$client->idUser}}" name="id"
                                             id="id">
 
@@ -100,10 +102,11 @@
                                         </button>
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                     </form>
+                                    @endif
                                 </div>
                             </div>
                             <div class="col-md-5 col-sm-5   form-group pull-right top_search">
-                                <div class="input-group">  </div>
+                                <div class="input-group"> </div>
                             </div>
                         </div>
                     </div>
@@ -141,10 +144,13 @@
                             <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home1" role="tab"
                                 aria-controls="home" aria-selected="true">SESION</a>
                         </li>
+                        {{-- || ($idRol=="2" ) --}}
+                        @if (($idRol=="1" )|| ($idRol=="3" ) )
                         <li class="nav-item">
                             <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile1" role="tab"
                                 aria-controls="profile" aria-selected="false">LISTA DE ASISTENCIA</a>
                         </li>
+                        @endif
                         <li class="nav-item">
                             <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact1" role="tab"
                                 aria-controls="contact" aria-selected="false">TEMAS Y VOTACIONES</a>
@@ -152,17 +158,18 @@
                     </ul>
                     <div class="tab-content" id="myTabContent">
                         <div class="tab-pane fade show active" id="home1" role="tabpanel" aria-labelledby="home-tab">
-                            <div class="">
+                            <div class="solicitudportema ">
                                 <div class="page-title">
-                                    <div id="getTemas" class="invisible">
+                                    <div id="getTemas" class="">
                                         <label for="slcTema"> Seleccionar un tema</label>
-                                        <select class="form-control"  id="slcTema" name="slcTema">'+
-                                                <option value="" disabled selected>Seleccionar un Tema</option>
+                                        <select class="form-control" id="slcTema" name="slcTema">
+                                            <option value="" disabled selected>Seleccionar un Tema</option>
                                         </select>
-                                        </div>
-                                 <div id="solicitudesParaHablar"  class="invisible">
+                                    </div>
+                                    <div id="solicitudes" class="solicitudes">
 
-                                        <table id="tblSolicitudPalabra" class="table table-striped table-bordered" style="width:100%">
+                                        <table id="tblSolicitudPalabra" class="table table-striped table-bordered"
+                                            style="width:100%">
                                             <thead>
                                                 <tr>
                                                     <th>#</th>
@@ -179,8 +186,8 @@
                                             </tbody>
                                         </table>
                                     </div>
-                                    <div id="solicitar"  class="invisible">
-                                        <button  id="btnSolicitarPalabra" class="btn btn-round btn-danger">
+                                    <div id="solicitar" class="solicitar ">
+                                        <button id="btnSolicitarPalabra" class="btn btn-round btn-danger">
                                             <span style="vertical-align: inherit;">
                                                 <span style="vertical-align: inherit;">Solicitar la palabra</span>
                                             </span>
@@ -236,11 +243,48 @@
                                             <div class="clearfix"></div>
                                         </div>
                                         <div class="x_content">
+                                            <!-- Condiciones que validadn que tipo de pantalla se le muestra al cliente dependiente del rol asignado en la base de datos.-->
+                                            @if ($idRol=="1")
                                             <div
                                                 style="border: 2px solid # D5CC5A; overflow: hidden; margin: 1px auto; height:100; max-width: 930px; ">
                                                 <div id="meet">
                                                 </div>
                                             </div>
+
+                                            @elseif ($idRol=="3")
+                                            <div
+                                                style="border: 2px solid # D5CC5A; overflow: hidden; margin: 1px auto; height:100; max-width: 930px; ">
+                                                <div id="meet">
+                                                </div>
+                                            </div>
+                                            @elseif($idRol=="2" )
+                                            <div
+                                                style="border: 2px solid # D5CC5A; overflow: hidden; margin: 1px auto; height:100; max-width: 930px; ">
+                                                <div id="meet">
+                                                </div>
+                                            </div>
+                                            <!--Rol de l usuario administrador-->
+                                            @elseif($idRol=="4")
+                                            <div id="meet">
+                                            </div>
+
+                                            @else
+                                            <!--Mensaje de alerta para usuarios no autorizados en la sesesion-->
+                                            <script>
+                                                window.onload = function () {
+                                                    new PNotify({
+                                                        title: 'Error.',
+                                                        text: 'Lo setimos usted no esta invitado.'
+                                                        type: 'error',
+                                                        hide: false,
+                                                        styling: 'bootstrap3'
+                                                    });
+                                                };
+
+                                            </script>
+
+                                            @endif
+                                            <!--Fin de las conciciones de rol de patalla-->
                                         </div>
                                     </div>
                                 </div>
@@ -295,18 +339,28 @@
 
                         </div>
                         <div class="tab-pane fade" id="contact1" role="tabpanel" aria-labelledby="contact-tab">
-                            <form>
+                            <form id="formNuevoTema">
                                 <div class="form-group">
                                     <label for="exampleFormControlInput1">Titulo Tema</label>
                                     <input type="text" class="form-control" name="txtTitulo" id="txtTitulo" required>
                                 </div>
-
+                                <input type="hidden" id="sesion" name="sesion" value="{{ $client->id}}">
                                 <div class="form-group">
                                     <label class="control-label col-md-3 col-sm-3 ">Descripcion</label>
                                     <div class="col-md-9 col-sm-9 ">
                                         <textarea class="resizable_textarea form-control" id="txtDescripcion"
                                             name="txtDescripcion"
                                             placeholder="Escribir descripcion del tema"></textarea>
+
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="custom-file">
+                                        <input type="file" accept="pdf" class="custom-file-input" id="myfile"
+                                            name="myfile" required>
+                                        <label class="custom-file-label" for="validatedCustomFile">Buscar
+                                            archivo...</label>
+                                        <div class="invalid-feedback">Example invalid custom file feedback</div>
                                     </div>
                                 </div>
                             </form>
@@ -326,14 +380,15 @@
                                         <th>Acciones</th>
                                     </tr>
                                 </thead>
-                                <tbody id="tbodyTemas">
+                                <tbody id="tbodyTema">
 
 
                                 </tbody>
                             </table>
-                            <br><br>   <div  class="row" id="tblUsuarios">
+                            <br><br>
+                            <div class="row" id="tblUsuarios">
 
-                                  </div>
+                            </div>
                         </div>
 
 
@@ -343,41 +398,41 @@
                     @endforeach
                 </div>
             </div>
-            <div class="modal fade" id="modalTemas" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-            aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLongTitle">Editar Usuario</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <select id="slcEst" name="slcEst"  class="form-control " required>
-                            <option value="" disabled selected>Tipo de solicitud</option>
-                            <option value="replica">Replica</option>
-                            <option value="general">General</option>
-                        </select>
-                                    <a id="btnActualizarTema" title="Nuevo tema">
-                                            <button  type="button" class="btn btn-round btn-success">
-                                                <span style="horizontal-align: inherit;">
-                                                    <span style="horizontal-align: inherit;">Pedir la palabra
-                                                        </span></span></button></a>
+            <div class="modal fade" id="modalTemas" tabindex="-1" role="dialog"
+                aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">Solicitar la palabra</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <select id="slcEst" name="slcEst" class="form-control " required>
+                                <option value="" disabled selected>Tipo de solicitud</option>
+                                <option value="replica">Replica</option>
+                                <option value="general">General</option>
+                            </select>
+                            <a id="btnActualizarTema" title="Nuevo tema">
+                                <button type="button" class="btn btn-round btn-success">
+                                    <span style="horizontal-align: inherit;">
+                                        <span style="horizontal-align: inherit;">Pedir la palabra
+                                        </span></span></button></a>
 
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-        </div>
 
             @include('footer')
             <div class="modalKu"></div>
-            @include('script')
         </div>
     </div>
 
+    @include('script')
     <!-- iCheck -->
-    <script src="../vendors/iCheck/icheck.min.js"></script>
+    {{-- <script src="../vendors/iCheck/icheck.min.js"></script> --}}
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <script type="text/javascript">
         $.ajaxSetup({
@@ -386,46 +441,60 @@
             }
         });
         $(document).ready(function () {
-            $("#btnSolicitarPalabra").click(function(){
+            $("#btnSolicitarPalabra").click(function () {
                 $("#modalTemas").modal("show");
             });
-            $("#btnActualizarTema").click(function(){
-                  $("#modalTemas").modal("hide");
-               $.post("{{route('postSolicitudPalabra')}}" , {estado: $("#slcEst").val(), idTema: $("#slcTema").val()})
-                .done(function(data){
-                  var idTema =  $("#slcTema").val();
-                    getsolicitudesParaHablar(idTema);
-                });
+            $("#btnActualizarTema").click(function () {
+                $("#modalTemas").modal("hide");
+                var idTema = $("#slcTema").val();
+                $.post("{{route('postSolicitudPalabra')}}", {
+                        estado: $("#slcEst").val(),
+                        idTema:
+                    })
+                    .done(function (data) {
+                        var idTema = $("#slcTema").val();
+                        getsolicitudesParaHablar(idTema);
+                    });
             });
+            // .change(function(){
 
+            // });
             $('#tblSesion').DataTable();
             $("#btnGuardarTemaNuevo").click(function (e) {
                 var tt = $("#txtTitulo").val();
                 var txtDescr = $("#txtDescripcion").val();
-                $.post("{{route('guardarTemaNuevo')}}", {
-                        tt: tt,
-                        sesion: "{{ $client->id}}",
-                        txtDescripcion: txtDescr
-                    })
-                    .done(function (data) {
-                        const Toast = Swal.mixin({
-                            toast: true,
-                            position: 'top-end',
-                            showConfirmButton: false,
-                            timer: 3000,
-                            timerProgressBar: true,
-                            onOpen: (toast) => {
-                                toast.addEventListener('mouseenter', Swal.stopTimer)
-                                toast.addEventListener('mouseleave', Swal.resumeTimer)
-                            }
-                        })
+                var formData = new FormData(document.getElementById("formNuevoTema"));
+                console.log(formData);
 
-                        Toast.fire({
-                            icon: 'success',
-                            title: 'Tema creado'
-                        })
-                        getTemas();
-                    });
+                // $.post("{{route('guardarTemaNuevo')}}",(formData))
+                console.log($("#formNuevoTema").serialize());
+                $.ajax({
+                    url: "{{route('guardarTemaNuevo')}}",
+                    type: "POST",
+                    dataType: "html",
+                    data: formData,
+                    cache: false,
+                    contentType: false,
+                    processData: false
+                }).done(function (data) {
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        onOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    })
+
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Tema creado'
+                    })
+                    getTemas();
+                });
             });
             $("#btnGuardarAsistencia").click(function () {
                 const usuariosPresentes = [];
@@ -466,169 +535,229 @@
             getTemas();
 
         });
-        function getUsuarios(id){
-             $.post("{{route('getUsersConferens')}}", {
+
+        function getUsuarios(id) {
+            $.post("{{route('getUsersConferens')}}", {
                     id: "{{ $client->id}}"
                 })
                 .done(function (data) {
-                    document.getElementById("tblUsuarios").innerHTML="";
-                    var div =    $("#tblUsuarios");
-                    div.innerHTML="";
+                    document.getElementById("tblUsuarios").innerHTML = "";
+                    var div = $("#tblUsuarios");
+                    div.innerHTML = "";
                     $.each(data, function (key, reg) {
-                        var votodeusuario="SIN VOTAR";
-                        var disabled="";
-                        if(reg.idVot){
-                             votodeusuario = reg.nombre.toUpperCase()  ;
-                             disabled="disabled";
+                        var votodeusuario = "SIN VOTAR";
+                        var disabled = "";
+                        if (reg.idVot) {
+                            votodeusuario = reg.nombre.toUpperCase();
+                            disabled = "disabled";
                         }
-                    $("#tblUsuarios").append(
-
-                     ' <div class="col-md-55">'+
-                       ' <div class="x_content">'+
-                        '  <div class="image view view-first">'+
-                            '<img style="display: inline;  height: inherit;border-radius: 20%;  " src="{{ asset("gentelella-master/production/images/img.jpg")}}" alt="image">'+
-                           ' <div class="mask no-caption">'+
-                             ' <div class="tools tools-bottom">'+
-                               ' <a href="#"><i class="fa fa-pencil"></i></a>'+
-                             ' </div>'+
-                           ' </div>'+
-                          '</div>'+
-                          '<div class="caption">'+
-                           ' <p><strong>'+reg.name+'</strong>'+
-                           ' </p>'+
-                           '     <select class="form-control" '+disabled+' id="slcVoto'+reg.id+'" name="slcVoto">'+
-                           '            <option value="" disabled selected>Tipo de voto</option>'+
-                           '           <option value="1">Positivo</option>'+
-                           '           <option value="2">Negativo</option>'+
-                           '           <option value="3">Impedido</option>'+
-                           '       </select>'+
-                           ' <p><strong id="txtVoto'+reg.id+'">VOTO:'+votodeusuario+'</strong>'+
-                           ' </p>'+
-                         ' </div>'+
-                       ' </div>'+
-                     ' </div> '+
-                     '</div>' );
-                     if(reg.idVot){
-
-                        $("#slcVoto"+reg.id).val(reg.idVot);
-                     }
-                     $("#slcVoto"+reg.id).change(function(){
-                        $.post("{{route('guardarVoto')}}", {idUser: reg.id,   idTema: id, idVoto: this.value})
-                        .done(function(data){
-                            console.log(data);
-                            const Toast = Swal.mixin({
-                            toast: true,
-                            position: 'top-end',
-                            showConfirmButton: false,
-                            timer: 3000,
-                            timerProgressBar: true,
-                            onOpen: (toast) => {
-                                toast.addEventListener('mouseenter', Swal.stopTimer)
-                                toast.addEventListener('mouseleave', Swal.resumeTimer)
-                            }
-                            })
-                            Toast.fire({
-                                icon: 'success',
-                                title: 'Voto guardado'
-                            });
-                            getUsuarios(id);
+                        $("#tblUsuarios").append(' <div class="col-md-55">' +
+                            ' <div class="x_content">' +
+                            '  <div class="image view view-first">' +
+                            '<img style="display: inline;  height: inherit;border-radius: 20%;  " src="{{ asset("gentelella-master/production/images/img.jpg")}}" alt="image">' +
+                            ' <div class="mask no-caption">' +
+                            ' <div class="tools tools-bottom">' +
+                            ' <a href="#"><i class="fa fa-pencil"></i></a>' +
+                            ' </div>' +
+                            ' </div>' +
+                            '</div>' +
+                            '<div class="caption">' +
+                            ' <p><strong>' + reg.name + '</strong>' +
+                            ' </p>' +
+                            '     <select class="form-control" ' + disabled + ' id="slcVoto' + reg.id +
+                            '" name="slcVoto">' +
+                            '            <option value="" disabled selected>Tipo de voto</option>' +
+                            '           <option value="1">Positivo</option>' +
+                            '           <option value="2">Negativo</option>' +
+                            '           <option value="3">Impedido</option>' +
+                            '       </select>' +
+                            ' <p><strong id="txtVoto' + reg.id + '">VOTO:' + votodeusuario +
+                            '</strong>' +
+                            ' </p>' +
+                            ' </div>' +
+                            ' </div>' +
+                            ' </div> ' +
+                            '</div>');
+                        $("#slcVoto" + reg.id).change(function () {
+                            $.post("{{route('guardarVoto')}}", {
+                                    idUser: reg.id,
+                                    idTema: id,
+                                    idVoto: this.value
+                                })
+                                .done(function (data) {
+                                    console.log(data);
+                                    const Toast = Swal.mixin({
+                                        toast: true,
+                                        position: 'top-end',
+                                        showConfirmButton: false,
+                                        timer: 3000,
+                                        timerProgressBar: true,
+                                        onOpen: (toast) => {
+                                            toast.addEventListener('mouseenter',
+                                                Swal.stopTimer)
+                                            toast.addEventListener('mouseleave',
+                                                Swal.resumeTimer)
+                                        }
+                                    })
+                                    Toast.fire({
+                                        icon: 'success',
+                                        title: 'Voto guardado'
+                                    });
+                                    getUsuarios(id);
+                                });
                         });
-                     });
-                });
+                    });
                 });
 
         }
+
         function getTemas() {
+            var table = $("#tbodyTema");
+            table.innerHTML = "";
+            var tableData = "";
             $.post("{{route('getTemas')}}", {
                     sesion: "{{ $client->id}}"
                 })
                 .done(function (data) {
-                    console.log(data);
-                    if(data){
-                        $("#getTemas").removeClass("invisible");
+                    if (!data) {
+
+                        var elemento = document.getElementById("getTemas");
+                        elemento.className += " invisible";
+                        // $(".getTemas").removeClass("invisible");
+                        // $(".solicitudportema").removeClass("invisible");
+                        // $(".getTemas").removeAttr("invisible");
+                        // $(".solicitudportema").removeAttr("invisible");
                     }
-                    var table = $("#tbodyTemas");
-                    table.innerHTML = "";
-                    var tableData;
                     $.each(data, function (key, reg) {
-                         $("#slcTema").append("<option value='"+reg.id+"'>"+reg.tema+"</option>");
-                        if (reg.estado = "convocado") {
+                        $("#slcTema").append("<option value='" + reg.id + "'>" + reg.tema + "</option>");
+                        if (reg.estado == "convocado") {
                             reg.fechaFinalizado = "N/A";
                         }
-                        // '+reg.id+'
                         tableData += '<tr><td>' + reg.tema + '</td><td>' + reg.detalle +
                             '</td>  <td> ' +
-                        '   <a href="#tblUsuarios" '+
-                        '       onClick="getUsuarios('+reg.id+')"'+
-                        '       class="btn btn-outline-success"'+
-                        '       title="Editar">'+
-                        '       <i class="fa fa-pencil-square-o"'+
-                        '           aria-hidden="true">INICIAR VOTACION</i>'+
-                        '</td>  <td> ' +
-                        '   <a href="#" '+
-                        '       onClick=" modaEditTema('+reg.id+')"'+
-                        '       class="btn btn-outline-success"'+
-                        '       title="Editar">'+
-                        '       <i class="fa fa-pencil-square-o"'+
-                        '           aria-hidden="true">Editar</i>'+
-                        '   </a>'+
-                        '   <a href="#" onClick="modaDeleteTema('+reg.id+')"'+
-                            '   class="btn btn-outline-success"'+
-                            '   title="Eliminar">'+
-                            '   <i class="fa fa-trash"'+
-                            '       aria-hidden="true">Eliminar</i>'+
-                            '</a>'+
+                            '   <a href="#tblUsuarios" ' +
+                            '       onClick="getUsuarios(' + reg.id + ')"' +
+                            '       class="btn btn-outline-success"' +
+                            '       title="Editar">' +
+                            '       <i class="fa fa-pencil-square-o"' +
+                            '           aria-hidden="true">INICIAR VOTACION</i>' +
+                            '</td>  <td> ' +
+                            '   <a href="#" ' +
+                            '       onClick=" modaEditTema(' + reg.id + ')"' +
+                            '       class="btn btn-outline-success"' +
+                            '       title="Editar">' +
+                            '       <i class="fa fa-pencil-square-o"' +
+                            '           aria-hidden="true">Editar</i>' +
+                            '   </a>' +
+                            '   <a href="#" onClick="modaDeleteTema(' + reg.id + ')"' +
+                            '   class="btn btn-outline-success"' +
+                            '   title="Eliminar">' +
+                            '   <i class="fa fa-trash"' +
+                            '       aria-hidden="true">Eliminar</i>' +
+                            '</a>' +
                             ' </td></tr> ';
                     });
-                    $("#slcTema").change(function(){
-                        $("#solicitar").removeClass("invisible");
-                        $("#solicitudesParaHablar").removeClass("invisible");
+
+                    table.html(tableData);
+                    $('#tblTemas').DataTable();
+                    $("#slcTema").change(function () {
+                        //       var table = $("#tbodySolic");
+                        // table.innerHTML = "";
                         getsolicitudesParaHablar(this.value);
                     });
                 });
         }
-        function  getsolicitudesParaHablar(idTema){
-            $.post("{{route('getSolicitudesPalabra')}}" ,{idTema: idTema})
-                        .done(function(data){
-                            if(!data){
-                                alert("s");
-            $("#solicitudesParaHablar").addClass("invisible");
-            $("#solicitudesParaHablar").attr("invisible");
-                            }
+
+        function avisoSesion() {
+            new PNotify({
+                title: "Aviso Importante",
+                text: " Lo sentimos la reunion ya fue desarrollada. ",
+                styling: "bootstrap3"
+            });
+        }
+
+        function eliminarSolicitud() {
+
+        }
+
+        function getsolicitudesParaHablar(idTema) {
+            $.post("{{route('getSolicitudesPalabra')}}", {
+                    idTema: idTema
+                })
+                .done(function (data) {
+                    if (Array.isArray(data) && data.length) {
+                        $("#solicitudes").removeClass("invisible");
+                        // $("#btnSolicitarPalabra").attr("disabled", true);
+                    } else {
+
+                        var elemento = document.getElementById("solicitudes");
+                        elemento.className += " invisible";
+                    }
+                    // $(".solicitudesParaHablar").addClass("invisible");
+                    // $(".solicitudesParaHablar").attr("invisible");
+                    //                 }else{
+
+                    //             $(".solicitudesParaHablar").removeClass("invisible");
+                    //             $(".solicitudesParaHablar").removeAttr("invisible");
+                    //                 }
 
                     var table = $("#tbodySolic");
                     table.innerHTML = "";
-                    var tableData;
-                            console.log(data);
-                            var idUserEnCasa = 0;
 
-                            $.each(data, function (key, reg) {
-                                if(reg.idUser=="{{Auth::user()->id}}"){
-                                    $("#btnSolicitarPalabra").attr("disabled", true);
-                                    idUserEnCasa = 1;
-                                }
-                                tableData += '<tr><td>' + reg.id + '</td><td>' + reg.name +
-                                    '</td> <td>' + reg.tipo + '</td><td>'+ reg.estado + '</td><td>' + reg.fecha +
-                                '  <td> <a href="#" onClick="aprobarSolicitud('+reg.id+','+this.value+')"'+
-                                    '   class="btn btn-outline-success"'+
-                                    '   title="Eliminar">'+
-                                    '   <i class="glyphicon glyphicon-ok"'+
-                                    '       aria-hidden="true">Aprobar solicitud</i>'+
-                                    '</a>'+
-                                    ' </td></tr> ';
-                            });
-                            if(idUserEnCasa ==0){
-                                $("#btnSolicitarPalabra").attr("disabled", false);
+                    document.getElementById("tbodySolic").innerHTML = "";
+                    // document.getElementById("tblSolicitudPalabra").innerHTML="";
+                    var tableData;
+                    console.log(data);
+                    if (data) {
+                        var idUserEnCasa = 0;
+                        $.each(data, function (key, reg) {
+                            if (reg.idUser == "{{Auth::user()->id}}") {
+                                $("#btnSolicitarPalabra").attr("disabled", true);
+                                idUserEnCasa = 1;
                             }
-                    table.html(tableData);
-                    $('#tblSolicitudPalabra').DataTable();
+                            var invisibleButton = ' <a href="#" onClick="eliminarSolicitud(' + reg.id +
+                                ',' + this.value + ')"' +
+                                '   class="btn btn-outline-success"' +
+                                '   title="Eliminar">' +
+                                '   <i class="fa fa-trash"' +
+                                '       aria-hidden="true">Eliminar solicitud</i>' +
+                                '</a>';
+                            // ($idRol == 2)||
+                            var idRol = "{{Auth::user()->idRol}}";
+                            if ((idRol == "1") || (idRol == "3")) {
+                                invisibleButton =
+                                    ' <a href="#" onClick="aprobarSolicitud(' + reg.id + ',' + this.value +
+                                    ')"' +
+                                    '   class="btn btn-outline-success"' +
+                                    '   title="Eliminar">' +
+                                    '   <i class="glyphicon glyphicon-ok"' +
+                                    '       aria-hidden="true">Aprobar solicitud</i>' +
+                                    '</a>';
+                            }
+                            tableData += '<tr><td>' + reg.puesto + '</td><td>' + reg.name +
+                                '</td> <td>' + reg.tipo + '</td><td>' + reg.estado + '</td><td>' + reg
+                                .fecha +
+                                '  <td> ' + invisibleButton +
+                                ' </td></tr> ';
                         });
+                        table.html(tableData);
+                        $('#tblSolicitudPalabra').DataTable();
+                    }
+                    if (idUserEnCasa == 0) {
+
+                        $("#btnSolicitarPalabra").attr("disabled", false);
+                    }
+                });
         }
-        function aprobarSolicitud(id, idTema){
-            $.post("{{route('aprobarSolicitud')}}", {idUser: id, idTema: idTema})
-            .done(function(data){
-                getsolicitudesParaHablar(idTema);
-                const Toast = Swal.mixin({
+
+        function aprobarSolicitud(id, idTema) {
+            $.post("{{route('aprobarSolicitud')}}", {
+                    idUser: id,
+                    idTema: idTema
+                })
+                .done(function (data) {
+                    getsolicitudesParaHablar(idTema);
+                    const Toast = Swal.mixin({
                         toast: true,
                         position: 'top-end',
                         showConfirmButton: false,
@@ -643,8 +772,9 @@
                         icon: 'success',
                         title: 'Solicitud Aprobada'
                     });
-                    });
+                });
         }
+
         function modaEditTema(id) {
             $.post("{{route('getEditTema')}}", {
                     id: id

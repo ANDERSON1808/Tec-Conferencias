@@ -1,6 +1,7 @@
 <?php
-    if (Auth::guest()) {
-      return redirect('/auth/login');
+// )|| (Auth::user()->idRol!=2)
+    if (Auth::guest() ) {
+      return url('/auth/login');
     }else{
 
 ?>
@@ -44,7 +45,7 @@
                                 <div class="input-group">
                                     <a href="#" onclick="crearSesion()" class="modalSubirTrigger" data-toggle="modal"
                                         data-target="#exampleModalL"><button class="btn btn-info"><i class="fa fa-plus"
-                                                aria-hidden="true"> Nueva Sesion</i></button></a>
+                                                aria-hidden="true"> {{Auth::user()->idRol}}</i></button></a>
                                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                 </div>
                             </div>

@@ -150,7 +150,6 @@ Route::post('aprobarSolicitud', 'sesionesController@aprobarSolicitud')->name("ap
 
 //INICIO usuarios --------------------------------------------
 
-
 Route::get('user.view', 'userController@users')->name('user.view');
 Route::get('getUsers', 'userController@get');
 

@@ -15,7 +15,7 @@
                         <label for="exampleFormControlInput1">Titulo Tema</label>
                         <input type="text" class="form-control" name="txtTitulo" id="txtTitulo" required>
                     </div>
-                    <input type="hidden" id="sesion" name="sesion" value="{{ $client->id}}">
+                    <input type="hidden" id="sesion" name="sesion" value="">
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 ">Descripcion</label>
                         <div class="col-md-9 col-sm-9 ">

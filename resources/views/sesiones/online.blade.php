@@ -532,7 +532,7 @@
 
         });
         function nuevoTema(){
-            $.get("{{url('getNuevoTema')}}" function(response){
+            $.get("{{url('getNuevoTema')}}", function (response){
 
                     $('.modalKu').html(response);
                     $('#createTema').modal('show');

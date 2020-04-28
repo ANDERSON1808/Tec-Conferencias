@@ -81,10 +81,10 @@ class userController extends Controller
 
           $this->validator($data->all())->validate();
         User::create([
-            'idRol' =>$data['slcRoles'],
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'estado' =>  $data['slcEst'],
+            'idRol'  =>    $data['slcRoles'],
+            'name'   =>     $data['name'],
+            'email'  =>    $data['email'],
+            'estado' =>   $data['slcEst'],
             'password' => Hash::make($data['password']),
         ]);
     }

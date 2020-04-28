@@ -3,7 +3,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Editar Usuario</h5>
+                <h5 class="modal-title" id="exampleModalLongTitle">Nuevo tema</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -15,7 +15,7 @@
                         <label for="exampleFormControlInput1">Titulo Tema</label>
                         <input type="text" class="form-control" name="txtTitulo" id="txtTitulo" required>
                     </div>
-                    <input type="hidden" id="sesion" name="sesion" value="{{ $client->id}}">
+                    <input type="hidden" id="sesion" name="sesion" value="">
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 ">Descripcion</label>
                         <div class="col-md-9 col-sm-9 ">

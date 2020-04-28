@@ -67,7 +67,7 @@
 
                     var api = new JitsiMeetExternalAPI(domain, options);
                     api . executeCommand ( 'subject' ,  '{{ $client->nombre}}' ) ;
- 
+
                 });
 
             </script>
@@ -254,7 +254,7 @@
                      @elseif ($idRol=="3")
                                     <div id="meet">
                                          </div>
-                                         
+
                                @elseif($idRol=="2" )
                                              <div
                                                 style="border: 2px solid # D5CC5A; overflow: hidden; margin: 1px auto; height:100; max-width: 930px; ">
@@ -339,11 +339,13 @@
                         <div class="title_right">
                             <div class="col-md-5 col-sm-5   form-group pull-right top_search">
                                   <div class="input-group">
-                                     <a href="#" onClick="nuevoTema()"
+                                    {{-- id="btnNuevoTema"  --}}
+                                     <a href="#" onclick="modalNuevoTema()"
                                        class="btn btn-outline-success"
-                                      title="Iniciar conferencia">
-                                      <i class="fa fa-pencil-square-o"
-                                          aria-hidden="true">Editar</i>
+                                       title="Nuevo tema">
+                                      <i class="fa fa-plus"
+                                          aria-hidden="true">Nuevo
+                                          Tema</i>
                                      </a>
                                     {{-- <a href="#" onclick="nuevoTema()" class="modalSubirTrigger" ><button class="btn btn-info"><i class="fa fa-plus"
                                                 aria-hidden="true"> Nuevo Tema</i></button></a>
@@ -351,11 +353,11 @@
                                 </div>
                             </div>
                         </div>
-                            <a id="btnGuardarTemaNuevo" title="Nuevo tema">
+                            {{-- <a id="btnGuardarTemaNuevo" title="Nuevo tema">
                                 <button type="button" class="btn btn-round btn-success">
                                     <span style="horizontal-align: inherit;">
-                                        <span style="horizontal-align: inherit;">Guardar
-                                            Tema</span></span></button></a>
+                                        <span style="horizontal-align: inherit;">Nuevo
+                                            Tema</span></span></button></a> --}}
 
                             <table id="tblTemas" class="table table-striped table-bordered" style="width:100%">
                                 <thead>
@@ -401,7 +403,7 @@
                                 <option value="replica">Replica</option>
                                 <option value="general">General</option>
                             </select>
-                            <a id="btnActualizarTema" title="Nuevo tema">
+                            <a id="btnActualizarTema" title="Actualizar tema">
                                 <button type="button" class="btn btn-round btn-success">
                                     <span style="horizontal-align: inherit;">
                                         <span style="horizontal-align: inherit;">Pedir la palabra
@@ -525,15 +527,10 @@
 
             });
             getTemas();
-
+$("#btnNuevoTema").click(function(){
+    modalNuevoTema();
+});
         });
-        function nuevoTema(){
-            $.get("{{url('getNuevoTema')}}" function(response){
-
-                    $('.modalKu').html(response);
-                    $('#createTema').modal('show');
-            });
-        }
         function getUsuarios(id) {
             $.post("{{route('getUsersConferens')}}", {
                     id: "{{ $client->id}}"
@@ -609,6 +606,15 @@
 
         }
 
+        function modalNuevoTema(){
+            alert("s");
+            $.get("{{url('getNuevoTema')}}", function(response){
+
+                    $('.modalKu').html(response);
+                    $('#createTema').modal('show');
+                    $("#sesion").val("{{ $client->id}}");
+            });
+        }
         function getTemas() {
             var table = $("#tbodyTema");
             table.innerHTML = "";

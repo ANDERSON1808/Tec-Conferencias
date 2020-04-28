@@ -449,7 +449,7 @@
                 var idTema = $("#slcTema").val();
                 $.post("{{route('postSolicitudPalabra')}}", {
                         estado: $("#slcEst").val(),
-                        idTema:
+                        idTema:idTema
                     })
                     .done(function (data) {
                         var idTema = $("#slcTema").val();

@@ -335,8 +335,6 @@
                                     <span style="horizontal-align: inherit;">
                                         <span style="horizontal-align: inherit;">Guardar
                                             Asistencia</span></span></button></a>
-
-
                         </div>
                         <div class="tab-pane fade" id="contact1" role="tabpanel" aria-labelledby="contact-tab">
 
@@ -355,8 +353,6 @@
                                 </div>
                             </div>
                         </div>
-
-
                             <a id="btnGuardarTemaNuevo" title="Nuevo tema">
                                 <button type="button" class="btn btn-round btn-success">
                                     <span style="horizontal-align: inherit;">

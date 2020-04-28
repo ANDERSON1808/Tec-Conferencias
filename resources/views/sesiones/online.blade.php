@@ -51,7 +51,7 @@
                     var domain = "meet.jit.si";
 
                     var options = {
-                        roomName: "{{ $client->nombre}}",
+                        roomName: "{{ $client->token}}",
                         width: 1000,
                         height: 700,
                         userInfo: {
@@ -66,8 +66,8 @@
                     }
 
                     var api = new JitsiMeetExternalAPI(domain, options);
-                    //api . executeCommand ( 'subject' ,  'New Conference Subject' ) ;
-
+                    api . executeCommand ( 'subject' ,  '{{ $client->nombre}}' ) ;
+ 
                 });
 
             </script>
@@ -237,53 +237,51 @@
                                 <div class="clearfix"></div>
                                 <div class="row">
                                     <div class="col-md-12 col-sm-12  ">
-                                        <div class="x_title">
+                    <div class="x_title">
                                             <h2>BIENVENIDOS A LA SESION {{ $client->nombre}} </h2>
 
                                             <div class="clearfix"></div>
                                         </div>
                                         <div class="x_content">
                                             <!-- Condiciones que validadn que tipo de pantalla se le muestra al cliente dependiente del rol asignado en la base de datos.-->
-                                            @if ($idRol=="1")
-                                            <div
-                                                style="border: 2px solid # D5CC5A; overflow: hidden; margin: 1px auto; height:100; max-width: 930px; ">
-                                                <div id="meet">
-                                                </div>
-                                            </div>
+            @if ($idRol=="1")
+                       <div
+                          style="border: 2px solid # D5CC5A; overflow: hidden; margin: 1px auto; height:100; max-width: 930px; ">
+                            <div id="meet">
+                             </div>
+                              </div>
 
-                                            @elseif ($idRol=="3")
-                                            <div
+                     @elseif ($idRol=="3")
+                                    <div id="meet">
+                                         </div>
+                                         
+                               @elseif($idRol=="2" )
+                                             <div
                                                 style="border: 2px solid # D5CC5A; overflow: hidden; margin: 1px auto; height:100; max-width: 930px; ">
                                                 <div id="meet">
-                                                </div>
-                                            </div>
-                                            @elseif($idRol=="2" )
-                                            <div
-                                                style="border: 2px solid # D5CC5A; overflow: hidden; margin: 1px auto; height:100; max-width: 930px; ">
-                                                <div id="meet">
-                                                </div>
-                                            </div>
+                                                 </div>
+                                                  </div>
                                             <!--Rol de l usuario administrador-->
                                             @elseif($idRol=="4")
-                                            <div id="meet">
-                                            </div>
+                                                     <div id="meet">
+                                                       </div>
 
-                                            @else
-                                            <!--Mensaje de alerta para usuarios no autorizados en la sesesion-->
-                                            <script>
-                                                window.onload = function () {
-                                                    new PNotify({
-                                                        title: 'Error.',
-                                                        text: 'Lo setimos usted no esta invitado.'
-                                                        type: 'error',
-                                                        hide: false,
-                                                        styling: 'bootstrap3'
-                                                    });
-                                                };
+                                                 @else
+                                                        <!--Mensaje de alerta para usuarios no autorizados en la sesesion-->
+                                                        <script>
+                                                            window.onload = function () {
+                                                                new PNotify({
+                                                                    title: 'Error.',
+                                                                    text: 'Lo setimos usted no esta invitado.'
+                                                                    type: 'error',
+                                                                    hide: false,
+                                                                    styling: 'bootstrap3'
+                                                                });
+                                                                };
 
-                                            </script>
+                                                                    </script>
 
-                                            @endif
+            @endif
                                             <!--Fin de las conciciones de rol de patalla-->
                                         </div>
                                     </div>

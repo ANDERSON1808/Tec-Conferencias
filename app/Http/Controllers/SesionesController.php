@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\sesiones;
 use Illuminate\Http\Request;
 use DB;
+use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Auth;
 
 class SesionesController extends Controller
@@ -225,16 +226,36 @@ class SesionesController extends Controller
 
      }
 public function editTema(Request $req){
-    $data = array(
-        "tema" =>  $req->tt,
-        "detalle" =>$req->txtDescripcion,
-        "linkPdf" =>"asdasd"
-    );
 
-    DB::table('temas')
-    ->where('id', $req->id)
-    ->update( $data);
-    return "sesiones/editTema" ;
+        if( $req->file('myfileEdit')){
+            try{
+            $destinationPath = public_path(    '/documentos_temas/' . $req->txtTituloEdit  );
+            $archivoNombre = $req->txtTituloEdit."_" . date('Y-m-d') . ".pdf";
+            $archivo = $req->file('myfileEdit');
+            $archivo->move($destinationPath, $archivoNombre);
+            $destgeneralimgequipo =  $req->txtTituloEdit."/".$archivoNombre;
+            $data = array(
+                "tema" =>  $req->txtTituloEdit,
+                "detalle" =>$req->txtDescripcion,
+                "linkPdf" =>$destgeneralimgequipo
+            );
+
+            DB::table('temas')->where('id',$req->id)->update($data);
+        }catch(QueryException $ex){
+            return dd($ex);
+        }
+        return $data ;
+        }else{
+            $data = array(
+                "tema" =>  $req->tt,
+                "detalle" =>$req->txtDescripcion,
+            );
+            DB::table('temas')
+            ->where('id', $req->id)
+            ->update( $data);
+            return "actualizado tema" ;
+        }
+
 
 
  }
@@ -242,7 +263,17 @@ public function editTema(Request $req){
         return DB::select('call tema_delete(?)',array(  $req->id ));
  }
 public function getTemas(Request $req){
-   return DB::table('temas')->where(  "idSesion",$req->sesion)->get();
+    $temas = DB::table('temas')
+   ->where(  "idSesion",$req->sesion)->get();
+return $temas;
+//    $votos = DB::table('temas')
+//    ->join("votacion","votacion.idTema","=","temas.id")
+//    ->where("temas.idSesion",$req->sesion)
+//    ->select("temas.*", DB::raw("COUNT(votacion.id) as count"))
+//    ->groupBy('votacion.id')
+//    ->get();
+
+//    return array("temas"=>$temas,"votos"=>$votos);
 }
     public function createTema(Request $req){
   $destinationPath = public_path(    '/documentos_temas/' . $req->txtTitulo  );

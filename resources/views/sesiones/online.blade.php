@@ -52,8 +52,8 @@
 
                     var options = {
                         roomName: "{{ $client->token}}",
-                        width: 1000,
-                        height: 700,
+                        width: "100%",
+                        height:700,
                         userInfo: {
                             email: 'andersonl@globalsolutionservice.com',
                             displayName: 'ANDERSON LOSADA SILVA'
@@ -68,7 +68,7 @@
 
                     var api = new JitsiMeetExternalAPI(domain, options);
                     api . executeCommand ( 'subject' ,  '{{ $client->nombre}}' ) ;
- 
+
                 });
 
             </script>
@@ -146,11 +146,12 @@
                                 aria-controls="home" aria-selected="true">SESION</a>
                         </li>
                         {{-- || ($idRol=="2" ) --}}
-                        @if (($idRol=="1" )|| ($idRol=="3" ) )
+                        @if (($idRol=="4" )|| ($idRol=="3" ) )
                         <li class="nav-item">
                             <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile1" role="tab"
                                 aria-controls="profile" aria-selected="false">LISTA DE ASISTENCIA</a>
                         </li>
+
                         @endif
                         <li class="nav-item">
                             <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact1" role="tab"
@@ -168,9 +169,9 @@
                                         </select>
                                     </div>
                                     <div id="solicitudes" class="solicitudes">
-
-                                        <table id="tblSolicitudPalabra" class="table table-striped table-bordered"
-                                            style="width:100%">
+                                        <div class="col-sm-12">
+                                        <table id="tblSolicitudPalabra" class="table table-striped table-bordered dataTable no-footer"
+                                           >
                                             <thead>
                                                 <tr>
                                                     <th>#</th>
@@ -186,6 +187,7 @@
 
                                             </tbody>
                                         </table>
+                                    </div>
                                     </div>
                                     <div id="solicitar" class="solicitar ">
                                         <button id="btnSolicitarPalabra" class="btn btn-round btn-danger">
@@ -255,7 +257,7 @@
                      @elseif ($idRol=="3")
                                     <div id="meet">
                                          </div>
-                                         
+
                                @elseif($idRol=="2" )
                                              <div
                                                 style="border: 2px solid # D5CC5A; overflow: hidden; margin: 1px auto; height:100; max-width: 930px; ">
@@ -340,23 +342,28 @@
                         <div class="title_right">
                             <div class="col-md-5 col-sm-5   form-group pull-right top_search">
                                   <div class="input-group">
-                                     <a href="#" onClick="nuevoTema()"
+                                    {{-- id="btnNuevoTema"  --}}
+
+                                    @if (($idRol=="1" )|| ($idRol=="3" ) || ($idRol=="2" ) )
+                                     <a href="#" onclick="modalNuevoTema()"
                                        class="btn btn-outline-success"
-                                      title="Iniciar conferencia">
-                                      <i class="fa fa-pencil-square-o"
-                                          aria-hidden="true">Editar</i>
+                                       title="Nuevo tema">
+                                      <i class="fa fa-plus"
+                                          aria-hidden="true">Nuevo
+                                          Tema</i>
                                      </a>
+                                     @endif
                                     {{-- <a href="#" onclick="nuevoTema()" class="modalSubirTrigger" ><button class="btn btn-info"><i class="fa fa-plus"
                                                 aria-hidden="true"> Nuevo Tema</i></button></a>
                                     <input type="hidden" name="_token" value="{{ csrf_token() }}"> --}}
                                 </div>
                             </div>
                         </div>
-                            <a id="btnGuardarTemaNuevo" title="Nuevo tema">
+                            {{-- <a id="btnGuardarTemaNuevo" title="Nuevo tema">
                                 <button type="button" class="btn btn-round btn-success">
                                     <span style="horizontal-align: inherit;">
-                                        <span style="horizontal-align: inherit;">Guardar
-                                            Tema</span></span></button></a>
+                                        <span style="horizontal-align: inherit;">Nuevo
+                                            Tema</span></span></button></a> --}}
 
                             <table id="tblTemas" class="table table-striped table-bordered" style="width:100%">
                                 <thead>
@@ -364,8 +371,17 @@
                                         <th>Tema</th>
                                         <th>Detalle</th>
                                         <th>PDF</th>
+
+                                    @if ( ($idRol=="3" ) || ($idRol=="2" ) )
+
                                         <th>Votar</th>
                                         <th>Acciones</th>
+                                        @elseif ($idRol=="1" )
+                                        <th>Positivos</th>
+                                        <th>Negativos</th>
+                                        <th>Impedidos</th>
+                                        <th>Total</th>
+                                    @endif
                                     </tr>
                                 </thead>
                                 <tbody id="tbodyTema">
@@ -386,7 +402,7 @@
                     @endforeach
                 </div>
             </div>
-            <div class="modal fade" id="modalTemas" tabindex="-1" role="dialog"
+            <div class="modal fade" id="modalSolitPalabra" tabindex="-1" role="dialog"
                 aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
@@ -402,7 +418,7 @@
                                 <option value="replica">Replica</option>
                                 <option value="general">General</option>
                             </select>
-                            <a id="btnActualizarTema" title="Nuevo tema">
+                            <a id="btnActualizarTema" title="Actualizar tema">
                                 <button type="button" class="btn btn-round btn-success">
                                     <span style="horizontal-align: inherit;">
                                         <span style="horizontal-align: inherit;">Pedir la palabra
@@ -433,9 +449,9 @@
                 $("#txtImage").html(this.value);
             });
             $("#btnSolicitarPalabra").click(function () {
-                $("#modalTemas").modal("show");
+                $("#modalSolitPalabra").modal("show");
             });
-            $("#btnActualizarTema").click(function () {
+            $("#modalSolitPalabra").click(function () {
                 $("#modalTemas").modal("hide");
                 var idTema = $("#slcTema").val();
                 $.post("{{route('postSolicitudPalabra')}}", {
@@ -455,12 +471,8 @@
             $('#tblSesion').DataTable();
             $("#btnGuardarTemaNuevo").click(function (e) {
                 var tt = $("#txtTitulo").val();
-                var txtDescr = $("#txtDescripcion").val();
+                var txtDescr = $("#txtDescripcionEdit").val();
                 var formData = new FormData(document.getElementById("formNuevoTema"));
-                console.log(formData);
-
-                // $.post("{{route('guardarTemaNuevo')}}",(formData))
-                console.log($("#formNuevoTema").serialize());
                 $.ajax({
                     url: "{{route('guardarTemaNuevo')}}",
                     type: "POST",
@@ -526,8 +538,13 @@
 
             });
             getTemas();
-
+$("#btnNuevoTema").click(function(){
+    modalNuevoTema();
+});
+$("#tblSolicitudPalabra").DataTable();
         });
+<<<<<<< HEAD
+=======
         function nuevoTema(){
             $.get("{{url('getNuevoTema')}}", function (response){
 
@@ -535,6 +552,7 @@
                     $('#createTema').modal('show');
             });
         }
+>>>>>>> cbfe682316fe90048cff502e21b4c3a7757942fe
         function getUsuarios(id) {
             $.post("{{route('getUsersConferens')}}", {
                     id: "{{ $client->id}}"
@@ -584,7 +602,6 @@
                                     idVoto: this.value
                                 })
                                 .done(function (data) {
-                                    console.log(data);
                                     const Toast = Swal.mixin({
                                         toast: true,
                                         position: 'top-end',
@@ -610,6 +627,15 @@
 
         }
 
+        function modalNuevoTema(){
+            alert("s");
+            $.get("{{url('getNuevoTema')}}", function(response){
+
+                    $('.modalKu').html(response);
+                    $('#createTema').modal('show');
+                    $("#sesion").val("{{ $client->id}}");
+            });
+        }
         function getTemas() {
             var table = $("#tbodyTema");
             table.innerHTML = "";
@@ -634,18 +660,12 @@
                             reg.fechaFinalizado = "N/A";
                         }
 
-                        var link =  '{{asset("documentos_temas/:linkPdf")}}';
-                        link = link.replace(':linkPdf', reg.linkPdf);
-
-                        tableData += '<tr><td>' + reg.tema + '</td><td>' + reg.detalle +'</td><td>' +
-                            '   <a download="'+reg.linkPdf+'" href="'+link +'" ' +
-                            '       onClick="getUsuarios(' + reg.id + ')"' +
-                            '       class="btn btn-outline-success"' +
-                            '       title="Editar">' +
-                            '       <i class="fa fa-file-pdf-o"' +
-                            '           aria-hidden="true">-PDF</i>' +
-                            '</td>  <td> ' +
-                            '   <a href="#tblUsuarios" ' +
+                        var idRol = "{{Auth::user()->idRol}}";
+                        // if(idVoto=="1"){
+                        //     voto="negat"
+                        // }
+                        var dataConcejal =
+                        '   <td><a href="#tblUsuarios" ' +
                             '       onClick="getUsuarios(' + reg.id + ')"' +
                             '       class="btn btn-outline-success"' +
                             '       title="Editar">' +
@@ -653,7 +673,7 @@
                             '           aria-hidden="true">INICIAR VOTACION</i>' +
                             '</td>  <td> ' +
                             '   <a href="#" ' +
-                            '       onClick=" modaEditTema(' + reg.id + ')"' +
+                            '       onClick="modaEditTema(' + "'"+detalle+"'"+ ','+reg.id+');"' +
                             '       class="btn btn-outline-success"' +
                             '       title="Editar">' +
                             '       <i class="fa fa-pencil-square-o"' +
@@ -666,6 +686,38 @@
                             '       aria-hidden="true">Eliminar</i>' +
                             '</a>' +
                             ' </td></tr> ';
+                        if  (idRol == "1")   {
+                            dataConcejal = '<td><a href="#tblUsuarios" ' +
+                            '       class="btn btn-outline-success"' +
+                            '       title="Positivo">' +
+                            '       <i class="glyphicon glyphicon-plus"' +
+                            '           aria-hidden="true">1</i>' +
+                            '</td>  <td> ' +
+                            '   <a href="#" ' +
+                            '       class="btn btn-outline-success"' +
+                            '       title="Negativo">' +
+                            '       <i class="glyphicon glyphicon-minus"' +
+                            '           aria-hidden="true">3</i>' +
+                            '   </a>' +
+                            '</td>  <td> ' +
+                            '   <a href="#"  class="btn btn-outline-success"' +
+                            '   title="Impedido">' +
+                            '   <i class="glyphicon glyphicon-ban-circle"' +
+                            '       aria-hidden="true">4</i>' +
+                            '</a>' +
+                            '</td>  <td>12</td></tr> ' ;
+                        }
+                        var link =  '{{asset("documentos_temas/:linkPdf")}}';
+                        link = link.replace(':linkPdf', reg.linkPdf);
+                            var detalle = reg.detalle;
+                        tableData += '<tr><td>' + reg.tema + '</td><td>' + detalle+'</td><td>' +
+                            '   <a download="'+reg.linkPdf+'" href="'+link +'" ' +
+                            '       onClick="getUsuarios(' + reg.id + ')"' +
+                            '       class="btn btn-outline-success"' +
+                            '       title="Editar">' +
+                            '       <i class="fa fa-file-pdf-o"' +
+                            '           aria-hidden="true">-PDF</i>' +dataConcejal+
+                            '</td>  <td> ';
                     });
 
                     table.html(tableData);
@@ -717,7 +769,6 @@
                     document.getElementById("tbodySolic").innerHTML = "";
                     // document.getElementById("tblSolicitudPalabra").innerHTML="";
                     var tableData;
-                    console.log(data);
                     if (data) {
                         var idUserEnCasa = 0;
                         $.each(data, function (key, reg) {
@@ -785,34 +836,55 @@
                 });
         }
 
-        function modaEditTema(id) {
+        function updateTema(detalle, id){
+            var formData = new FormData(document.getElementById("frmTemaEdit"));
+            formData.append("txtDescripcion", detalle);
+            formData.append("id", id);
+            $.ajax({
+                    url: "{{route('editTema')}}",
+                    type: "POST",
+                    dataType: "html",
+                    data: formData,
+                    cache: false,
+                    contentType: false,
+                    processData: false
+                }).done(function (data) {
+                    $('#modalTemas').modal('hide');
+                        const Toast = Swal.mixin({
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            timerProgressBar: true,
+                            onOpen: (toast) => {
+                                toast.addEventListener('mouseenter', Swal.stopTimer)
+                                toast.addEventListener('mouseleave', Swal.resumeTimer)
+                            }
+                        })
+                        Toast.fire({
+                            icon: 'success',
+                            title: 'Tema actualizado'
+                        });
+                    getTemas();
+                });
+        }
+        function modaEditTema( detalle,id) {
             $.post("{{route('getEditTema')}}", {
                     id: id
                 })
                 .done(function (response) {
                     $('.modalKu').html(response);
-                    $('#modalEditSesiones').modal('show');
+                    $('#modalTemas').modal('show');
+                    // document.getElementById("txtDescripcion").value = detalle;
+                    $("#myfileEdit").change(function(){
+                    $("#txtImageEdit").html(this.value);
                 });
-            // $.post("{{route('guardarTemaNuevo')}}", { tt: tt , sesion: "{{ $client->id}}" , txtDescripcion: txtDescr })
-            //         })
-            //         .done(function () {
-            //              $('#modalTemas').modal('show');
-            //             const Toast = Swal.mixin({
-            //                 toast: true,
-            //                 position: 'top-end',
-            //                 showConfirmButton: false,
-            //                 timer: 3000,
-            //                 timerProgressBar: true,
-            //                 onOpen: (toast) => {
-            //                     toast.addEventListener('mouseenter', Swal.stopTimer)
-            //                     toast.addEventListener('mouseleave', Swal.resumeTimer)
-            //                 }
-            //             })
-            //             Toast.fire({
-            //                 icon: 'success',
-            //                 title: 'Tema actualizado'
-            //             });
-            //         });
+                    $("#btnActTema").click(function (e) {
+                        updateTema(detalle,id);
+                       });
+                });
+
+
         }
 
         function modaDeleteTema(id) {

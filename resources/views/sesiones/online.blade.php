@@ -194,8 +194,8 @@
                                             </span>
                                         </button>
                                     </div>
-                                    <div id="txtTieneLaPalabra" class="txtTieneLaPalabra ">
-                                    </div>
+                                    <h3 id="txtTieneLaPalabra" class="txtTieneLaPalabra ">
+                                    </h3>
                                     <div id="ji" class="title_left">
                                         <h3> <i class="fa fa-video-camera" aria-hidden="true"> En linea </i> <i
                                                 class="fa fa-rss" aria-hidden="true"></i></h3>
@@ -372,6 +372,58 @@
                             <br>
                             <br>
 
+                            <div class="row">
+                                @foreach($users as $row)
+                                 {{-- var votodeusuario = "SIN VOTAR";
+                                    var disabled = "";
+                                    if (reg.idVot) {
+                                        votodeusuario = reg.nombre.toUpperCase();
+                                        disabled = "disabled";
+                                    } --}}
+                                    <div class="col-md-55">
+                                        <div class="x_content">
+                                         <div class="image view view-first">
+                                       <img style="display: inline;  height: inherit;border-radius: 20%;  " src="{{ asset("gentelella-master/production/images/img.jpg")}}" alt="image">
+                                        <div class="mask no-caption">
+                                        <div class="tools tools-bottom">
+                                        <a href="#"><i class="fa fa-pencil"></i></a>
+                                        </div>
+                                        </div>
+                                       </div>
+                                       <div class="caption">
+                                        <p><strong>     {{ $row->name}}</strong>
+                                        </p>
+                                        <div class="checkbox">
+                                            <label>
+                                                @if($row->estado=="ausente")
+                                                @php $lista="actualizar" @endphp
+                                                <input  type="checkbox" id="{{$row->id}}"
+                                                    name="chkAsistencia" class="flat chkAsist"> Ausente
+
+                                                @elseif($row->estado=="presente")
+                                                @php $lista="actualizar" @endphp
+                                                <input type="checkbox" id="{{$row->id}}"
+                                                checked="checked" name="chkAsistencia" class="flat chkAsist"> Presente
+                                                @else
+                                                @php $lista="" @endphp
+                                                <input type="checkbox" id="{{$row->id}}"
+                                                 name="chkAsistencia" class="flat chkAsist"> Confirmar
+
+                                                @endif
+                                            </label>
+                                        </div>
+                                        <p><strong  >   <a style="font-size:16px;" id="txtCheck">&nbsp;(<i class=" fa fa-check-square">Presente</i> - <i class=" fa fa-square-o">Ausente</i> )</a>
+
+                                       </strong>
+                                        </p>
+                                        </div>
+                                        </div>
+                                    </div>
+
+
+
+                                @endforeach
+                            </div>
 
                             </div>
 
@@ -382,8 +434,8 @@
                                 <div class="col-md-5 col-sm-5   form-group pull-right top_search">
                                     <div class="input-group">
                                         {{-- id="btnNuevoTema"  --}}
-                                        @if (($idRol=="1" )|| ($idRol=="3" ) || ($idRol=="2" ) )
-                                        <a href="#" id="btnNuevoTema"  class="btn btn-outline-success"  title="Nuevo tema">
+                                        @if ( ($idRol=="3" ) || ($idRol=="4" ) )
+                                        <a href="#" id="btnCrearTema"  class="btn btn-outline-success"  title="Nuevo tema">
                                             <i class="fa fa-plus" aria-hidden="true">Nuevo Tema</i>
                                         </a>
                                         @endif
@@ -409,16 +461,13 @@
                                         <th>Tema</th>
                                         <th>Detalle</th>
                                         <th>PDF</th>
-
-                                        @if ( ($idRol=="3" ) || ($idRol=="2" ) )
-
-                                        <th>Votar</th>
-                                        <th>Acciones</th>
-                                        @elseif ($idRol=="1" )
                                         <th>Positivos</th>
                                         <th>Negativos</th>
                                         <th>Impedidos</th>
                                         <th>Total</th>
+                                        @if ( ($idRol=="3" ) || ($idRol=="2" ) )
+                                        <th>Votar</th>
+                                        <th>Acciones</th>
                                         @endif
                                     </tr>
                                 </thead>
@@ -484,12 +533,24 @@
             }
         });
         $(document).ready(function () {
-            $("#btnNuevoTema").click(function () {
-                modalNuevoTema();
+            $("#btnCrearTema").click(function () {
+            alert("s");
+            $.get("{{url('getNuevoTema')}}", function (response) {
+                $('.modalKu').html(response);
+                $('#createTema').modal('show');
+                $("#sesion").val("{{ $client->id}}");
+
+                $("#myfile").change(function () {
+                $("#txtImage").html(this.value);
             });
-                    $("#slcTema").change(function(){
-                        getsolicitudesParaHablar(this.value);
-                    });
+            $("#btnSubmit").click(function (e) {
+                nuevoTema();
+                });
+                });
+            });
+            $("#slcTema").change(function(){
+                getsolicitudesParaHablar(this.value);
+            });
             $("#btnSolicitarPalabra").click(function () {
                 $("#modalSolitPalabra").modal("show");
             });
@@ -805,20 +866,6 @@
                     })
                 });
         }
-        function modalNuevoTema(){
-            $.get("{{url('getNuevoTema')}}", function (response) {
-                $('.modalKu').html(response);
-                $('#createTema').modal('show');
-                $("#sesion").val("{{ $client->id}}");
-
-                $("#myfile").change(function () {
-                $("#txtImage").html(this.value);
-            });
-            $("#btnSubmit").click(function (e) {
-                nuevoTema();
-                });
-                });
-        }
         var temas;
         function getTemas() {
             var table = $("#tbodyTema");
@@ -836,6 +883,11 @@
                             reg.fechaFinalizado = "N/A";
                         }
 
+                        // <th>Positivos</th>
+                        //                 <th>Negativos</th>
+                        //                 <th>Impedidos</th>
+                        //                 <th>Total</th>
+                        
                         var idRol = "{{Auth::user()->idRol}}";
                         // if(idVoto=="1"){
                         //     voto="negat"
@@ -943,7 +995,7 @@
                         var idUserEnCasa = 0;
                         $.each(data, function (key, reg) {
                             if(reg.estado=="aprobado"){
-                                $("#txtTieneLaPalabra").html("Concejal: "reg.name +" Tiene la palabra");
+                                $("#txtTieneLaPalabra").html("Concejal: "+reg.name +" Tiene la palabra");
                             }else{
                                 if (reg.idUser == "{{Auth::user()->id}}") {
                                 idUserEnCasa = 1;

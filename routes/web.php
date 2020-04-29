@@ -21,8 +21,8 @@ Route::get('logout', function () {
     Auth::logout();
 
     //Redireccionamos al inicio de la app con un mensaje
-    return Redirect::to('/register')->with('msg', 'Gracias por visitarnos!.');
-}); 
+    return Redirect::to('/login')->with('msg', 'Gracias por visitarnos!.');
+});
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
@@ -74,14 +74,19 @@ Route::get('/historico', 'conferenciaController@historico')->name('historico');
 
 
 
+Route::get('getNuevoTema', function () {
+    return view('sesiones/createTema');
+});
 
-
-
+Route::post('getInvitadoSesion','sesionesController@getInvitadoSesion')->name('getInvitadoSesion');
+Route::post('/sesiones/invitarInternoSesion', 'sesionesController@invitarInterno')->name('invitarInternoSesion');
+Route::post('/terminarSesion', 'sesionesController@terminarSesion')->name('terminarSesion');
+Route::post('/inviteUserSesion', 'sesionesController@inviteUserSesion')->name('inviteUserSesion');
 
 Route::get('sesionesonline', function () {
     return view('sesiones/online');
 });
- 
+
 Route::get('onlineSesionIdControl/{id}', 'sesionesController@onlineSesionControl')->name("onlineSesionIdControl");
 Route::post('onlineSesionId', 'sesionesController@online');
 Route::get('getSesiones','sesionesController@get');
@@ -104,7 +109,7 @@ Route::post('deleteTema','sesionesController@deleteTema')->name("deleteTema");
 
 Route::post('getEditTema','sesionesController@getEditTema')->name("getEditTema");
 
-Route::post('getEditSesion','sesionesController@getEditSesion')->name("getEditSesion"); 
+Route::post('getEditSesion','sesionesController@getEditSesion')->name("getEditSesion");
 Route::post('editSesionpost','sesionesController@editSesionPost')->name("editSesionpost");
 
 Route::post('deleteSesionpost','sesionesController@deleteSesionpost')->name("deleteSesionpost");
@@ -113,8 +118,13 @@ Route::post('/modal_asistencia', 'sesionesController@modal_asistencia')->name('m
 
 
 
+Route::post('guardarVoto', 'sesionesController@guardarVoto')->name("guardarVoto");
+
 Route::post('getUsersConferens', 'sesionesController@UserInConferencia')->name("getUsersConferens");
 
+Route::post('getSolicitudesPalabra', 'sesionesController@getSolicitudesPalabra')->name("getSolicitudesPalabra");
+Route::post('postSolicitudPalabra', 'sesionesController@postSolicitudPalabra')->name("postSolicitudPalabra");
+Route::post('aprobarSolicitud', 'sesionesController@aprobarSolicitud')->name("aprobarSolicitud");
 
 // FIN SESIONES //
 
@@ -143,7 +153,6 @@ Route::post('getUsersConferens', 'sesionesController@UserInConferencia')->name("
 
 
 //INICIO usuarios --------------------------------------------
-
 
 Route::get('user.view', 'userController@users')->name('user.view');
 Route::get('getUsers', 'userController@get');

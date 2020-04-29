@@ -37,17 +37,17 @@
                 var domain ="meet.jit.si";  
                
                 var options ={
-                    roomName:"{{ $client->nombre}}",
+                    roomName:"{{ $client->contraseña }}",
                     width: 1000,
                     height: 700,
-                    userInfo : {email: 'andersonl@globalsolutionservice.com' , displayName : 'ANDERSON LOSADA SILVA'},
+                    userInfo : {email: '{{ Auth::user()->email }}' , displayName : '{{ Auth::user()->name }}'},
                     parentNode: document.querySelector('#meet'),
                     interfaceConfigOverwrite: { filmStripOnly: false },
 
                 }
                
                     var api = new JitsiMeetExternalAPI(domain, options);
-                    //api . executeCommand ( 'subject' ,  'New Conference Subject' ) ;
+                    api . executeCommand ( 'subject' ,  '{{ $client->nombre}}' ) ;
 
                     });
                   

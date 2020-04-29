@@ -263,14 +263,14 @@
                             })
                             setTimeout(function () {
                                 $('#myModal').modal('hide');
-                            }, 3100);
+                            }, 1100);
                             verSesiones();
                         });
                 });
         });
-   
 
-   
+
+
         function Elimina(NodoBoton) {
 
             var TR = NodoBoton.parentNode.parentNode;
@@ -399,7 +399,7 @@
                     var url = '{{ route("onlineSesionIdControl", ":id") }}';
                     url = url.replace(':id', reg.id);
                     var disable =
-                        '<a href="' + url + '" target="_blank" ' +
+                        '<a href="' + url + '"  ' +
                         'class="btn btn-outline-info" title="Iniciar sesion" >' +
                         '<i class="fa fa-video-camera"   aria-hidden="true"> </i></a>';
                     if (reg.estado == "convocado") {

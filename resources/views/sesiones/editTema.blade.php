@@ -25,8 +25,7 @@
                             </div>
                             <div class="form-group">
                                 <div class="custom-file">
-                                    <input type="file" accept="pdf" class="custom-file-input" id="myfileEdit"
-                                        name="myfileEdit" required>
+                                    <input type="file" accept="pdf" class="custom-file-input" id="myfileEdit"   name="myfileEdit"  >
                                     <label class="custom-file-label" for="myfileEdit" id="txtImageEdit">{{ $val->linkPdf}}</label>
                                     <div class="invalid-feedback">Example invalid custom file feedback</div>
                                 </div>

@@ -100,6 +100,8 @@ Route::get('invitadosSesion','sesionesController@invitados');
 
 
 Route::post('listaAsistencia','sesionesController@getAsistencia');
+
+Route::post('actualizarAsist','sesionesController@actualizarAsist')->name("actualizarAsist");
 Route::post('guardarAsist','sesionesController@createAsistencia')->name("guardarAsist");
 Route::post('guardarTemaNuevo','sesionesController@createTema')->name("guardarTemaNuevo");
 Route::post('postTemas','sesionesController@getTemas')->name("getTemas");

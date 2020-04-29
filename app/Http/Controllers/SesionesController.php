@@ -136,16 +136,18 @@ class SesionesController extends Controller
 
                         $users = DB::table('users')
                         ->join("roles", "roles.id","users.idRol")
-                        ->where('roles.nombre', '=', "concejal")
-                        ->select("users.*")
+                        ->leftJoin("lista_asistencia", "lista_asistencia.idUser","users.id")
+                        ->select(
+                            "users.id","users.name","users.ftoUser", "users.email","users.created_at",
+                            "lista_asistencia.estado","roles.nombre")
+                        ->where( 'roles.nombre', '=', "concejal")
+                        ->groupBy('users.id')
                         ->get();
                         // $idUser = Auth::user()->id;
                         // return redirect()->route('sesionesonline',  array(
                         //     'notificacion' => $notificacion,
                         //     'conferencia' => $sesiones,
                         //     'users' => $users,
-                        //     ));
-
             return view('/sesiones/online', array(
             'notificacion' => $notificacion,
             'conferencia' => $sesiones,
@@ -225,30 +227,63 @@ class SesionesController extends Controller
   return view("/sesiones/editTema" , array( "temas" => $temas));
 
      }
-public function editTema(Request $req){
-
-        if( $req->file('myfileEdit')){
+     //CREAR TEMAS
+    public function createTema(Request $req){
+        if($req->file('myfile')){
             try{
-            $destinationPath = public_path(    '/documentos_temas/' . $req->txtTituloEdit  );
-            $archivoNombre = $req->txtTituloEdit."_" . date('Y-m-d') . ".pdf";
-            $archivo = $req->file('myfileEdit');
-            $archivo->move($destinationPath, $archivoNombre);
-            $destgeneralimgequipo =  $req->txtTituloEdit."/".$archivoNombre;
-            $data = array(
-                "tema" =>  $req->txtTituloEdit,
-                "detalle" =>$req->txtDescripcion,
-                "linkPdf" =>$destgeneralimgequipo
-            );
-
-            DB::table('temas')->where('id',$req->id)->update($data);
-        }catch(QueryException $ex){
-            return dd($ex);
-        }
-        return $data ;
+                    $destinationPath = public_path('/documentos_temas/'.$req->txtTitulo);
+                    $archivoNombre = $req->txtTitulo."_" . date('Y-m-d') . ".pdf";
+                    $archivo = $req->file('myfile');
+                    $archivo->move($destinationPath, $archivoNombre);
+                    $destgeneralimgequipo =  $req->txtTitulo."/".$archivoNombre;
+                    $data = array(
+                        "tema" =>$req->txtTitulo,
+                        "detalle" =>$req->txtDescripcion,
+                        "idSesion" =>$req->sesion,
+                        "linkPdf" =>$destgeneralimgequipo
+                    );
+                        DB::table('temas')->insert($data);
+                        return "sas";
+            }catch(QueryException $ex){
+                return dd($ex);
+            }
         }else{
             $data = array(
-                "tema" =>  $req->tt,
+                "tema" =>$req->txtTitulo,
                 "detalle" =>$req->txtDescripcion,
+                "idSesion" =>$req->sesion,
+                "linkPdf" =>""
+            );
+            DB::table('temas')
+            ->insert( $data);
+            return " tema" ;
+        }
+
+ }
+          //FIN DE CREAR UN NUEVO TEMA
+          //EDITAR TEMA
+public function editTema(Request $req){
+        if($req->file('myfileEdit')){
+            try{
+                $destinationPath = public_path('/documentos_temas/' . $req->txtTituloEdit  );
+                $archivoNombre = $req->txtTituloEdit."_" . date('Y-m-d') . ".pdf";
+                $archivo = $req->file('myfileEdit');
+                $archivo->move($destinationPath, $archivoNombre);
+                $destgeneralimgequipo =  $req->txtTituloEdit."/".$archivoNombre;
+                $data = array(
+                    "tema" =>$req->txtTituloEdit,
+                    "detalle" =>$req->txtDescripcionEdit,
+                    "linkPdf" =>$destgeneralimgequipo,
+                );
+                DB::table('temas')->where('id',$req->id)->update($data);
+                return "actualizado tema";
+            }catch(QueryException $ex){
+                return dd($ex);
+            }
+        }else{
+            $data = array(
+                "tema" =>  $req->txtTituloEdit,
+                "detalle" =>$req->txtDescripcionEdit,
             );
             DB::table('temas')
             ->where('id', $req->id)
@@ -256,9 +291,8 @@ public function editTema(Request $req){
             return "actualizado tema" ;
         }
 
-
-
  }
+ // FIN UPDATE TEMA
  public function deleteTema(Request $req){
         return DB::select('call tema_delete(?)',array(  $req->id ));
  }
@@ -275,37 +309,10 @@ return $temas;
 
 //    return array("temas"=>$temas,"votos"=>$votos);
 }
-    public function createTema(Request $req){
-  $destinationPath = public_path(    '/documentos_temas/' . $req->txtTitulo  );
-    $archivoNombre = $req->txtTitulo."_" . date('Y-m-d') . ".pdf";
-    $archivo = $req->file('myfile');
-    $archivo->move($destinationPath, $archivoNombre);
-    $destgeneralimgequipo =  $req->txtTitulo."/".$archivoNombre;
-    $data = array(
-        "tema" =>  $req->txtTitulo,
-        "detalle" =>$req->txtDescripcion,
-        "idSesion" =>  $req->sesion,
-        "linkPdf" =>$destgeneralimgequipo
-    );
-        DB::table('temas')->insert($data);
-        return "sas";
-    }
-
-    public function guardarVoto(Request $req){
-
-        $data = array(
-            "idUser"=>$req->idUser,
-            "idTema"=>$req->idTema,
-            "idVoto"=>$req->idVoto
-        );
-       return DB::table('votacion')->insert($data);
-
-    }
 
     public function aprobarSolicitud(Request $req){
         return DB::table('solicitudpalabra')->where([
-            ["idTema",$req->idTema],
-            ['idUser', $req->idUser],
+            ["id",$req->idSolicitud],
         ])->update(['estado' =>  "aprobado"]);
     }
     public function getSolicitudesPalabra(Request $req){
@@ -314,52 +321,102 @@ return $temas;
                ->join("roles", "roles.id","users.idRol")
                ->where([
                 ['solicitudpalabra.idTema',$req->idTema],
-                ['solicitudpalabra.estado',"denegado"]
             ])->select("users.id","users.name","roles.nombre","solicitudpalabra.*")
         ->get();
     }
     public function postSolicitudPalabra(Request $req){
+        try{
+
         $idUser = Auth::user()->id;
         $ultimopuesto = DB::table('solicitudpalabra')
         ->where([
          ["idTema",$req->idTema],
          ['estado',"denegado"],
      ])
-     ->orderByDesc('puesto')
-     ->limit(1)
-     ->select("solicitudpalabra.puesto")
- ->get();
- $val=1;
- foreach(  $ultimopuesto as  $val ){
+            ->orderByDesc('puesto')
+            ->limit(1)
+            ->select("solicitudpalabra.*")
+        ->get();
+        $puesto = 0;
+        if($ultimopuesto){
+            json_encode($ultimopuesto);
 
-    $val =$val;
-}
-$data = array(
+                foreach($ultimopuesto as $obj ){
+                    $puesto =  $obj->puesto;
+                    $id = $obj->id;
+            }
+
+        }
+
+ $data = array(
     "idUser"=>$idUser,
     "idTema"=>$req->idTema,
     "estado"=>"denegado",
     "tipo"=>$req->estado,
-    "puesto"=>($val+1),
+    "puesto"=>$puesto+1,
 );
-        return DB::table('solicitudpalabra')->insert(  $data  );
+ DB::table('solicitudpalabra')->insert(  $data  );
+
+
+         return "todobien";
+       }   catch(QueryException $ex){
+             dd($ex);
+         }
+    }
+
+    public function guardarVoto(Request $req){
+
+        $data = array(
+            "idUser"=>$req->idUser,
+            "idSesion"=>$req->idSesion,
+            "idTema"=>$req->idTema,
+            "idVoto"=>$req->idVoto
+        );
+       return DB::table('votacion')->insert($data);
+
     }
     public function UserInConferencia(Request $req){
+        return DB::select('SELECT users.id as us, users.email , users.name , lista_asistencia.id as asis, lista_asistencia.idUser,'.
+         ' lista_asistencia.tipoAsistencia, lista_asistencia.estado, lista_asistencia.idSesion as sesionli,'.
+          ' votacion.idSesion as sesionvot, votacion.idVoto as idVot , tipovotacion.nombre,  temas.tema, temas.id as tema FROM users '.
+          ' INNER JOIN lista_asistencia ON lista_asistencia.idUser = users.id LEFT JOIN votacion ON votacion.idUser = users.id'.
+         ' LEFT JOIN tipovotacion ON tipovotacion.id=votacion.idVoto  LEFT JOIN temas ON temas.id = votacion.idTema'.
+         '  WHERE lista_asistencia.idSesion="'.$req->idSesion.'"  AND(temas.id="'.$req->idTema.'" || temas.id IS NULL)');
 
-
-       return DB::table('lista_asistencia')
-       ->join("users", "users.id","lista_asistencia.idUser")
-       ->leftJoin("votacion", "votacion.idUser", "lista_asistencia.idUser")
-       ->leftJoin("tipovotacion", "tipovotacion.id", "votacion.idVoto")
-       ->where([
-            ["lista_asistencia.estado","presente"],
-            ['lista_asistencia.idSesion', $req->id],
-        ])
-        ->select('users.created_at','users.id','users.email','users.estado','users.name','users.created_at','tipovotacion.nombre' ,'tipovotacion.id as idVot' )
-        ->get();
     }
     public function createAsistencia(Request $req)
     {
-
+        try{
+            $userPresent =      $req ->get('usersPresent');
+            $usersAusent =      $req ->get('userAusent');
+            if($userPresent){
+                foreach($userPresent as  $val ){
+                    $data = array(
+                        "idUser" => $val,
+                        "idSesion" => $req->sesion,
+                        "tipoAsistencia" => "general",
+                        "estado" =>"presente",
+                    );
+                    DB::table('lista_asistencia')->insert($data);
+                }
+            }
+            if($usersAusent){
+                foreach($usersAusent as  $val  ){
+                    $data = array(
+                        "idUser" =>$val,
+                        "idSesion" => $req->sesion,
+                        "tipoAsistencia" => "general",
+                        "estado" => "ausente"
+                    );
+                    DB::table('lista_asistencia')->insert($data);
+                }
+            }
+        }catch(QueryException $ex){
+            dd($ex->getMessage());
+        }
+    }
+    public function actualizarAsist(Request $req)
+    {
         $userPresent =      $req ->get('usersPresent');
         $usersAusent =      $req ->get('userAusent');
         if($userPresent){
@@ -371,7 +428,7 @@ $data = array(
                     "tipoAsistencia" => "general",
                     "estado" =>"presente",
                 );
-                DB::table('lista_asistencia')->insert($data);
+                DB::table('lista_asistencia')->update($data);
             }
         }
         if($usersAusent){
@@ -383,17 +440,18 @@ $data = array(
                     "tipoAsistencia" => "general",
                     "estado" => "ausente"
                 );
-                DB::table('lista_asistencia')->insert($data);
+                DB::table('lista_asistencia')->update($data);
             }
         }
         return "llamado a lista" ;
     }
+
     public function get( )
     {
-        $usuario_encasa = Auth::user()->id;
+        // $usuario_encasa = Auth::user()->id;
         return DB::table('sesiones')
                 ->join("users", "users.id", '=', "sesiones.idUser")
-                ->where("idUser",$usuario_encasa)
+                // ->where("idUser",$usuario_encasa)
                 ->select('sesiones.*', 'users.name' )
                 ->get();
     }

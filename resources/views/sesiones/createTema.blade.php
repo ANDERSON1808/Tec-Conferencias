@@ -19,8 +19,7 @@
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 ">Descripcion</label>
                         <div class="col-md-9 col-sm-9 ">
-                            <textarea class="resizable_textarea form-control" id="txtDescripcion"
-                                name="txtDescripcion"
+                            <textarea class="resizable_textarea form-control" id="txtDescripcion"   name="txtDescripcion"
                                 placeholder="Escribir descripcion del tema"></textarea>
 
                         </div>

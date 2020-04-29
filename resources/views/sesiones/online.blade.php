@@ -53,7 +53,7 @@
                     var options = {
                         roomName: "{{ $client->token}}",
                         width: "100%",
-                        height:700,
+                        height: 700,
                         userInfo: {
                             email: 'andersonl@globalsolutionservice.com',
                             displayName: 'ANDERSON LOSADA SILVA'
@@ -66,7 +66,7 @@
                     }
 
                     var api = new JitsiMeetExternalAPI(domain, options);
-                    api . executeCommand ( 'subject' ,  '{{ $client->nombre}}' ) ;
+                    api.executeCommand('subject', '{{ $client->nombre}}');
 
                 });
 
@@ -169,11 +169,11 @@
                                     </div>
                                     <div id="solicitudes" class="solicitudes">
 
-                                        <table id="tblSolicitudPalabra" class="table table-striped table-bordered dataTable no-footer"
-                                           >
+                                        <table id="tblSolicitudPalabra"
+                                            class="table table-striped table-bordered dataTable no-footer">
                                             <thead>
                                                 <tr>
-                                                    <th>#</th>
+                                                    <th>Turno</th>
                                                     <th>Usuario</th>
                                                     <th>Solicitud de palabra</th>
                                                     <th>Estado</th>
@@ -188,7 +188,7 @@
                                         </table>
                                     </div>
                                     <div id="solicitar" class="solicitar ">
-                                        <button id="btnSolicitarPalabra" class="btn btn-round btn-danger">
+                                        <button disabled id="btnSolicitarPalabra" class="btn btn-round btn-danger">
                                             <span style="vertical-align: inherit;">
                                                 <span style="vertical-align: inherit;">Solicitar la palabra</span>
                                             </span>
@@ -238,51 +238,51 @@
                                 <div class="clearfix"></div>
                                 <div class="row">
                                     <div class="col-md-12 col-sm-12  ">
-                    <div class="x_title">
-                                            <h2>BIENVENIDOS A LA SESION {{ $client->nombre}} </h2>
+                                        <div class="x_title">
+                                            <h2>BIENVENIDO A LA SESION {{ $client->nombre}} </h2>
 
                                             <div class="clearfix"></div>
                                         </div>
                                         <div class="x_content">
                                             <!-- Condiciones que validadn que tipo de pantalla se le muestra al cliente dependiente del rol asignado en la base de datos.-->
-            @if ($idRol=="1")
-                       <div
-                          style="border: 2px solid # D5CC5A; overflow: hidden; margin: 1px auto; height:100; max-width: 930px; ">
-                            <div id="meet">
-                             </div>
-                              </div>
-
-                     @elseif ($idRol=="3")
-                                    <div id="meet">
-                                         </div>
-
-                               @elseif($idRol=="2" )
-                                             <div
+                                            @if ($idRol=="1")
+                                            <div
                                                 style="border: 2px solid # D5CC5A; overflow: hidden; margin: 1px auto; height:100; max-width: 930px; ">
                                                 <div id="meet">
-                                                 </div>
-                                                  </div>
+                                                </div>
+                                            </div>
+
+                                            @elseif ($idRol=="3")
+                                            <div id="meet">
+                                            </div>
+
+                                            @elseif($idRol=="2" )
+                                            <div
+                                                style="border: 2px solid # D5CC5A; overflow: hidden; margin: 1px auto; height:100; max-width: 930px; ">
+                                                <div id="meet">
+                                                </div>
+                                            </div>
                                             <!--Rol de l usuario administrador-->
                                             @elseif($idRol=="4")
-                                                     <div id="meet">
-                                                       </div>
+                                            <div id="meet">
+                                            </div>
 
-                                                 @else
-                                                        <!--Mensaje de alerta para usuarios no autorizados en la sesesion-->
-                                                        <script>
-                                                            window.onload = function () {
-                                                                new PNotify({
-                                                                    title: 'Error.',
-                                                                    text: 'Lo setimos usted no esta invitado.'
-                                                                    type: 'error',
-                                                                    hide: false,
-                                                                    styling: 'bootstrap3'
-                                                                });
-                                                                };
+                                            @else
+                                            <!--Mensaje de alerta para usuarios no autorizados en la sesesion-->
+                                            <script>
+                                                window.onload = function () {
+                                                    new PNotify({
+                                                        title: 'Error.',
+                                                        text: 'Lo setimos usted no esta invitado.'
+                                                        type: 'error',
+                                                        hide: false,
+                                                        styling: 'bootstrap3'
+                                                    });
+                                                };
 
-                                                                    </script>
+                                            </script>
 
-            @endif
+                                            @endif
                                             <!--Fin de las conciciones de rol de patalla-->
                                         </div>
                                     </div>
@@ -291,13 +291,15 @@
                         </div>
                         <div class="tab-pane fade" id="profile1" role="tabpanel" aria-labelledby="profile-tab">
 
-
-                            <table id="tblSesion" class="table table-striped table-bordered dataTable no-footer" style="width:100%">
+                            <table id="tblSesion" class="table table-striped table-bordered dataTable no-footer"
+                                style="width:100%">
                                 <thead>
                                     <tr>
                                         <th>Usuario</th>
                                         <th>Nombre</th>
-                                        <th>Asistencia</th>
+                                        {{--  --}}
+                                        <th >Asistencia</th>
+                                        <th>Como confirmar asistencia</th>
                                     </tr>
                                 </thead>
                                 <tbody id="tbodySesion">
@@ -306,68 +308,159 @@
                                     <tr>
                                         <!-- $row->ftoUser -->
                                         <td><img width="50"
-                                            src="{{ asset('gentelella-master/production/images/img.jpg')}}" alt="">
+                                                src="{{ asset('gentelella-master/production/images/img.jpg')}}" alt="">
 
-                                    </td>
+                                        </td>
 
-                                    <td>
-                                    {{ $row->name}}
-                                </td>
                                         <td>
+                                            {{ $row->name}}
+                                        </td>
+                                        <td>
+
                                             <div class="checkbox">
                                                 <label>
-                                                    <input type="checkbox" id="{{$row->id}}" name="chkAsistencia"
-                                                        class="flat chkAsist"> Presente
+                                                    @if($row->estado=="ausente")
+                                                    @php $lista="actualizar" @endphp
+                                                    <input  type="checkbox" id="{{$row->id}}"
+                                                        name="chkAsistencia" class="flat chkAsist"> Ausente
+
+                                                    @elseif($row->estado=="presente")
+                                                    @php $lista="actualizar" @endphp
+                                                    <input type="checkbox" id="{{$row->id}}"
+                                                    checked="checked" name="chkAsistencia" class="flat chkAsist"> Presente
+                                                    @else
+                                                    @php $lista="" @endphp
+                                                    <input type="checkbox" id="{{$row->id}}"
+                                                     name="chkAsistencia" class="flat chkAsist"> Confirmar
+
+                                                    @endif
                                                 </label>
                                             </div>
                                         </td>
+                                        <td>
+                                            {{-- press --}}
+                                            <a style="font-size:20px;" id="txtCheck">&nbsp;(<i class=" fa fa-check-square">Presente</i> - <i class=" fa fa-square-o">Ausente</i> )</a>
+                                        </td>
                                     </tr>
+
+
+
+
+
 
                                     @endforeach
                                 </tbody>
                             </table>
-                            <a id="btnGuardarAsistencia" href="#" title="Guardar asistencias">
-                                <button disabled type="button" class="btn btn-round btn-success">
+
+                            @if($lista=="actualizar")
+                            <a id="btnActAsistencia" href="#" title="Guardar asistencias">
+                                <button   type="button" class="btn btn-round btn-success">
                                     <span style="horizontal-align: inherit;">
-                                        <span style="horizontal-align: inherit;">Guardar
+                                        <span style="horizontal-align: inherit;">Actualizar
                                             Asistencia</span></span></button></a>
-                        </div>
+                            @else
+                                            <a id="btnGuardarAsistencia" href="#" title="Guardar asistencias">
+                                                <button   type="button" class="btn btn-round btn-success">
+                                                    <span style="horizontal-align: inherit;">
+                                                        <span style="horizontal-align: inherit;">Guardar
+                                                            Asistencia</span></span></button></a>
+                            @endif
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <div class="row">
+                                @foreach($users as $row)
+                                 {{-- var votodeusuario = "SIN VOTAR";
+                                    var disabled = "";
+                                    if (reg.idVot) {
+                                        votodeusuario = reg.nombre.toUpperCase();
+                                        disabled = "disabled";
+                                    } --}}
+                                    <div class="col-md-55">
+                                        <div class="x_content">
+                                         <div class="image view view-first">
+                                       <img style="display: inline;  height: inherit;border-radius: 20%;  " src="{{ asset("gentelella-master/production/images/img.jpg")}}" alt="image">
+                                        <div class="mask no-caption">
+                                        <div class="tools tools-bottom">
+                                        <a href="#"><i class="fa fa-pencil"></i></a>
+                                        </div>
+                                        </div>
+                                       </div>
+                                       <div class="caption">
+                                        <p><strong>     {{ $row->name}}</strong>
+                                        </p>
+                                        <div class="checkbox">
+                                            <label>
+                                                @if($row->estado=="ausente")
+                                                @php $lista="actualizar" @endphp
+                                                <input  type="checkbox" id="{{$row->id}}"
+                                                    name="chkAsistencia" class="flat chkAsist"> Ausente
+
+                                                @elseif($row->estado=="presente")
+                                                @php $lista="actualizar" @endphp
+                                                <input type="checkbox" id="{{$row->id}}"
+                                                checked="checked" name="chkAsistencia" class="flat chkAsist"> Presente
+                                                @else
+                                                @php $lista="" @endphp
+                                                <input type="checkbox" id="{{$row->id}}"
+                                                 name="chkAsistencia" class="flat chkAsist"> Confirmar
+
+                                                @endif
+                                            </label>
+                                        </div>
+                                        <p><strong  >   <a style="font-size:16px;" id="txtCheck">&nbsp;(<i class=" fa fa-check-square">Presente</i> - <i class=" fa fa-square-o">Ausente</i> )</a>
+
+                                       </strong>
+                                        </p>
+                                        </div>
+                                        </div>
+                                    </div>
+
+
+
+
+                                @endforeach
+                            </div>
+
+                            </div>
+
+
                         <div class="tab-pane fade" id="contact1" role="tabpanel" aria-labelledby="contact-tab">
 
-                        <div class="title_right">
-                            <div class="col-md-5 col-sm-5   form-group pull-right top_search">
-                                  <div class="input-group">
-                                    {{-- id="btnNuevoTema"  --}}
+                            <div class="title_right">
+                                <div class="col-md-5 col-sm-5   form-group pull-right top_search">
+                                    <div class="input-group">
+                                        {{-- id="btnNuevoTema"  --}}
+                                        @if (($idRol=="1" )|| ($idRol=="3" ) || ($idRol=="2" ) )
+                                        <a href="#" id="btnNuevoTema"  class="btn btn-outline-success"  title="Nuevo tema">
+                                            <i class="fa fa-plus" aria-hidden="true">Nuevo Tema</i>
+                                        </a>
+                                        @endif
 
-                                    @if (($idRol=="1" )|| ($idRol=="3" ) || ($idRol=="2" ) )
-                                     <a href="#" onclick="modalNuevoTema()"
-                                       class="btn btn-outline-success"
-                                       title="Nuevo tema">
-                                      <i class="fa fa-plus"
-                                          aria-hidden="true">Nuevo
-                                          Tema</i>
-                                     </a>
-                                     @endif
-                                    {{-- <a href="#" onclick="nuevoTema()" class="modalSubirTrigger" ><button class="btn btn-info"><i class="fa fa-plus"
+
+
+                                        {{-- <a href="#" onclick="nuevoTema()" class="modalSubirTrigger" ><button class="btn btn-info"><i class="fa fa-plus"
                                                 aria-hidden="true"> Nuevo Tema</i></button></a>
                                     <input type="hidden" name="_token" value="{{ csrf_token() }}"> --}}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                             {{-- <a id="btnGuardarTemaNuevo" title="Nuevo tema">
                                 <button type="button" class="btn btn-round btn-success">
                                     <span style="horizontal-align: inherit;">
                                         <span style="horizontal-align: inherit;">Nuevo
                                             Tema</span></span></button></a> --}}
 
-                            <table id="tblTemas" class="table table-striped table-bordered dataTable no-footer" style="width:100%">
+                            <table id="tblTemas" class="table table-striped table-bordered dataTable no-footer"
+                                style="width:100%">
                                 <thead>
                                     <tr>
                                         <th>Tema</th>
                                         <th>Detalle</th>
                                         <th>PDF</th>
 
-                                    @if ( ($idRol=="3" ) || ($idRol=="2" ) )
+                                        @if ( ($idRol=="3" ) || ($idRol=="2" ) )
 
                                         <th>Votar</th>
                                         <th>Acciones</th>
@@ -376,7 +469,7 @@
                                         <th>Negativos</th>
                                         <th>Impedidos</th>
                                         <th>Total</th>
-                                    @endif
+                                        @endif
                                     </tr>
                                 </thead>
                                 <tbody id="tbodyTema">
@@ -385,6 +478,7 @@
                                 </tbody>
                             </table>
                             <br><br>
+                            <h4 id="tematitulo">  </h4>
                             <div class="row" id="tblUsuarios">
 
                             </div>
@@ -413,7 +507,7 @@
                                 <option value="replica">Replica</option>
                                 <option value="general">General</option>
                             </select>
-                            <a id="btnActualizarTema" title="Actualizar tema">
+                            <a id="btnPedirPalabra" title="Actualizar tema">
                                 <button type="button" class="btn btn-round btn-success">
                                     <span style="horizontal-align: inherit;">
                                         <span style="horizontal-align: inherit;">Pedir la palabra
@@ -440,68 +534,44 @@
             }
         });
         $(document).ready(function () {
-            $("#myfile").change(function(){
-                $("#txtImage").html(this.value);
+            $("#btnNuevoTema").click(function () {
+                modalNuevoTema();
             });
+                    $("#slcTema").change(function(){
+                        getsolicitudesParaHablar(this.value);
+                    });
             $("#btnSolicitarPalabra").click(function () {
                 $("#modalSolitPalabra").modal("show");
             });
-            $("#modalSolitPalabra").click(function () {
-                $("#modalTemas").modal("hide");
+
+            $("#btnPedirPalabra").click(function () {
+                $("#modalSolitPalabra").modal("hide");
                 var idTema = $("#slcTema").val();
                 $.post("{{route('postSolicitudPalabra')}}", {
                         estado: $("#slcEst").val(),
-                        idTema:idTema
+                        idTema: idTema
                     })
                     .done(function (data) {
                         var idTema = $("#slcTema").val();
                         getsolicitudesParaHablar(idTema);
                     });
-
-
             });
-            // .change(function(){
-
-            // });
-            $('#chkAsist').click(function() {
-  if ($(this).is(':checked')) {
-    $(this).siblings('label').html('checked');
-  } else {
-    $(this).siblings('label').html(' not checked');
-  }
-});
-            $('#tblSesion').DataTable({"paging": false});
-            $("#btnGuardarTemaNuevo").click(function (e) {
-                var tt = $("#txtTitulo").val();
-                var txtDescr = $("#txtDescripcionEdit").val();
-                var formData = new FormData(document.getElementById("formNuevoTema"));
-                $.ajax({
-                    url: "{{route('guardarTemaNuevo')}}",
-                    type: "POST",
-                    dataType: "html",
-                    data: formData,
-                    cache: false,
-                    contentType: false,
-                    processData: false
-                }).done(function (data) {
-                    const Toast = Swal.mixin({
-                        toast: true,
-                        position: 'top-end',
-                        showConfirmButton: false,
-                        timer: 3000,
-                        timerProgressBar: true,
-                        onOpen: (toast) => {
-                            toast.addEventListener('mouseenter', Swal.stopTimer)
-                            toast.addEventListener('mouseleave', Swal.resumeTimer)
-                        }
-                    })
-
-                    Toast.fire({
-                        icon: 'success',
-                        title: 'Tema creado'
-                    })
-                    getTemas();
-                });
+            $('#chkAsist').click(function () {
+                if ($(this).is(':checked')) {
+                    $(this).siblings('label').html('checked');
+                } else {
+                    $(this).siblings('label').html(' not checked');
+                }
+            });
+            $('#tblSesion').DataTable({
+                "paging": false
+            });
+            $("input[name=chkAsistencia]").each(function () {
+                if (this.checked) {
+                    $(this).siblings('label').html('checked');
+                } else {
+                    $(this).siblings('label').html(' not checked');
+                }
             });
             $("#btnGuardarAsistencia").click(function () {
                 const usuariosPresentes = [];
@@ -534,28 +604,114 @@
                             icon: 'success',
                             title: 'Lista asistencia guardado'
                         });
-                        var elemento = document.getElementById("btnGuardarAsistencia");
-                        elemento.className += " invisible";
+                            setTimeout(function () {
+                                location.reload();
+                            }, 1100);
                     });
+            });
+            $("#btnActAsistencia").click(function () {
+                const usuariosPresentesAct = [];
+                const userAusentAct = [];
+                $("input[name=chkAsistencia]").each(function () {
+                    if (this.checked) {
+                        usuariosPresentesAct.push(this.id);
+                    } else {
+                        userAusentAct.push(this.id);
+                    }
+                });
+                $.post("{{route('actualizarAsist')}}", {
+                        usersPresent: usuariosPresentesAct,
+                        userAusent: userAusentAct,
+                        sesion: "{{ $client->id}}"
+                    })
+                    .done(function () {
+                        const Toast = Swal.mixin({
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            timerProgressBar: true,
+                            onOpen: (toast) => {
+                                toast.addEventListener('mouseenter', Swal.stopTimer)
+                                toast.addEventListener('mouseleave', Swal.resumeTimer)
+                            }
+                        })
+                        Toast.fire({
+                            icon: 'success',
+                            title: 'Lista asistencia actualizado'
+                        });
 
+                            setTimeout(function () {
+                                location.reload();
+                            }, 1100);
+                    });
             });
             getTemas();
-$("#btnNuevoTema").click(function(){
-    modalNuevoTema();
-});
-
         });
+        function guardarVotoNuevo(iduser,idtema,selectVoto){
 
-        function nuevoTema(){
-            $.get("{{url('getNuevoTema')}}", function (response){
-
-                    $('.modalKu').html(response);
-                    $('#createTema').modal('show');
-            });
+            $.post("{{route('guardarVoto')}}", {
+                                    idSesion: "{{ $client->id}}",
+                                    idUser: iduser,
+                                    idTema: idtema,
+                                    idVoto: selectVoto.value
+                                })
+                                .done(function (data) {
+                                    const Toast = Swal.mixin({
+                                        toast: true,
+                                        position: 'top-end',
+                                        showConfirmButton: false,
+                                        timer: 3000,
+                                        timerProgressBar: true,
+                                        onOpen: (toast) => {
+                                            toast.addEventListener(
+                                                'mouseenter',
+                                                Swal.stopTimer)
+                                            toast.addEventListener(
+                                                'mouseleave',
+                                                Swal.resumeTimer)
+                                        }
+                                    })
+                                    Toast.fire({
+                                        icon: 'success',
+                                        title: 'Voto guardado'
+                                    });
+                                    getUsuarios(idtema);
+                                });
         }
-
-                    "#tblUsuarios");
+        function getUsuariosAsistencia(id){
+            $.post("{{route('getUsersConferens')}}", {
+                    idSesion: "{{ $client->id}}",
+                    idTema: id
+                })
+                .done(function (data) {
+                        document.getElementById("tblUsuarios").innerHTML = "";
+                    var div = $("#tblUsuarios");
                     div.innerHTML = "";
+                    if (Array.isArray(data) && data.length) {
+
+                        $.each(temas, function (key, reg) {
+                 if (  id ==  reg.id   ){
+                    $("#tematitulo").html(reg.tema);
+                 }
+                });
+                    }else{
+                        const Toast = Swal.mixin({
+                                toast: true,
+                                position: 'top-end',
+                                showConfirmButton: false,
+                                timerProgressBar: true,
+                                onOpen: (toast) => {
+                                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                                    toast.addEventListener('mouseleave', Swal
+                                        .resumeTimer)
+                                }
+                            })
+                            Toast.fire({
+                                icon: 'error',
+                                title: 'Aún no as confirmado asistencias!'
+                            });
+                    }
                     $.each(data, function (key, reg) {
                         var votodeusuario = "SIN VOTAR";
                         var disabled = "";
@@ -563,6 +719,7 @@ $("#btnNuevoTema").click(function(){
                             votodeusuario = reg.nombre.toUpperCase();
                             disabled = "disabled";
                         }
+                        var iduser = reg.idUser;
                         $("#tblUsuarios").append(' <div class="col-md-55">' +
                             ' <div class="x_content">' +
                             '  <div class="image view view-first">' +
@@ -576,61 +733,143 @@ $("#btnNuevoTema").click(function(){
                             '<div class="caption">' +
                             ' <p><strong>' + reg.name + '</strong>' +
                             ' </p>' +
-                            '     <select class="form-control" ' + disabled + ' id="slcVoto' + reg.id +
-                            '" name="slcVoto">' +
+                            '     <select onchange="guardarVotoNuevo('+ iduser+','+id+',this)" class="form-control" ' + disabled +
+                            ' id="slcVoto" name="slcVoto">' +
                             '            <option value="" disabled selected>Tipo de voto</option>' +
                             '           <option value="1">Positivo</option>' +
                             '           <option value="2">Negativo</option>' +
                             '           <option value="3">Impedido</option>' +
                             '       </select>' +
-                            ' <p><strong id="txtVoto' + reg.id + '">VOTO:' + votodeusuario +
+                            ' <p><strong  >VOTO:' + votodeusuario +
                             '</strong>' +
                             ' </p>' +
                             ' </div>' +
                             ' </div>' +
                             ' </div> ' +
                             '</div>');
-                        $("#slcVoto" + reg.id).change(function () {
-                            $.post("{{route('guardarVoto')}}", {
-                                    idUser: reg.id,
-                                    idTema: id,
-                                    idVoto: this.value
-                                })
-                                .done(function (data) {
-                                    const Toast = Swal.mixin({
-                                        toast: true,
-                                        position: 'top-end',
-                                        showConfirmButton: false,
-                                        timer: 3000,
-                                        timerProgressBar: true,
-                                        onOpen: (toast) => {
-                                            toast.addEventListener('mouseenter',
-                                                Swal.stopTimer)
-                                            toast.addEventListener('mouseleave',
-                                                Swal.resumeTimer)
-                                        }
-                                    })
-                                    Toast.fire({
-                                        icon: 'success',
-                                        title: 'Voto guardado'
-                                    });
-                                    getUsuarios(id);
-                                });
-                        });
+
                     });
                 });
-
         }
+        function getUsuarios(id) {
+            $.post("{{route('getUsersConferens')}}", {
+                    idSesion: "{{ $client->id}}",
+                    idTema: id
+                })
+                .done(function (data) {
+                        document.getElementById("tblUsuarios").innerHTML = "";
+                    var div = $("#tblUsuarios");
+                    div.innerHTML = "";
+                    if (Array.isArray(data) && data.length) {
 
+                        $.each(temas, function (key, reg) {
+                 if (  id ==  reg.id   ){
+                    $("#tematitulo").html(reg.tema);
+                 }
+                });
+                    }else{
+                        const Toast = Swal.mixin({
+                                toast: true,
+                                position: 'top-end',
+                                showConfirmButton: false,
+                                timerProgressBar: true,
+                                onOpen: (toast) => {
+                                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                                    toast.addEventListener('mouseleave', Swal
+                                        .resumeTimer)
+                                }
+                            })
+                            Toast.fire({
+                                icon: 'error',
+                                title: 'Aún no as confirmado asistencias!'
+                            });
+                    }
+                    $.each(data, function (key, reg) {
+                        var votodeusuario = "SIN VOTAR";
+                        var disabled = "";
+                        if (reg.idVot) {
+                            votodeusuario = reg.nombre.toUpperCase();
+                            disabled = "disabled";
+                        }
+                        var iduser = reg.idUser;
+                        $("#tblUsuarios").append(' <div class="col-md-55">' +
+                            ' <div class="x_content">' +
+                            '  <div class="image view view-first">' +
+                            '<img style="display: inline;  height: inherit;border-radius: 20%;  " src="{{ asset("gentelella-master/production/images/img.jpg")}}" alt="image">' +
+                            ' <div class="mask no-caption">' +
+                            ' <div class="tools tools-bottom">' +
+                            ' <a href="#"><i class="fa fa-pencil"></i></a>' +
+                            ' </div>' +
+                            ' </div>' +
+                            '</div>' +
+                            '<div class="caption">' +
+                            ' <p><strong>' + reg.name + '</strong>' +
+                            ' </p>' +
+                            '     <select onchange="guardarVotoNuevo('+ iduser+','+id+',this)" class="form-control" ' + disabled +
+                            ' id="slcVoto" name="slcVoto">' +
+                            '            <option value="" disabled selected>Tipo de voto</option>' +
+                            '           <option value="1">Positivo</option>' +
+                            '           <option value="2">Negativo</option>' +
+                            '           <option value="3">Impedido</option>' +
+                            '       </select>' +
+                            ' <p><strong  >VOTO:' + votodeusuario +
+                            '</strong>' +
+                            ' </p>' +
+                            ' </div>' +
+                            ' </div>' +
+                            ' </div> ' +
+                            '</div>');
+
+                    });
+                });
+        }
+        function nuevoTema(){
+            $('#createTema').modal('hide');
+                var tt = $("#txtTitulo").val();
+                var txtDescr = $("#txtDescripcionEdit").val();
+                var formData = new FormData(document.getElementById("formNuevoTema"));
+            $.ajax({
+                    url: "{{route('guardarTemaNuevo')}}",
+                    type: "POST",
+                    dataType: "html",
+                    data: formData,
+                    cache: false,
+                    contentType: false,
+                    processData: false
+                }).done(function (data) {
+                    getTemas();
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        onOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    })
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Tema creado'
+                    })
+                });
+        }
         function modalNuevoTema(){
-            alert("s");
-            $.get("{{url('getNuevoTema')}}", function(response){
+            $.get("{{url('getNuevoTema')}}", function (response) {
+                $('.modalKu').html(response);
+                $('#createTema').modal('show');
+                $("#sesion").val("{{ $client->id}}");
 
-                    $('.modalKu').html(response);
-                    $('#createTema').modal('show');
-                    $("#sesion").val("{{ $client->id}}");
+                $("#myfile").change(function () {
+                $("#txtImage").html(this.value);
             });
+            $("#btnSubmit").click(function (e) {
+                nuevoTema();
+                });
+                });
         }
+        var temas;
         function getTemas() {
             var table = $("#tbodyTema");
             table.innerHTML = "";
@@ -638,19 +877,11 @@ $("#btnNuevoTema").click(function(){
             $.post("{{route('getTemas')}}", {
                     sesion: "{{ $client->id}}"
                 })
-
-                .done(function (data) {
-                    if (!data) {
-
-                        var elemento = document.getElementById("getTemas");
-                        elemento.className += " invisible";
-                        // $(".getTemas").removeClass("invisible");
-                        // $(".solicitudportema").removeClass("invisible");
-                        // $(".getTemas").removeAttr("invisible");
-                        // $(".solicitudportema").removeAttr("invisible");
-                    }
+                .done(function (data)  {
+                    temas=data;
                     $.each(data, function (key, reg) {
-                        $("#slcTema").append("<option value='" + reg.id + "'>" + reg.tema + "</option>");
+                        $("#slcTema").append("<option value='" + reg.id + "'>" + reg.tema +
+                            "</option>");
                         if (reg.estado == "convocado") {
                             reg.fechaFinalizado = "N/A";
                         }
@@ -659,8 +890,9 @@ $("#btnNuevoTema").click(function(){
                         // if(idVoto=="1"){
                         //     voto="negat"
                         // }
+                        var detalle = "'"+reg.detalle+"'";
                         var dataConcejal =
-                        '   <td><a href="#tblUsuarios" ' +
+                            '   <td><a href="#tblUsuarios" ' +
                             '       onClick="getUsuarios(' + reg.id + ')"' +
                             '       class="btn btn-outline-success"' +
                             '       title="Editar">' +
@@ -668,7 +900,7 @@ $("#btnNuevoTema").click(function(){
                             '           aria-hidden="true">INICIAR VOTACION</i>' +
                             '</td>  <td> ' +
                             '   <a href="#" ' +
-                            '       onClick="modaEditTema(' + "'"+detalle+"'"+ ','+reg.id+');"' +
+                            '       onClick="modaEditTema( '+detalle+',' + reg.id + ');"' +
                             '       class="btn btn-outline-success"' +
                             '       title="Editar">' +
                             '       <i class="fa fa-pencil-square-o"' +
@@ -681,47 +913,50 @@ $("#btnNuevoTema").click(function(){
                             '       aria-hidden="true">Eliminar</i>' +
                             '</a>' +
                             ' </td></tr> ';
-                        if  (idRol == "1")   {
+                        if (idRol == "1") {
                             dataConcejal = '<td><a href="#tblUsuarios" ' +
-                            '       class="btn btn-outline-success"' +
-                            '       title="Positivo">' +
-                            '       <i class="glyphicon glyphicon-plus"' +
-                            '           aria-hidden="true">1</i>' +
-                            '</td>  <td> ' +
-                            '   <a href="#" ' +
-                            '       class="btn btn-outline-success"' +
-                            '       title="Negativo">' +
-                            '       <i class="glyphicon glyphicon-minus"' +
-                            '           aria-hidden="true">3</i>' +
-                            '   </a>' +
-                            '</td>  <td> ' +
-                            '   <a href="#"  class="btn btn-outline-success"' +
-                            '   title="Impedido">' +
-                            '   <i class="glyphicon glyphicon-ban-circle"' +
-                            '       aria-hidden="true">4</i>' +
-                            '</a>' +
-                            '</td>  <td>12</td></tr> ' ;
+                                '       class="btn btn-outline-success"' +
+                                '       title="Positivo">' +
+                                '       <i class="glyphicon glyphicon-plus"' +
+                                '           aria-hidden="true">1</i>' +
+                                '</td>  <td> ' +
+                                '   <a href="#" ' +
+                                '       class="btn btn-outline-success"' +
+                                '       title="Negativo">' +
+                                '       <i class="glyphicon glyphicon-minus"' +
+                                '           aria-hidden="true">3</i>' +
+                                '   </a>' +
+                                '</td>  <td> ' +
+                                '   <a href="#"  class="btn btn-outline-success"' +
+                                '   title="Impedido">' +
+                                '   <i class="glyphicon glyphicon-ban-circle"' +
+                                '       aria-hidden="true">4</i>' +
+                                '</a>' +
+                                '</td>  <td>12</td></tr> ';
                         }
-                        var link =  '{{asset("documentos_temas/:linkPdf")}}';
-                        link = link.replace(':linkPdf', reg.linkPdf);
-                            var detalle = reg.detalle;
-                        tableData += '<tr><td>' + reg.tema + '</td><td>' + detalle+'</td><td>' +
-                            '   <a download="'+reg.linkPdf+'" href="'+link +'" ' +
-                            '       onClick="getUsuarios(' + reg.id + ')"' +
+                                var     style="";
+                            var nombreTitle = "Descargar pdf";
+                            var descargar = 'download="' + reg.linkPdf + '"';
+                            var link = '{{asset("documentos_temas/:linkPdf")}}';
+                            link = link.replace(':linkPdf', reg.linkPdf);
+                        if(reg.linkPdf==""){
+                           style = 'style="background-color:dimgray;color:black;"';
+                          nombreTitle = "no hay pdf cargado";
+                              link = '!';
+                              descargar = '';
+                        }
+                        var detalle = reg.detalle;
+                        tableData += '<tr><td>' + reg.tema + '</td><td>' + detalle +
+                            '</td><td>' +
+                            '   <a '+style+' '+descargar+' href="' + link + '" ' +
                             '       class="btn btn-outline-success"' +
-                            '       title="Editar">' +
+                            '       title="'+nombreTitle+'">' +
                             '       <i class="fa fa-file-pdf-o"' +
-                            '           aria-hidden="true">-PDF</i>' +dataConcejal+
+                            '           aria-hidden="true">-PDF</i>' + dataConcejal +
                             '</td>  <td> ';
                     });
-
                     table.html(tableData);
                     $('#tblTemas').DataTable();
-                    $("#slcTema").change(function () {
-                        //       var table = $("#tbodySolic");
-                        // table.innerHTML = "";
-                        getsolicitudesParaHablar(this.value);
-                    });
                 });
         }
 
@@ -736,42 +971,37 @@ $("#btnNuevoTema").click(function(){
         function eliminarSolicitud() {
 
         }
-
+        //solicitar la palabra - obtener por idTema
         function getsolicitudesParaHablar(idTema) {
+              $("#btnSolicitarPalabra").prop("disabled", false);
+            //   $("#btnSolicitarPalabra").attr("disabled", false);
             $.post("{{route('getSolicitudesPalabra')}}", {
                     idTema: idTema
                 })
                 .done(function (data) {
                     if (Array.isArray(data) && data.length) {
-                        $("#solicitudes").removeClass("invisible");
-                        // $("#btnSolicitarPalabra").attr("disabled", true);
+                        // $("#solicitudes").removeClass("invisible");
                     } else {
-
-                        var elemento = document.getElementById("solicitudes");
-                        elemento.className += " invisible";
+                        // var elemento = document.getElementById("solicitudes");
+                        // elemento.className += " invisible";
                     }
-                    // $(".solicitudesParaHablar").addClass("invisible");
-                    // $(".solicitudesParaHablar").attr("invisible");
-                    //                 }else{
-
-                    //             $(".solicitudesParaHablar").removeClass("invisible");
-                    //             $(".solicitudesParaHablar").removeAttr("invisible");
-                    //                 }
-
                     var table = $("#tbodySolic");
                     table.innerHTML = "";
-
                     document.getElementById("tbodySolic").innerHTML = "";
-                    // document.getElementById("tblSolicitudPalabra").innerHTML="";
                     var tableData;
                     if (data) {
                         var idUserEnCasa = 0;
                         $.each(data, function (key, reg) {
+                            if(reg.estado=="aprobado"){
+
+                            }else{
+
+                            }
                             if (reg.idUser == "{{Auth::user()->id}}") {
-                                $("#btnSolicitarPalabra").attr("disabled", true);
                                 idUserEnCasa = 1;
                             }
-                            var invisibleButton = ' <a href="#" onClick="eliminarSolicitud(' + reg.id +
+                            var invisibleButton = ' <a href="#" onClick="eliminarSolicitud(' +
+                                reg.id +
                                 ',' + this.value + ')"' +
                                 '   class="btn btn-outline-success"' +
                                 '   title="Eliminar">' +
@@ -781,9 +1011,7 @@ $("#btnNuevoTema").click(function(){
                             // ($idRol == 2)||
                             var idRol = "{{Auth::user()->idRol}}";
                             if ((idRol == "1") || (idRol == "3")) {
-                                invisibleButton =
-                                    ' <a href="#" onClick="aprobarSolicitud(' + reg.id + ',' + this.value +
-                                    ')"' +
+                                invisibleButton = ' <a href="#" onClick="aprobarSolicitud(' + reg.id + ',' + idTema + ')"' +
                                     '   class="btn btn-outline-success"' +
                                     '   title="Eliminar">' +
                                     '   <i class="glyphicon glyphicon-ok"' +
@@ -791,13 +1019,18 @@ $("#btnNuevoTema").click(function(){
                                     '</a>';
                             }
                             tableData += '<tr><td>' + reg.puesto + '</td><td>' + reg.name +
-                                '</td> <td>' + reg.tipo + '</td><td>' + reg.estado + '</td><td>' + reg
+                                '</td> <td>' + reg.tipo + '</td><td>' + reg.estado +
+                                '</td><td>' + reg
                                 .fecha +
                                 '  <td> ' + invisibleButton +
                                 ' </td></tr> ';
                         });
                         table.html(tableData);
                         $('#tblSolicitudPalabra').DataTable();
+                        $("#solicitudes").css({display:2});
+                    }else{
+
+                        $("#solicitudes").css({display:none});
                     }
                     if (idUserEnCasa == 0) {
 
@@ -806,9 +1039,22 @@ $("#btnNuevoTema").click(function(){
                 });
         }
 
-        function aprobarSolicitud(id, idTema) {
+        function changeCheck(check) {
+            if (check.is(':checked')) {
+                alert("S");
+                $("#txtCheck").html("Presente2");
+                $("#txtCheck").append("Presente2");
+                check.siblings('label').html('checked');
+                } else {
+                $("#txtCheck").html("Ausente2");
+                $("#txtCheck").append("Presente2");
+                    check.siblings('label').html(' not checked');
+                }
+        }
+
+        function aprobarSolicitud(idSolicitud, idTema) {
             $.post("{{route('aprobarSolicitud')}}", {
-                    idUser: id,
+                idSolicitud: idSolicitud,
                     idTema: idTema
                 })
                 .done(function (data) {
@@ -828,55 +1074,56 @@ $("#btnNuevoTema").click(function(){
                         icon: 'success',
                         title: 'Solicitud Aprobada'
                     });
+                    getsolicitudesParaHablar(idTema);
                 });
         }
 
-        function updateTema(detalle, id){
+        function updateTema(detalle, id) {
             var formData = new FormData(document.getElementById("frmTemaEdit"));
-            formData.append("txtDescripcion", detalle);
             formData.append("id", id);
             $.ajax({
-                    url: "{{route('editTema')}}",
-                    type: "POST",
-                    dataType: "html",
-                    data: formData,
-                    cache: false,
-                    contentType: false,
-                    processData: false
-                }).done(function (data) {
-                    $('#modalTemas').modal('hide');
-                        const Toast = Swal.mixin({
-                            toast: true,
-                            position: 'top-end',
-                            showConfirmButton: false,
-                            timer: 3000,
-                            timerProgressBar: true,
-                            onOpen: (toast) => {
-                                toast.addEventListener('mouseenter', Swal.stopTimer)
-                                toast.addEventListener('mouseleave', Swal.resumeTimer)
-                            }
-                        })
-                        Toast.fire({
-                            icon: 'success',
-                            title: 'Tema actualizado'
-                        });
-                    getTemas();
+                url: "{{route('editTema')}}",
+                type: "POST",
+                dataType: "html",
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false
+            }).done(function (data) {
+                $('#modalTemas').modal('hide');
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    onOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                })
+                Toast.fire({
+                    icon: 'success',
+                    title: 'Tema actualizado'
                 });
+                getTemas();
+            });
         }
-        function modaEditTema( detalle,id) {
+
+        function modaEditTema(detalle, id) {
             $.post("{{route('getEditTema')}}", {
                     id: id
                 })
                 .done(function (response) {
                     $('.modalKu').html(response);
                     $('#modalTemas').modal('show');
-                    // document.getElementById("txtDescripcion").value = detalle;
-                    $("#myfileEdit").change(function(){
-                    $("#txtImageEdit").html(this.value);
-                });
+                    document.getElementById("txtDescripcionEdit").value = detalle;
+                    $("#myfileEdit").change(function () {
+                        $("#txtImageEdit").html(this.value);
+                    });
                     $("#btnActTema").click(function (e) {
-                        updateTema(detalle,id);
-                       });
+                        updateTema(detalle, id);
+                    });
                 });
 
 

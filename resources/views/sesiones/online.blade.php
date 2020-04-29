@@ -542,6 +542,16 @@ $("#btnNuevoTema").click(function(){
 });
 $("#tblSolicitudPalabra").DataTable();
         });
+<<<<<<< HEAD
+=======
+        function nuevoTema(){
+            $.get("{{url('getNuevoTema')}}", function (response){
+
+                    $('.modalKu').html(response);
+                    $('#createTema').modal('show');
+            });
+        }
+>>>>>>> cbfe682316fe90048cff502e21b4c3a7757942fe
         function getUsuarios(id) {
             $.post("{{route('getUsersConferens')}}", {
                     id: "{{ $client->id}}"

@@ -6,7 +6,9 @@
             </div>
 
             <div class="clearfix"></div>
-
+                   @php 
+                    $en_sesion = Auth::user()->	idRol;
+                    @endphp
             <!-- menu profile quick info -->
             <div class="profile clearfix">
               <div class="profile_pic">
@@ -14,8 +16,20 @@
               </div>
               <div class="profile_info">
                 <span>Welcome,</span>
-                <h2>{{ Auth::user()->name }}</h2>
+                <h2>{{ Auth::user()->name }}</h2>  
               </div>
+              @if ($en_sesion==2)
+                <h3>Invitado</h3>
+                  @elseif($en_sesion==1)
+                    <h3>Concejal</h3>
+                     @elseif($en_sesion==3)
+                      <h3>Presidente</h3>
+                        @elseif($en_sesion==4)
+                          <h3>Secretaria</h3>
+                          @elseif($en_sesion==5)
+                            <h3>Master</h3>
+                            @else
+                             @endif               
             </div>
             <!-- /menu profile quick info -->
             <br />
@@ -25,8 +39,9 @@
                 <h3>General</h3>
                 <ul class="nav side-menu">
                   <li><a  href="{{route('home') }}"><i class="fa fa-home"></i> INICIO </a>
-
+                  
                   </li>
+                  @if ($en_sesion== 3) 
                   <li><a><i class="fa fa-edit"></i> TRABAJO VIRTUAL<span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="{{route('conferencia.index') }}">Videconferencias</a> </li>
@@ -70,6 +85,9 @@
 
                 </ul>
               </div>
+              
+
+             
               <div class="menu_section">
                 <h3>Administrativo</h3>
                 <ul class="nav side-menu">
@@ -89,10 +107,85 @@
                  <li><a><i class="fa fa-windows"></i> CONFIGURACION</a>
 
                  </li>
-
+           
 
               </div>
 
+
+              @elseif($en_sesion==1)
+              <li><a><i class="fa fa-edit"></i> TRABAJO VIRTUAL<span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="{{route('conferencia.index') }}">Videconferencias</a> </li>
+                      <li><a href="{{route('invitacion')}}">Invitado</a></li>
+                      <li><a href="{{route('historico')}}">Historicos</a></li>
+                      <li><a href="#">Documentos</a></li>
+                      <li><a href="#">Planes de accion</a></li>
+
+                    </ul>
+                  </li>
+                  <li><a><i class="fa fa-desktop"></i>SESIONES<span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="{{ url('viewParticipacion') }}">Participar</a></li>
+                      <li><a href="#">Actas</a></li>
+                      <li><a href="#">Historico</a></li>
+                      <li><a href="#">En vivo</a></li>
+                      <li><a href="#">Repositorio</a></li>
+                      <li><a href="#">Documentacion</a></li>
+
+                    </ul>
+                  </li>
+
+                  
+              <div class="menu_section">
+                <h3>Administrativo</h3>
+                <ul class="nav side-menu">
+
+                </li>
+                  <li><a><i class="fa fa-bug"></i> USUARIOS <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="#">Perfil</a></li>
+                    </ul>
+                  </li>
+              </div>
+
+
+                </li>
+           
+
+              </div>
+
+
+
+              @elseif($en_sesion==2)
+              <li><a><i class="fa fa-edit"></i> TRABAJO VIRTUAL</a>
+
+                  </li>
+                  <li><a><i class="fa fa-desktop"></i>SESIONES<span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="{{ url('viewParticipacion') }}">Participar</a></li>
+
+                    </ul>
+                  </li>
+      
+              <div class="menu_section">
+                <h3>Administrativo</h3>
+                <ul class="nav side-menu">
+
+                </li>
+                  <li><a><i class="fa fa-bug"></i> USUARIOS <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="#">Perfil</a></li>
+                    </ul>
+                  </li>
+              </div>
+
+
+              </li>
+           
+
+           </div>
+
+              @endif
             </div>
             <!-- /sidebar menu -->
 

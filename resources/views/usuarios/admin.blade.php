@@ -191,13 +191,13 @@
                         ' <td>'+
                         '   <a href="#" '+
                         '       onClick="modalEdit('+reg.id+','+reg.idRol+',"'+reg.estado+'","'+reg.email+'" ,"'+reg.name+'" )"'+
-                        '       class="btn btn-outline-success"'+
+                        '      '+
                         '       title="Iniciar conferencia">'+
                         '       <i class="fa fa-pencil-square-o"'+
                         '           aria-hidden="true">Editar</i>'+
                         '   </a>'+
                         '   <a href="#" onClick="AlertDelete('+reg.id+')"'+
-                            '   class="btn btn-outline-success"'+
+                            ' '+
                             '   title="Iniciar conferencia">'+
                             '   <i class="fa fa-trash"'+
                             '       aria-hidden="true">Eliminar</i>'+

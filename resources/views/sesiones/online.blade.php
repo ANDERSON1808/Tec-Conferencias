@@ -194,6 +194,8 @@
                                             </span>
                                         </button>
                                     </div>
+                                    <div id="txtTieneLaPalabra" class="txtTieneLaPalabra ">
+                                    </div>
                                     <div id="ji" class="title_left">
                                         <h3> <i class="fa fa-video-camera" aria-hidden="true"> En linea </i> <i
                                                 class="fa fa-rss" aria-hidden="true"></i></h3>
@@ -369,59 +371,7 @@
                             <br>
                             <br>
                             <br>
-                            <div class="row">
-                                @foreach($users as $row)
-                                 {{-- var votodeusuario = "SIN VOTAR";
-                                    var disabled = "";
-                                    if (reg.idVot) {
-                                        votodeusuario = reg.nombre.toUpperCase();
-                                        disabled = "disabled";
-                                    } --}}
-                                    <div class="col-md-55">
-                                        <div class="x_content">
-                                         <div class="image view view-first">
-                                       <img style="display: inline;  height: inherit;border-radius: 20%;  " src="{{ asset("gentelella-master/production/images/img.jpg")}}" alt="image">
-                                        <div class="mask no-caption">
-                                        <div class="tools tools-bottom">
-                                        <a href="#"><i class="fa fa-pencil"></i></a>
-                                        </div>
-                                        </div>
-                                       </div>
-                                       <div class="caption">
-                                        <p><strong>     {{ $row->name}}</strong>
-                                        </p>
-                                        <div class="checkbox">
-                                            <label>
-                                                @if($row->estado=="ausente")
-                                                @php $lista="actualizar" @endphp
-                                                <input  type="checkbox" id="{{$row->id}}"
-                                                    name="chkAsistencia" class="flat chkAsist"> Ausente
 
-                                                @elseif($row->estado=="presente")
-                                                @php $lista="actualizar" @endphp
-                                                <input type="checkbox" id="{{$row->id}}"
-                                                checked="checked" name="chkAsistencia" class="flat chkAsist"> Presente
-                                                @else
-                                                @php $lista="" @endphp
-                                                <input type="checkbox" id="{{$row->id}}"
-                                                 name="chkAsistencia" class="flat chkAsist"> Confirmar
-
-                                                @endif
-                                            </label>
-                                        </div>
-                                        <p><strong  >   <a style="font-size:16px;" id="txtCheck">&nbsp;(<i class=" fa fa-check-square">Presente</i> - <i class=" fa fa-square-o">Ausente</i> )</a>
-
-                                       </strong>
-                                        </p>
-                                        </div>
-                                        </div>
-                                    </div>
-
-
-
-
-                                @endforeach
-                            </div>
 
                             </div>
 
@@ -993,11 +943,9 @@
                         var idUserEnCasa = 0;
                         $.each(data, function (key, reg) {
                             if(reg.estado=="aprobado"){
-
+                                $("#txtTieneLaPalabra").html("Concejal: "reg.name +" Tiene la palabra");
                             }else{
-
-                            }
-                            if (reg.idUser == "{{Auth::user()->id}}") {
+                                if (reg.idUser == "{{Auth::user()->id}}") {
                                 idUserEnCasa = 1;
                             }
                             var invisibleButton = ' <a href="#" onClick="eliminarSolicitud(' +
@@ -1024,6 +972,8 @@
                                 .fecha +
                                 '  <td> ' + invisibleButton +
                                 ' </td></tr> ';
+                            }
+
                         });
                         table.html(tableData);
                         $('#tblSolicitudPalabra').DataTable();

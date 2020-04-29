@@ -311,9 +311,8 @@ return $temas;
 }
 
     public function aprobarSolicitud(Request $req){
-        return DB::table('solicitudpalabra')->where([
-            ["id",$req->idSolicitud],
-        ])->update(['estado' =>  "aprobado"]);
+      $update = DB::table('solicitudpalabra')->where( "id",$req->idSolicitud )->update(['estado' =>  "aprobado"]);
+       return $update;
     }
     public function getSolicitudesPalabra(Request $req){
         return DB::table('solicitudpalabra')

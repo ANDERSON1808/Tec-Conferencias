@@ -58,6 +58,7 @@
                             email: 'andersonl@globalsolutionservice.com',
                             displayName: 'ANDERSON LOSADA SILVA'
                         },
+                        userInfo : {email: '{{ Auth::user()->email }}' , displayName : '{{ Auth::user()->name }}'},
                         parentNode: document.querySelector('#meet'),
                         interfaceConfigOverwrite: {
                             filmStripOnly: false

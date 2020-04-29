@@ -184,6 +184,144 @@
            
 
            </div>
+           @elseif ($en_sesion== 4) 
+                  <li><a><i class="fa fa-edit"></i> TRABAJO VIRTUAL<span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="{{route('conferencia.index') }}">Videconferencias</a> </li>
+                      <li><a href="{{route('invitacion')}}">Invitado</a></li>
+                      <li><a href="{{route('historico')}}">Historicos</a></li>
+                      <li><a href="form_validation.html">Documentos</a></li>
+                      <li><a href="form_validation.html">Planes de accion</a></li>
+
+                    </ul>
+                  </li>
+                  <li><a><i class="fa fa-desktop"></i>SESIONES<span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="{{ url('viewSesion') }}">Administrar</a></li>
+                      <li><a href="{{ url('viewParticipacion') }}">Participar</a></li>
+                      <li><a href="media_gallery.html">Actas</a></li>
+                      <li><a href="media_gallery.html">Historico</a></li>
+                      <li><a href="media_gallery.html">En vivo</a></li>
+                      <li><a href="media_gallery.html">Repositorio</a></li>
+                      <li><a href="media_gallery.html">Documentacion</a></li>
+
+                    </ul>
+                  </li>
+                  <li><a><i class="fa fa-table"></i>GESTION DOCUMENTAL <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="tables.html">Administrar</a></li>
+                      <li><a href="tables_dynamic.html">Areas</a></li>
+                      <li><a href="tables_dynamic.html">Traslados</a></li>
+                      <li><a href="tables_dynamic.html">Radicacion</a></li>
+                      <li><a href="tables_dynamic.html">Diguitalizacion</a></li>
+                      <li><a href="tables_dynamic.html">Historico</a></li>
+                    </ul>
+                  </li>
+                  <li><a><i class="fa fa-bar-chart-o"></i> PROYECTOS<span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="#">Administrar</a></li>
+                      <li><a href="#">Proyectos</a></li>
+                      <li><a href="#">Invitados</a></li>
+                      <li><a href="#">Gestion de item</a></li>
+                    </ul>
+                  </li>
+
+                </ul>
+              </div>
+              
+
+             
+              <div class="menu_section">
+                <h3>Administrativo</h3>
+                <ul class="nav side-menu">
+
+                </li>
+                  <li><a><i class="fa fa-bug"></i> USUARIOS <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="{{ route('user.view') }}">Administracion</a></li>
+                      <li><a href="{{ url('viewRoles') }}">Roles</a></li>
+                      <li><a href="project_detail.html">Historico</a></li>
+                      <li><a href="contacts.html">Perfil</a></li>
+                    </ul>
+                  </li>
+                  <li><a><i class="fa fa-windows"></i> REPORTES</a>
+
+                  </li>
+                 <li><a><i class="fa fa-windows"></i> CONFIGURACION</a>
+
+                 </li>
+           
+
+              </div>
+              @elseif ($en_sesion== 5) 
+                  <li><a><i class="fa fa-edit"></i> TRABAJO VIRTUAL<span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="{{route('conferencia.index') }}">Videconferencias</a> </li>
+                      <li><a href="{{route('invitacion')}}">Invitado</a></li>
+                      <li><a href="{{route('historico')}}">Historicos</a></li>
+                      <li><a href="form_validation.html">Documentos</a></li>
+                      <li><a href="form_validation.html">Planes de accion</a></li>
+
+                    </ul>
+                  </li>
+                  <li><a><i class="fa fa-desktop"></i>SESIONES<span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="{{ url('viewSesion') }}">Administrar</a></li>
+                      <li><a href="{{ url('viewParticipacion') }}">Participar</a></li>
+                      <li><a href="media_gallery.html">Actas</a></li>
+                      <li><a href="media_gallery.html">Historico</a></li>
+                      <li><a href="media_gallery.html">En vivo</a></li>
+                      <li><a href="media_gallery.html">Repositorio</a></li>
+                      <li><a href="media_gallery.html">Documentacion</a></li>
+
+                    </ul>
+                  </li>
+                  <li><a><i class="fa fa-table"></i>GESTION DOCUMENTAL <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="tables.html">Administrar</a></li>
+                      <li><a href="tables_dynamic.html">Areas</a></li>
+                      <li><a href="tables_dynamic.html">Traslados</a></li>
+                      <li><a href="tables_dynamic.html">Radicacion</a></li>
+                      <li><a href="tables_dynamic.html">Diguitalizacion</a></li>
+                      <li><a href="tables_dynamic.html">Historico</a></li>
+                    </ul>
+                  </li>
+                  <li><a><i class="fa fa-bar-chart-o"></i> PROYECTOS<span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="#">Administrar</a></li>
+                      <li><a href="#">Proyectos</a></li>
+                      <li><a href="#">Invitados</a></li>
+                      <li><a href="#">Gestion de item</a></li>
+                    </ul>
+                  </li>
+
+                </ul>
+              </div>
+              
+
+             
+              <div class="menu_section">
+                <h3>Administrativo</h3>
+                <ul class="nav side-menu">
+
+                </li>
+                  <li><a><i class="fa fa-bug"></i> USUARIOS <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="{{ route('user.view') }}">Administracion</a></li>
+                      <li><a href="{{ url('viewRoles') }}">Roles</a></li>
+                      <li><a href="project_detail.html">Historico</a></li>
+                      <li><a href="contacts.html">Perfil</a></li>
+                    </ul>
+                  </li>
+                  <li><a><i class="fa fa-windows"></i> REPORTES</a>
+
+                  </li>
+                 <li><a><i class="fa fa-windows"></i> CONFIGURACION</a>
+
+                 </li>
+           
+
+              </div>
 
               @endif
             </div>

@@ -58,7 +58,6 @@
                             email: 'andersonl@globalsolutionservice.com',
                             displayName: 'ANDERSON LOSADA SILVA'
                         },
-                        userInfo : {email: '{{ Auth::user()->email }}' , displayName : '{{ Auth::user()->name }}'},
                         parentNode: document.querySelector('#meet'),
                         interfaceConfigOverwrite: {
                             filmStripOnly: false
@@ -169,7 +168,7 @@
                                         </select>
                                     </div>
                                     <div id="solicitudes" class="solicitudes">
-                                        <div class="col-sm-12">
+
                                         <table id="tblSolicitudPalabra" class="table table-striped table-bordered dataTable no-footer"
                                            >
                                             <thead>
@@ -187,7 +186,6 @@
 
                                             </tbody>
                                         </table>
-                                    </div>
                                     </div>
                                     <div id="solicitar" class="solicitar ">
                                         <button id="btnSolicitarPalabra" class="btn btn-round btn-danger">
@@ -294,12 +292,12 @@
                         <div class="tab-pane fade" id="profile1" role="tabpanel" aria-labelledby="profile-tab">
 
 
-                            <table id="tblSesion" class="table table-striped table-bordered" style="width:100%">
+                            <table id="tblSesion" class="table table-striped table-bordered dataTable no-footer" style="width:100%">
                                 <thead>
                                     <tr>
                                         <th>Usuario</th>
+                                        <th>Nombre</th>
                                         <th>Asistencia</th>
-                                        <th>Estado</th>
                                     </tr>
                                 </thead>
                                 <tbody id="tbodySesion">
@@ -308,22 +306,19 @@
                                     <tr>
                                         <!-- $row->ftoUser -->
                                         <td><img width="50"
-                                                src="{{ asset('gentelella-master/production/images/img.jpg')}}" alt="">
-                                            {{ $row->name}}
-                                        </td>
+                                            src="{{ asset('gentelella-master/production/images/img.jpg')}}" alt="">
 
+                                    </td>
+
+                                    <td>
+                                    {{ $row->name}}
+                                </td>
                                         <td>
                                             <div class="checkbox">
                                                 <label>
                                                     <input type="checkbox" id="{{$row->id}}" name="chkAsistencia"
-                                                        class="flat"> Presente
+                                                        class="flat chkAsist"> Presente
                                                 </label>
-                                            </div>
-                                        </td>
-
-                                        <td>
-                                            <div>
-                                                <h5 id="titleAusentado">Ausentado</h5>
                                             </div>
                                         </td>
                                     </tr>
@@ -365,7 +360,7 @@
                                         <span style="horizontal-align: inherit;">Nuevo
                                             Tema</span></span></button></a> --}}
 
-                            <table id="tblTemas" class="table table-striped table-bordered" style="width:100%">
+                            <table id="tblTemas" class="table table-striped table-bordered dataTable no-footer" style="width:100%">
                                 <thead>
                                     <tr>
                                         <th>Tema</th>
@@ -468,7 +463,14 @@
             // .change(function(){
 
             // });
-            $('#tblSesion').DataTable();
+            $('#chkAsist').click(function() {
+  if ($(this).is(':checked')) {
+    $(this).siblings('label').html('checked');
+  } else {
+    $(this).siblings('label').html(' not checked');
+  }
+});
+            $('#tblSesion').DataTable({"paging": false});
             $("#btnGuardarTemaNuevo").click(function (e) {
                 var tt = $("#txtTitulo").val();
                 var txtDescr = $("#txtDescripcionEdit").val();
@@ -541,10 +543,9 @@
 $("#btnNuevoTema").click(function(){
     modalNuevoTema();
 });
-$("#tblSolicitudPalabra").DataTable();
+
         });
-<<<<<<< HEAD
-=======
+
         function nuevoTema(){
             $.get("{{url('getNuevoTema')}}", function (response){
 
@@ -552,14 +553,8 @@ $("#tblSolicitudPalabra").DataTable();
                     $('#createTema').modal('show');
             });
         }
->>>>>>> cbfe682316fe90048cff502e21b4c3a7757942fe
-        function getUsuarios(id) {
-            $.post("{{route('getUsersConferens')}}", {
-                    id: "{{ $client->id}}"
-                })
-                .done(function (data) {
-                    document.getElementById("tblUsuarios").innerHTML = "";
-                    var div = $("#tblUsuarios");
+
+                    "#tblUsuarios");
                     div.innerHTML = "";
                     $.each(data, function (key, reg) {
                         var votodeusuario = "SIN VOTAR";

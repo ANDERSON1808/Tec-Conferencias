@@ -10,16 +10,18 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class StockDisponible
+class NewMessage
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
+
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct( )
+    public function __construct()
     {
+       $this->message = "hola amigos";
     }
 
     /**
@@ -29,6 +31,7 @@ class StockDisponible
      */
     public function broadcastOn()
     {
-        return new Channel('stock-disponible');
+        return new Channel('nombre-sala');
+        // return new PrivateChannel('nombre-sala');
     }
 }

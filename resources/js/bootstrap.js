@@ -35,6 +35,7 @@ import Echo from 'laravel-echo';
 
 window.Echo = new Echo({
      broadcaster: 'pusher',
+     cluster: process.env.MIX_PUSSHER_APP_CLUSTER,
     key: process.env.MIX_PUSHER_APP_KEY,
     wsHost:window.location.hostname,
     wsPort: 6001,

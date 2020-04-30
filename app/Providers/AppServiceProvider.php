@@ -21,8 +21,11 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
-    {
+    // public function boot(){
+    //     Product::observe(ProductObserver::class);
+    // }
+    // public function boot()
+    // {
    //  conferencia::observer(Observer::class);
-    }
+    // }
 }

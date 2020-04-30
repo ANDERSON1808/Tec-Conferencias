@@ -119,7 +119,7 @@ class SesionesController extends Controller
 
     if (empty(  $id))
     {
-        return back()->with('error', 'Upss error grave, comuniquese con el proveedor del programa.');
+                return back()->with('error', 'Upss error grave, comuniquese con el proveedor del programa.');
     }else{
         $sesiones = DB::table('sesiones')
         ->where('id', '=', "  $id")
@@ -311,8 +311,21 @@ return $temas;
 }
 
     public function aprobarSolicitud(Request $req){
-      $update = DB::table('solicitudpalabra')->where( "id",$req->idSolicitud )->update(['estado' =>  "aprobado"]);
-       return $update;
+        $data = array(
+            'estado' =>  "aprobado",
+            'puesto'=>'0'
+        );
+        $update = DB::table('solicitudpalabra')->where( "id",$req->idSolicitud )->update( $data);
+        $contador = 0;
+        foreach($req->userEnEspera as $val){
+            if($val!=$req->idSolicitud){
+                $contador++;
+                 DB::table('solicitudpalabra')->where( "id",$val)->update(['puesto' =>$contador]);
+                 DB::table('solicitudpalabra')->where( [["id",$val],["estado","aprobado"]])->update(['estado' =>"finalizado"]);
+            }
+        }
+
+       return $contador;
     }
     public function getSolicitudesPalabra(Request $req){
         return DB::table('solicitudpalabra')

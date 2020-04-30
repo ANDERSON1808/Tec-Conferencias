@@ -2,16 +2,13 @@
 
 namespace App\Observers;
 use App\Events\StockDisponible;
-use App\conferencia;
 
 class Observer
 {
-
-    public function notificacion(conferencia $conferencia)
+    public function notificacion( )
     {
-        $mensaje="soy el mensaje ok bebe";
-        event(new StockDisponible( $mensaje));
-
+            $mensaje = "as";
+            event(new StockDisponible( $mensaje));
     }
 
 

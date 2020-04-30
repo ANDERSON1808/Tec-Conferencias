@@ -187,6 +187,8 @@
                                             </tbody>
                                         </table>
                                     </div>
+
+                                 @if (($idRol=="1" )|| ($idRol=="2" ) )
                                     <div id="solicitar" class="solicitar ">
                                         <button disabled id="btnSolicitarPalabra" class="btn btn-round btn-danger">
                                             <span style="vertical-align: inherit;">
@@ -194,6 +196,7 @@
                                             </span>
                                         </button>
                                     </div>
+                                    @endif
                                     <h3 id="txtTieneLaPalabra" class="txtTieneLaPalabra ">
                                     </h3>
                                     <div id="ji" class="title_left">
@@ -367,63 +370,6 @@
                                                         <span style="horizontal-align: inherit;">Guardar
                                                             Asistencia</span></span></button></a>
                             @endif
-                            <br>
-                            <br>
-                            <br>
-                            <br>
-
-                            <div class="row">
-                                @foreach($users as $row)
-                                 {{-- var votodeusuario = "SIN VOTAR";
-                                    var disabled = "";
-                                    if (reg.idVot) {
-                                        votodeusuario = reg.nombre.toUpperCase();
-                                        disabled = "disabled";
-                                    } --}}
-                                    <div class="col-md-55">
-                                        <div class="x_content">
-                                         <div class="image view view-first">
-                                       <img style="display: inline;  height: inherit;border-radius: 20%;  " src="{{ asset("gentelella-master/production/images/img.jpg")}}" alt="image">
-                                        <div class="mask no-caption">
-                                        <div class="tools tools-bottom">
-                                        <a href="#"><i class="fa fa-pencil"></i></a>
-                                        </div>
-                                        </div>
-                                       </div>
-                                       <div class="caption">
-                                        <p><strong>     {{ $row->name}}</strong>
-                                        </p>
-                                        <div class="checkbox">
-                                            <label>
-                                                @if($row->estado=="ausente")
-                                                @php $lista="actualizar" @endphp
-                                                <input  type="checkbox" id="{{$row->id}}"
-                                                    name="chkAsistencia" class="flat chkAsist"> Ausente
-
-                                                @elseif($row->estado=="presente")
-                                                @php $lista="actualizar" @endphp
-                                                <input type="checkbox" id="{{$row->id}}"
-                                                checked="checked" name="chkAsistencia" class="flat chkAsist"> Presente
-                                                @else
-                                                @php $lista="" @endphp
-                                                <input type="checkbox" id="{{$row->id}}"
-                                                 name="chkAsistencia" class="flat chkAsist"> Confirmar
-
-                                                @endif
-                                            </label>
-                                        </div>
-                                        <p><strong  >   <a style="font-size:16px;" id="txtCheck">&nbsp;(<i class=" fa fa-check-square">Presente</i> - <i class=" fa fa-square-o">Ausente</i> )</a>
-
-                                       </strong>
-                                        </p>
-                                        </div>
-                                        </div>
-                                    </div>
-
-
-
-                                @endforeach
-                            </div>
 
                             </div>
 
@@ -524,22 +470,29 @@
 
     @include('script')
     <!-- iCheck -->
-    {{-- <script src="../vendors/iCheck/icheck.min.js"></script> --}}
+    <script src="../vendors/iCheck/icheck.min.js"></script>
+
+    {{-- window.Echo.channel("stock-disponible").listen("StockDisponible",(e)=>{
+        console.log("alertar");
+    }); --}}
+    {{-- <script src="{{ asset('/gentelella-master/vendors/jquery/dist/jquery.min.js') }}"></script> --}}
+    {{-- <script src="{{asset('/js/sesion.js')}}"></script> --}}
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <script type="text/javascript">
+
+
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
         $(document).ready(function () {
+
             $("#btnCrearTema").click(function () {
-            alert("s");
             $.get("{{url('getNuevoTema')}}", function (response) {
                 $('.modalKu').html(response);
                 $('#createTema').modal('show');
                 $("#sesion").val("{{ $client->id}}");
-
                 $("#myfile").change(function () {
                 $("#txtImage").html(this.value);
             });
@@ -887,7 +840,7 @@
                         //                 <th>Negativos</th>
                         //                 <th>Impedidos</th>
                         //                 <th>Total</th>
-                        
+
                         var idRol = "{{Auth::user()->idRol}}";
                         // if(idVoto=="1"){
                         //     voto="negat"
@@ -976,16 +929,12 @@
         //solicitar la palabra - obtener por idTema
         function getsolicitudesParaHablar(idTema) {
               $("#btnSolicitarPalabra").prop("disabled", false);
-            //   $("#btnSolicitarPalabra").attr("disabled", false);
             $.post("{{route('getSolicitudesPalabra')}}", {
                     idTema: idTema
                 })
                 .done(function (data) {
                     if (Array.isArray(data) && data.length) {
-                        // $("#solicitudes").removeClass("invisible");
                     } else {
-                        // var elemento = document.getElementById("solicitudes");
-                        // elemento.className += " invisible";
                     }
                     var table = $("#tbodySolic");
                     table.innerHTML = "";
@@ -993,13 +942,23 @@
                     var tableData;
                     if (data) {
                         var idUserEnCasa = 0;
+                        usuariosEnEspera = [];
+                    $.each(data, function (key, reg) {
+                            if(reg.estado=="denegado"){
+                                usuariosEnEspera.push(reg.id);
+                            }
+                        });
                         $.each(data, function (key, reg) {
-                            if(reg.estado=="aprobado"){
-                                $("#txtTieneLaPalabra").html("Concejal: "+reg.name +" Tiene la palabra");
+                            var keySolicitudButton="";
+                            if(reg.estado=="aprobado" ){
+                                // $("#txtTieneLaPalabra").html("Concejal: "+reg.name +" Tiene la palabra");
                             }else{
+                                keySolicitudButton  = key;
                                 if (reg.idUser == "{{Auth::user()->id}}") {
                                 idUserEnCasa = 1;
                             }
+                            var invisibleButton = ' ';
+                            if ((idRol == "1") || (idRol == "2")  ) {
                             var invisibleButton = ' <a href="#" onClick="eliminarSolicitud(' +
                                 reg.id +
                                 ',' + this.value + ')"' +
@@ -1008,16 +967,28 @@
                                 '   <i class="fa fa-trash"' +
                                 '       aria-hidden="true">Eliminar solicitud</i>' +
                                 '</a>';
+                            }
+                            // if ((idRol == "3") || (idRol == "4")  ) {
+                            //     invisibleButton = ' <a href="#" onClick="aprobarSolicitud(' + reg.id + ',' + idTema + ','+reg.name +' )"' +
+                            //         '   class="btn btn-outline-success"' +
+                            //         '   title="Eliminar">' +
+                            //         '   <i class="glyphicon glyphicon-ok"' +
+                            //         '       aria-hidden="true">Aprobar solicitud</i>' +
+                            //         '</a>';
+                            //     }
                             // ($idRol == 2)||
                             var idRol = "{{Auth::user()->idRol}}";
-                            if ((idRol == "1") || (idRol == "3")) {
-                                invisibleButton = ' <a href="#" onClick="aprobarSolicitud(' + reg.id + ',' + idTema + ')"' +
+                            if(keySolicitudButton!=""){
+                                if ((idRol == "3") || (idRol == "4")  ) {
+                                invisibleButton = ' <a href="#" onClick="aprobarSolicitud(' + reg.id + ',' + idTema + ','+reg.name +' )"' +
                                     '   class="btn btn-outline-success"' +
                                     '   title="Eliminar">' +
                                     '   <i class="glyphicon glyphicon-ok"' +
                                     '       aria-hidden="true">Aprobar solicitud</i>' +
                                     '</a>';
+                                }
                             }
+
                             tableData += '<tr><td>' + reg.puesto + '</td><td>' + reg.name +
                                 '</td> <td>' + reg.tipo + '</td><td>' + reg.estado +
                                 '</td><td>' + reg
@@ -1031,11 +1002,9 @@
                         $('#tblSolicitudPalabra').DataTable();
                         $("#solicitudes").css({display:2});
                     }else{
-
                         $("#solicitudes").css({display:none});
                     }
-                    if (idUserEnCasa == 0) {
-
+                    if (idUserEnCasa == 1) {
                         $("#btnSolicitarPalabra").attr("disabled", false);
                     }
                 });
@@ -1054,10 +1023,15 @@
                 }
         }
 
-        function aprobarSolicitud(idSolicitud, idTema) {
+        var usuariosEnEspera = [];
+        function aprobarSolicitud(idSolicitud, idTema ,name) {
+
+            $("#txtTieneLaPalabra").html("Concejal: "+reg.name +" Tiene la palabra");
+
             $.post("{{route('aprobarSolicitud')}}", {
                 idSolicitud: idSolicitud,
-                    idTema: idTema
+                    idTema: idTema,
+                    userEnEspera: usuariosEnEspera
                 })
                 .done(function (data) {
                     getsolicitudesParaHablar(idTema);
@@ -1078,6 +1052,7 @@
                     });
                     getsolicitudesParaHablar(idTema);
                 });
+
         }
 
         function updateTema(detalle, id) {

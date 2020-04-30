@@ -46,7 +46,7 @@
               <div class="title_right">
                 <div class="col-md-5 col-sm-5   form-group pull-right top_search">
                   <div class="input-group">
-                  <a href="#" class="modalSubirTrigger" data-toggle="modal" data-target="#exampleModal"><button class="btn btn-info"><i class="fa fa-plus" aria-hidden="true"></i>  Nueva Videconferencia</button></a>
+                  <a href="#" class="modalSubirTrigger" data-toggle="modal" data-target="#exampleModal"><button class="btn btn-round btn-success"><i class="fa fa-plus" aria-hidden="true"></i>  Nueva Videconferencia</button></a>
                   <input type="hidden" name="_token" value="{{ csrf_token() }}">
                   </div>
                   
@@ -85,7 +85,7 @@
                 <div class="x_panel">
                   <div class="x_title">
                     <h2></h2>
-                  <a href="#" class="modalInvitar" data-toggle="modal" data-target="#exampleModal"><button type="button" class="btn btn-round btn-success"><i class="fa fa-users" aria-hidden="true"></i>  Agendar Usuarios</button></a>
+                
                     <ul class="nav navbar-right panel_toolbox">
                   
                       <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
@@ -114,9 +114,9 @@
                                 <th>Nombre de la conferencia</th>
                                 <th>Descripcion</th>
                                 <th>Estado</th>
-                                <th>Token</th>
                                 <th>Fecha Reunion</th>
                                 <th>Convocar</th>
+                                <th>Invitar</th>
                                 <th>Acciones</th>
                               </tr>
                             </thead>
@@ -140,11 +140,10 @@
                                 @else
                                 <td class="table-danger">Ejecutada</td>
                                 @endif
-                                <td>{{$data->contraseña }} </td>
                                 <td>{{$data->fecha_r }} </td>
                                 @if($x==1 && $conferencia == $visitante )
                                 <td> 
-                                <a href="{{ route('online',$data->id) }}"  class="btn btn-outline-success" title="Iniciar conferencia" ><i class="fa fa-video-camera" aria-hidden="true">  Iniciar conferencia</i></a>
+                                <a href="{{ route('online',$data->id) }}"  class="btn btn-outline-success" title="Iniciar conferencia" ><i class="fa fa-video-camera" aria-hidden="true">  Iniciar </i></a>
                                 </td>
                                 @else 
                                 <td>
@@ -152,10 +151,12 @@
                                   title: 'Aviso Importante',
                                   text: 'Lo sentimos la reunion ya fue desarrollada.',
                                   styling: 'bootstrap3'
-                              });"   class="btn btn-outline-success" title="Iniciar conferencia" disabled ><i class="fa fa-video-camera" disabled aria-hidden="true">  Iniciar conferencia</i></a>
+                              });"   class="btn btn-outline-success" title="Iniciar conferencia" disabled ><i class="fa fa-video-camera" disabled aria-hidden="true">  Iniciar</i></a>
                                 </td>
                                 @endif
-
+                                <td>
+                                <a href="#" class="modalInvitar" data-toggle="modal" data-target="#exampleModal"><button type="button" title="Inivitar usuarios" class="btn btn-round btn-success"><i class="fa fa-users" title="Inivitar usuarios" aria-hidden="true"></i></button></a>
+                                </td>
                                 <td align="center">
                               
                                 <a onClick="modalEditTriger({{$data->id}})" class="btn btn-link" title="Editar"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> </a>

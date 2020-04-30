@@ -330,26 +330,6 @@
         });
         $(document).ready(function () {
 
-            $("#myfile").change(function(){
-                $("#txtImage").html(this.value);
-            });
-            $("#btnSolicitarPalabra").click(function () {
-                $("#modalSolitPalabra").modal("show");
-            });
-            $("#modalSolitPalabra").click(function () {
-                $("#modalTemas").modal("hide");
-                var idTema = $("#slcTema").val();
-                $.post("{{route('postSolicitudPalabra')}}", {
-                        estado: $("#slcEst").val(),
-                        idTema:idTema
-                    })
-                    .done(function (data) {
-                        var idTema = $("#slcTema").val();
-                        getsolicitudesParaHablar(idTema);
-                    });
-
-
-            });
             $('#tblSesion').DataTable();
             $("#btnGuardarTemaNuevo").click(function (e) {
                 var tt = $("#txtTitulo").val();
